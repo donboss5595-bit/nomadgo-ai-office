@@ -1,232 +1,212 @@
 
 import { timingSafeEqual } from "node:crypto";
 
-// NOMADGO КОМПАНИЯСЫ ТУРАЛЫ НЕГІЗГІ БІЛІМ
 const company = `
-Сен Қазақстандағы NomadGO компаниясының AI қызметкерісің.
+Сен Шиелі ауданында жұмыс істейтін NomadGO такси
+агрегаторының AI командасының мүшесісің.
 
-КОМПАНИЯ:
-- Атауы: NomadGO.
-- Негізгі аймақ: Қызылорда облысы, Шиелі ауданы.
-- Қызметі: Такси тапсырыстарын қабылдайтын мобильді агрегатор.
-- Жүйеде клиенттер мен жеке автокөлігі бар жүргізушілер жұмыс істейді.
-- Бәсекелесі: inDrive.
-- Клиент тапсырыс береді, жүргізуші қабылдайды, клиент растайды.
-- Компанияның мақсаты: күніне 4 000–5 000 орындалған тапсырысқа жету.
-- Бастапқы тарихи мәлімет: шамамен 10 513 клиент тіркелген, 2 300 жүргізуші тіркелген.
-- Бұл сандар ескі болуы мүмкін, оларды бүгінгі нақты көрсеткіш деп айтпа.
-- Соңғы айтылған тариф моделі: жүргізушіден 8% комиссия,
-  сонымен қатар әр тапсырыстан клиенттен 50 теңге және жүргізушіден 50 теңге.
-- Бұл тариф өзгеруі мүмкін, нақты қолданыста екенін растамайынша сақ бол.
-- Бұрын жүргізушілерге бонустар, жүлделі акциялар, жарнама жүргізілген.
-- Компания үшін басты мәселе: белсенді жүргізушілердің аздығы,
-  тапсырыстардың қабылданбауы және клиенттердің бәсекелесті қатар қолдануы.
+NomadGO туралы:
+- Аймақ: Қазақстан, Қызылорда облысы, Шиелі.
+- Өнім: клиент пен жүргізушіні байланыстыратын такси қолданбасы.
+- Бәсекелес: inDrive.
+- Мақсат: күніне 4000-5000 орындалған тапсырысқа жету.
+- Тарихи тіркелгендер: 10513 клиент, 2300 жүргізуші.
+- Тарифтің соңғы белгілі моделі: жүргізуші комиссиясы 8%,
+  клиенттен 50 теңге және жүргізушіден 50 теңге.
+- Бұл мәліметтер ескірген болуы мүмкін.
+- Негізгі мәселелер: жүргізушінің тапсырысты қабылдамауы,
+  белсенді клиенттердің азаюы, бәсекелестік.
+- Бұрын акциялар, сыйлықтар, бонустар жасалған.
+- Жаңа үлкен сыйлық бюджеті ұсынылмасын.
 
-МАҢЫЗДЫ:
-- NomadGO бағдарламалық өнім мен такси агрегаторы.
-- NomadGO-ны жай ғана IT консалтинг компаниясы деп таныстырма.
-- Нақты NomadGO дерекқорына әзірге қосылмағансың.
-- Бүгінгі тапсырыс, табыс немесе жүргізуші саны туралы дерек жоқ болса,
-  оны ашық айт, сандар ойлап таппа.
-- Тапсырманы шын орындамаған болсаң, орындалды деп мәлімдеме.
-- Қазақша және орысша түсінікті, қысқа, нақты сөйлес.
-- Компания иесінің жұмысын жеңілдететін практикалық шешімдер ұсын.
+Жауапты қазақша, түсінікті және нақты бер.
+Мүмкін болса іс-қимыл жоспары мен өлшенетін KPI бер.
+Шынайы жүйеге қосылмағаныңды ұмытпа.
+Бүгінгі статистиканы ойдан шығарма.
+Тапсырманы нақты өмірде орындадым деп айтпа.
 `;
 
 const agents = {
   assar: `
-Сен Ассарсың. NomadGO AI Headquarters компаниясының
-бас AI көмекшісі және виртуалды басшысысың.
-
-Міндеттерің:
-- Компанияның жағдайын талқылау.
-- Нақты мақсаттар мен іс-қимыл жоспарларын құру.
-- Аналитик, Диспетчер және Маркетолог жұмысына бағыт беру.
-- Компания иесіне нақты бизнес шешімдер ұсыну.
-- Қажет тапсырманы қай агентке беру керегін анықтау.
-
-Ескерту: Қазір сенде басқа агенттерге тапсырма
-жіберетін серверлік құрал жоқ. Сондықтан тапсырманы
-шын жібердім деп айтпа. Тек кімге беру керегін ұсын.
+Сен Ассарсың, NomadGO-ның бас AI үйлестірушісісің.
+Бизнес стратегиясын құрып, агенттердің нәтижелерін
+салыстырып, директорға қорытынды ұсыныс бер.
 `,
   analyst: `
-Сен NomadGO компаниясының AI Аналитигісің.
-
-Міндеттерің:
-- Такси тапсырыстарының статистикасын талдау.
-- Орындалу пайызын есептеу.
-- Комиссия мен табыс бойынша есеп жүргізу.
-- Жүргізушілер мен клиенттердің белсенділігін талдау.
-- Күндік және апталық KPI ұсыну.
-- Дерек жетіспесе, қажетті мәліметті сұра.
-
-Есептеулерді нақты жүргіз.
-Ойдан статистика жасама.
+Сен бизнес аналитигісің.
+Тапсырыстар, қабылдау коэффициенті, аяқталған
+сапарлар, комиссия, табыс және жүргізушілердің
+белсенділігі бойынша талдау жаса.
+Берілген деректерді пайдалан, жоқ сандарды ойдан шығарма.
 `,
   dispatcher: `
-Сен NomadGO компаниясының AI Диспетчерісің.
-
-Міндеттерің:
-- Жүргізушілер мен тапсырыстар мәселесін талдау.
-- Неліктен тапсырыстар қабылданбайтынын анықтау.
-- Тапсырыстардың орындалуын арттыру жолдарын ұсыну.
-- Жүргізушілердің жұмысын ұйымдастыруға көмектесу.
-- Клиент пен жүргізуші арасындағы процесті жақсарту.
-
-Қазір нақты тапсырыстарды қабылдай немесе жүргізушілерге
-хабарлама жібере алмайсың. Интеграция қажет.
+Сен такси диспетчерісің.
+Жүргізуші тапшылығы, тапсырысты қабылдау,
+күту уақыты, операциялық процестер бойынша
+практикалық шешімдер дайында.
 `,
   marketer: `
-Сен NomadGO компаниясының AI Маркетологісің.
-
-Міндеттерің:
-- Шиелі тұрғындарын NomadGO-ға тарту.
-- Instagram, TikTok, WhatsApp жарнамасын жоспарлау.
-- Жарнама мәтіндерін, сценарийлерді және идеяларды дайындау.
-- Клиенттерді қайта белсенді ету стратегияларын ұсыну.
-- Бюджеті төмен, нәтижесі өлшенетін маркетинг ұсыну.
-
-Компания бұған дейін көптеген акцияға ақша жұмсаған.
-Сондықтан себепсіз қосымша бонус пен жүлде ұсынба.
+Сен маркетологсың.
+Instagram, TikTok, WhatsApp, клиенттерді қайта
+тарту және арзан жарнама стратегияларын дайында.
+Мүмкіндігінше дайын мәтін мен нақты жоспар бер.
 `
 };
 
-function validPassword(given, expected) {
-  if (typeof given !== "string" || !expected) return false;
+function checkPassword(value, secret) {
+  if (typeof value !== "string" || !secret) return false;
+  const a = Buffer.from(value);
+  const b = Buffer.from(secret);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
 
-  const a = Buffer.from(given);
-  const b = Buffer.from(expected);
+async function askAI(agent, messages, limit = 1200) {
+  const response = await fetch(
+    "https://api.openai.com/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        max_completion_tokens: limit,
+        messages: [
+          {
+            role: "system",
+            content: company + "\n" + agents[agent]
+          },
+          ...messages
+        ]
+      })
+    }
+  );
 
-  if (a.length !== b.length) return false;
-  return timingSafeEqual(a, b);
+  const data = await response.json();
+
+  if (!response.ok) {
+    console.error(
+      "OpenAI error",
+      response.status,
+      data.error?.code
+    );
+
+    if (data.error?.code === "credit_balance_exhausted") {
+      throw new Error("API балансында ақша жоқ");
+    }
+
+    throw new Error("OpenAI қатесі: " + response.status);
+  }
+
+  return data.choices?.[0]?.message?.content
+    || "Жауап алынбады";
 }
 
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
 
   if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Тек POST сұранысы қабылданады"
-    });
+    return res.status(405).json({error:"Method not allowed"});
   }
 
-  const officePassword = process.env.OFFICE_PASSWORD;
-
-  if (!officePassword) {
+  if (!process.env.OFFICE_PASSWORD) {
     return res.status(503).json({
-      error: "OFFICE_PASSWORD орнатылмаған"
+      error:"OFFICE_PASSWORD орнатылмаған"
     });
   }
 
-  const provided = req.headers["x-office-password"];
-
-  if (!validPassword(provided, officePassword)) {
-    return res.status(401).json({
-      error: "Офис паролі қате"
-    });
+  if (!checkPassword(
+    req.headers["x-office-password"],
+    process.env.OFFICE_PASSWORD
+  )) {
+    return res.status(401).json({error:"Пароль қате"});
   }
 
   const body = req.body || {};
 
-  // Кіру паролін тексеру API балансын пайдаланбайды.
   if (body.action === "verify") {
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ok:true});
   }
 
   if (!process.env.OPENAI_API_KEY) {
     return res.status(503).json({
-      error: "OPENAI_API_KEY табылмады"
-    });
-  }
-
-  if (
-    !Array.isArray(body.messages) ||
-    body.messages.length === 0 ||
-    body.messages.length > 30
-  ) {
-    return res.status(400).json({
-      error: "Хабарламалар дұрыс емес"
-    });
-  }
-
-  const messages = [];
-
-  for (const m of body.messages.slice(-20)) {
-    if (
-      !m ||
-      !["user", "assistant"].includes(m.role) ||
-      typeof m.content !== "string" ||
-      m.content.length > 4000
-    ) {
-      return res.status(400).json({
-        error: "Хабарлама форматы дұрыс емес"
-      });
-    }
-
-    messages.push({
-      role: m.role,
-      content: m.content
+      error:"OPENAI_API_KEY жоқ"
     });
   }
 
   const agent = Object.prototype.hasOwnProperty.call(
-    agents,
-    body.agent
-  )
-    ? body.agent
-    : "assar";
+    agents, body.agent
+  ) ? body.agent : "assar";
 
   try {
-    const response = await fetch(
-      "https://api.openai.com/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          model: "gpt-4o-mini",
-          max_completion_tokens: 900,
-          messages: [
-            {
-              role: "system",
-              content: company + "\n" + agents[agent]
-            },
-            ...messages
-          ]
-        })
+    // Жеке тапсырманы AI орындауы
+    if (body.action === "execute") {
+      if (
+        typeof body.task !== "string" ||
+        !body.task.trim() ||
+        body.task.length > 2500
+      ) {
+        return res.status(400).json({
+          error:"Тапсырма дұрыс емес"
+        });
       }
-    );
 
-    const data = await response.json();
+      const result = await askAI(agent, [
+        {
+          role:"user",
+          content:
+            "Мына тапсырманы орындап, нақты дайын нәтиже бер:\n\n" +
+            body.task +
+            "\n\nЕгер сыртқы жүйеге қол жеткізу керек болса, " +
+            "не істей алмайтыныңды және не дайындағаныңды ажырат."
+        }
+      ], 1600);
 
-    if (!response.ok) {
-      console.error(
-        "OpenAI error:",
-        response.status,
-        data.error?.code
-      );
-
-      return res.status(502).json({
-        error:
-          data.error?.code === "credit_balance_exhausted"
-            ? "OpenAI API балансында кредит жоқ"
-            : "OpenAI жауап бермеді"
+      return res.status(200).json({
+        agent,
+        result
       });
     }
 
-    return res.status(200).json({
-      reply:
-        data.choices?.[0]?.message?.content ||
-        "Жауап бос"
-    });
+    // Әдеттегі чат
+    if (
+      !Array.isArray(body.messages) ||
+      body.messages.length < 1 ||
+      body.messages.length > 30
+    ) {
+      return res.status(400).json({
+        error:"Хабарламалар дұрыс емес"
+      });
+    }
+
+    const messages = [];
+
+    for (const m of body.messages.slice(-20)) {
+      if (
+        !m ||
+        !["user", "assistant"].includes(m.role) ||
+        typeof m.content !== "string" ||
+        m.content.length > 4000
+      ) {
+        return res.status(400).json({
+          error:"Хабарлама форматы дұрыс емес"
+        });
+      }
+
+      messages.push({
+        role:m.role,
+        content:m.content
+      });
+    }
+
+    const reply = await askAI(agent, messages, 1000);
+    return res.status(200).json({reply});
 
   } catch (error) {
-    console.error("AI server error:", error.message);
-
-    return res.status(500).json({
-      error: "Сервер қатесі"
+    console.error("AI task error:", error.message);
+    return res.status(502).json({
+      error:error.message || "AI сервер қатесі"
     });
   }
 }
