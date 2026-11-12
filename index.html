@@ -4,433 +4,1085 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NomadGO AI Office v5</title>
+<title>NomadGO Pixel Headquarters</title>
 <link rel="icon" href="logo.jpg">
 <style>
 :root{
---bg:#090f1c;--panel:#152138;--line:#31415c;
---pink:#ff0050;--muted:#9caec7
+ --bg:#080e1b;
+ --panel:#111d30;
+ --line:#2c3d57;
+ --pink:#ff0050;
+ --text:#ecf3ff;
+ --muted:#8ea3bd;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:white;font-family:Arial,sans-serif}
 [hidden]{display:none!important}
-button,input{font:inherit}
-button{background:var(--pink);color:#fff;border:0;border-radius:9px;padding:12px 16px;cursor:pointer;font-weight:bold}
-button:disabled{opacity:.5;cursor:wait}
+body{
+ margin:0;
+ background:var(--bg);
+ color:var(--text);
+ font-family:Arial,sans-serif;
+}
+button,input,textarea{font:inherit}
+button{
+ border:0;border-radius:9px;
+ background:var(--pink);color:#fff;
+ padding:11px 15px;font-weight:bold;
+ cursor:pointer;
+}
+button:disabled{opacity:.5}
+button:hover{filter:brightness(1.12)}
 input,textarea{
-background:#23344e;border:1px solid #3d526f;color:white;
-padding:12px;border-radius:9px;outline:none;width:100%;font:inherit
+ width:100%;min-width:0;
+ background:#1b2c45;
+ border:1px solid #40536f;
+ border-radius:9px;
+ color:#fff;padding:12px;
+ outline:none;
 }
 textarea{resize:vertical;min-height:85px}
-h1{font-size:21px;margin:0}
-h2{font-size:18px;margin:0 0 12px}
+h1{font-size:20px;margin:0}
+h2{font-size:17px;margin:0 0 12px}
 small,.muted{color:var(--muted)}
 header{
-display:flex;align-items:center;gap:14px;
-background:#101a2f;border-bottom:1px solid var(--line);
-padding:15px 24px
+ display:flex;align-items:center;gap:13px;
+ padding:14px 23px;
+ border-bottom:1px solid var(--line);
+ background:#10192b;
 }
-.logo{width:50px;height:50px;object-fit:cover;border-radius:12px}
-.logout{margin-left:auto;background:#34445e}
-main{
-max-width:1550px;margin:auto;padding:18px;
-display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px
+.logo{
+ width:49px;height:49px;
+ border-radius:12px;object-fit:cover;
 }
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px}
-.top{display:flex;align-items:center;justify-content:space-between}
-.pill{background:#124435;color:#70f0b5;padding:8px;border-radius:25px;font-size:12px}
-.rooms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:17px}
-.room{
-height:300px;position:relative;overflow:hidden;cursor:pointer;
-border:7px solid #526680;border-radius:11px;
-transition:.2s
+.logout{margin-left:auto;background:#30425c}
+.layout{
+ max-width:1750px;margin:auto;
+ padding:16px;display:grid;
+ grid-template-columns:minmax(0,1fr) 360px;
+ gap:16px;
 }
-.room.active{border-color:var(--pink)}
-.room:hover{filter:brightness(1.12)}
-.director{background:#483b55}
-.analyst{background:#2f495e}
-.dispatcher{background:#34554d}
-.marketer{background:#59435c}
-.floor{
-position:absolute;inset:0;
-background:repeating-linear-gradient(0deg,transparent 0 34px,#ffffff0a 35px),
-repeating-linear-gradient(90deg,transparent 0 34px,#ffffff0a 35px)
+.panel{
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:15px;
+ padding:15px;
 }
-.wall{position:absolute;top:0;left:0;right:0;height:55px;background:#17253b;border-bottom:6px solid #7186a0}
-.label{position:absolute;top:12px;left:12px;background:#0b1428ed;padding:9px;border-radius:7px;z-index:4;font-size:13px}
-.light{position:absolute;top:17px;right:17px;width:13px;height:13px;border-radius:50%;background:#45e3a1;box-shadow:0 0 15px #45e3a1;animation:blink 2s infinite}
-.window{position:absolute;right:18px;top:71px;width:78px;height:52px;background:linear-gradient(#388fc2,#addff6);border:7px solid #344b64}
-.desk{position:absolute;left:50%;top:38%;transform:translateX(-50%);width:155px;height:77px;background:#ad8055;border:8px solid #674530;border-radius:8px}
-.monitor{position:absolute;left:50%;top:35%;transform:translateX(-50%);width:84px;height:49px;background:#111a2e;border:6px solid #273a54;border-radius:5px;box-shadow:inset 0 0 17px #38bdf8}
-.monitor:after{content:"";position:absolute;inset:8px;background:repeating-linear-gradient(0deg,#38bdf8 0 2px,transparent 2px 8px);opacity:.5;animation:blink 3s infinite}
-.chair{position:absolute;left:50%;top:64%;transform:translateX(-50%);width:58px;height:48px;border-radius:18px;background:#19253b;border:5px solid #30445d}
-.worker{position:absolute;left:50%;top:58%;font-size:52px;z-index:3;animation:work 2s infinite;filter:drop-shadow(0 7px 1px #0005)}
-.plant{position:absolute;right:15px;bottom:15px;font-size:39px}
-.door{position:absolute;bottom:0;left:18px;width:58px;height:21px;background:#cda780;border:5px solid #70503d;border-bottom:0}
-.status{position:absolute;bottom:12px;left:85px;right:8px;background:#0d192bec;border-radius:7px;padding:8px;font-size:11px;z-index:4}
-@keyframes work{0%,100%{transform:translate(-50%,0) rotate(-3deg)}50%{transform:translate(-50%,-8px) rotate(3deg)}}
-@keyframes blink{50%{opacity:.4}}
-.room.walking .worker{animation:walk 5s infinite}
-@keyframes walk{0%,100%{left:50%;top:58%}25%{left:26%;top:70%}50%{left:35%;top:74%}75%{left:72%;top:69%}}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
-.stat{background:#0f192b;padding:13px;border-radius:10px;border:1px solid var(--line)}
-.stat strong{font-size:23px;display:block}
+.officehead{
+ display:flex;align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ margin-bottom:12px;
+}
+.online{
+ font-size:12px;
+ background:#133b33;
+ color:#82f5bc;
+ padding:8px 12px;
+ border-radius:30px;
+ white-space:nowrap;
+}
+.scene{
+ background:#060e1b;
+ border:1px solid #344762;
+ border-radius:12px;
+ overflow:hidden;
+ position:relative;
+}
+canvas{
+ display:block;width:100%;
+ height:auto;
+ image-rendering:pixelated;
+ cursor:pointer;
+}
+.scenefoot{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:10px;
+ margin-top:12px;flex-wrap:wrap;
+}
+.gray{background:#2a3c56}
+.stats{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:10px;margin-top:13px;
+}
+.stat{
+ background:#0b1628;
+ border:1px solid #283a52;
+ padding:14px;border-radius:10px;
+}
+.stat strong{
+ font-size:23px;display:block;
+ margin-bottom:5px;
+}
 .side{display:flex;flex-direction:column;gap:14px}
-.chat{height:445px;display:flex;flex-direction:column}
-.messages{flex:1;min-height:0;overflow:auto;background:#0a1426;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px}
-.bubble{background:#273954;padding:11px 13px;border-radius:10px;max-width:95%;font-size:13px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
-.bubble.me{background:#991640;align-self:flex-end}
-.controls{display:flex;gap:8px;margin-top:10px}
-.controls input{min-width:0}
-.tasklist{max-height:250px;overflow:auto}
-.task{padding:12px;background:#0c1628;margin-top:8px;border-radius:9px;border-left:3px solid #38bdf8}
-.task.done{border-color:#4ade80}
-.task p{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
-.task button{padding:8px;font-size:12px}
-.secondary{background:#364a67}
-#login{
-min-height:calc(100vh - 82px);display:flex;
-align-items:center;justify-content:center;padding:20px
+.chat{
+ height:460px;
+ display:flex;flex-direction:column;
 }
-.loginbox{max-width:420px;width:100%;background:var(--panel);padding:30px;border:1px solid var(--line);border-radius:20px;text-align:center}
+.chatheader{
+ display:flex;align-items:center;
+ justify-content:space-between;
+}
+.messages{
+ background:#081323;border-radius:10px;
+ flex:1;min-height:0;
+ overflow:auto;padding:12px;
+ display:flex;flex-direction:column;gap:10px;
+}
+.bubble{
+ background:#263951;
+ padding:11px 13px;
+ font-size:13px;
+ line-height:1.55;
+ border-radius:11px;
+ max-width:95%;
+ white-space:pre-wrap;
+ overflow-wrap:anywhere;
+}
+.bubble.me{
+ align-self:flex-end;
+ background:#9f1747;
+}
+.controls{display:flex;gap:8px;margin-top:10px}
+.tasklist{max-height:220px;overflow:auto}
+.task{
+ margin-top:9px;
+ padding:11px;
+ border-radius:9px;
+ background:#0b172a;
+ border-left:3px solid #38bdf8;
+}
+.task.done{border-color:#4ade80}
+.task p{font-size:13px;line-height:1.5;margin:0 0 8px}
+.task button{font-size:11px;padding:8px}
+.notice{font-size:12px;color:var(--muted);line-height:1.6}
+#login{
+ min-height:calc(100vh - 85px);
+ display:flex;align-items:center;
+ justify-content:center;
+ padding:20px;
+}
+.loginbox{
+ width:100%;max-width:400px;
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:18px;
+ padding:28px;text-align:center;
+}
 .loginbox input{margin:15px 0}
 .loginbox button{width:100%}
-#error{color:#ff819c;margin-top:14px;font-size:13px}
-@media(max-width:1050px){main{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}}
-@media(max-width:680px){.rooms,.side{grid-template-columns:1fr}.room{height:270px}h1{font-size:17px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important}}
+#error{color:#ff8aa2;font-size:13px}
+.agentbuttons{
+ display:flex;gap:7px;flex-wrap:wrap;
+ margin-top:12px;
+}
+.agentbuttons button{
+ background:#263a54;
+ font-size:12px;
+ padding:9px 12px;
+}
+.agentbuttons button.active{
+ background:var(--pink);
+}
+@media(max-width:1100px){
+ .layout{grid-template-columns:1fr}
+ .side{display:grid;grid-template-columns:1fr 1fr}
+}
+@media(max-width:700px){
+ .side{grid-template-columns:1fr}
+ header{padding:11px}
+ h1{font-size:16px}
+ .scenefoot{font-size:12px}
+}
 </style>
 </head>
 <body>
+
 <header>
-<img src="logo.jpg" class="logo" alt="NomadGO">
+<img class="logo" src="logo.jpg" alt="NomadGO">
 <div>
-<h1>NOMADGO AI HEADQUARTERS</h1>
-<small>Қорғалған виртуалды офис · v5</small>
+<h1>NOMADGO PIXEL HEADQUARTERS</h1>
+<small>AI Company Simulator · v6</small>
 </div>
-<button class="logout" id="logout" hidden>Шығу</button>
+<button id="logout" class="logout" hidden>
+Шығу
+</button>
 </header>
 
 <section id="login">
 <div class="loginbox">
-<h2>🔐 NomadGO AI Office</h2>
-<p class="muted">Компанияның жеке басқару орталығы</p>
-<input id="password" type="password" placeholder="Офис паролі" autocomplete="current-password">
-<button id="loginBtn">Кіру</button>
+<h2>🔐 NomadGO Headquarters</h2>
+<p class="muted">Жеке виртуалды офис</p>
+<input id="password" type="password"
+placeholder="Офис паролі">
+<button id="loginBtn">Офиске кіру</button>
 <p id="error"></p>
 </div>
 </section>
 
-<main id="office" hidden>
+<div id="app" hidden>
+<div class="layout">
+
 <section class="panel">
-<div class="top">
-<h2>🏢 NomadGO компаниясы</h2>
-<span class="pill">● 4 агент</span>
+<div class="officehead">
+<div>
+<h2>🏢 NomadGO Headquarters</h2>
+<small>4 бөлме · 4 қызметкер · Live animation</small>
 </div>
-<p class="muted">Қызметкерді таңдау үшін кабинетіне бас.</p>
-<div class="rooms" id="rooms"></div>
+<span class="online">● OFFICE ONLINE</span>
+</div>
+
+<div class="scene">
+<canvas id="game" width="1100" height="760"></canvas>
+</div>
+
+<div class="agentbuttons" id="agentButtons"></div>
+
+<div class="scenefoot">
+<span class="muted">
+Кейіпкерді немесе бөлмені басып таңда
+</span>
+<button class="gray" id="pauseBtn">
+⏸ Анимацияны тоқтату
+</button>
+</div>
+
 <div class="stats">
-<div class="stat"><strong>4</strong><small>Агент</small></div>
-<div class="stat"><strong id="total">0</strong><small>Тапсырма</small></div>
-<div class="stat"><strong id="completed">0</strong><small>Аяқталды</small></div>
+<div class="stat">
+<strong>4</strong>
+<small>Қызметкер</small>
+</div>
+<div class="stat">
+<strong id="taskCount">0</strong>
+<small>Тапсырмалар</small>
+</div>
+<div class="stat">
+<strong id="doneCount">0</strong>
+<small>Аяқталған</small>
+</div>
 </div>
 </section>
 
 <aside class="side">
 <section class="panel chat">
-<h2 id="chatTitle">👑 Ассар</h2>
-<p id="chatRole" class="muted">Бас AI көмекші</p>
-<div id="messages" class="messages"></div>
+<div class="chatheader">
+<h2 id="chatTitle">Ассар</h2>
+<small>● Online</small>
+</div>
+<p class="muted" id="chatRole">Бас AI</p>
+<div class="messages" id="messages"></div>
 <div class="controls">
-<input id="chatInput" placeholder="Хабарлама жаз...">
+<input id="chatInput" placeholder="Хабарлама...">
 <button id="sendBtn">➤</button>
 </div>
 </section>
 
 <section class="panel">
 <h2>👑 Ассардың тапсырма орталығы</h2>
-<p class="muted">Бірнеше тапсырманы жеке сөйлемдермен жаз.</p>
-<textarea id="delegateInput" placeholder="Тапсырыстарды талда. Instagram жарнамасын жаса. Жүргізушілерді тексер."></textarea>
-<button id="delegateBtn" style="width:100%;margin-top:10px">⚡ Тапсырмаларды бөл</button>
-<p id="delegateResult" class="muted"></p>
+<p class="notice">
+Бірнеше тапсырманы жаз.
+Олар тиісті қызметкерлерге бөлінеді.
+</p>
+<textarea id="delegateInput"
+placeholder="Тапсырыстарды талда. Instagram жарнамасын жаса. Жүргізушілерді тексер."></textarea>
+<button id="delegateBtn"
+style="width:100%;margin-top:9px">
+⚡ Тапсырмаларды бөл
+</button>
+<p id="delegateResult" class="notice"></p>
 </section>
 
 <section class="panel">
 <h2 id="taskTitle">📋 Тапсырмалар</h2>
-<div id="taskList" class="tasklist"></div>
+<div class="tasklist" id="taskList"></div>
 <div class="controls">
-<input id="taskInput" placeholder="Қосымша тапсырма">
-<button id="addBtn">+</button>
+<input id="taskInput" placeholder="Тапсырма қосу">
+<button id="addTaskBtn">+</button>
 </div>
 </section>
 </aside>
-</main>
+
+</div>
+</div>
 
 <script>
 const $=id=>document.getElementById(id);
 
+const canvas=$("game");
+const ctx=canvas.getContext("2d");
+ctx.imageSmoothingEnabled=false;
+
+const CW=1100;
+const CH=760;
+
 const agents=[
-{id:"assar",name:"Ассар",role:"Бас AI көмекші",emoji:"👨‍💼",icon:"👑",room:"director"},
-{id:"analyst",name:"Аналитик",role:"Статистика және қаржы",emoji:"👨‍💻",icon:"📊",room:"analyst"},
-{id:"dispatcher",name:"Диспетчер",role:"Такси операциялары",emoji:"👩‍💻",icon:"🚕",room:"dispatcher"},
-{id:"marketer",name:"Маркетолог",role:"Жарнама және клиенттер",emoji:"👨‍🎨",icon:"📣",room:"marketer"}
+{
+ id:"assar",name:"Ассар",
+ role:"Бас AI көмекші",
+ icon:"👑",shirt:"#e84e79",
+ hair:"#322135",skin:"#efb38e",
+ x:36,y:68,w:494,h:292
+},
+{
+ id:"analyst",name:"Аналитик",
+ role:"Статистика және қаржы",
+ icon:"📊",shirt:"#4a9cfa",
+ hair:"#202f4f",skin:"#d99e7b",
+ x:570,y:68,w:494,h:292
+},
+{
+ id:"dispatcher",name:"Диспетчер",
+ role:"Такси операциялары",
+ icon:"🚕",shirt:"#40c7a1",
+ hair:"#473328",skin:"#efc59a",
+ x:36,y:406,w:494,h:292
+},
+{
+ id:"marketer",name:"Маркетолог",
+ role:"Жарнама және клиенттер",
+ icon:"📣",shirt:"#b77aff",
+ hair:"#53314c",skin:"#e6af90",
+ x:570,y:406,w:494,h:292
+}
 ];
 
-let password="";
 let active=agents[0];
+let paused=false;
+let password="";
 let sending=false;
+
 const histories={};
 let tasks=[];
 
 try{
-const saved=JSON.parse(localStorage.getItem("nomadgo_tasks")||"[]");
-if(Array.isArray(saved)){
-tasks=saved.filter(t=>t&&typeof t.text==="string"&&
-agents.some(a=>a.id===t.agent))
-.map(t=>({
-id:t.id||crypto.randomUUID(),
-agent:t.agent,
-text:t.text.slice(0,2000),
-done:Boolean(t.done)
-}));
-}
+ const stored=JSON.parse(
+  localStorage.getItem("nomadgo_tasks")||"[]"
+ );
+ if(Array.isArray(stored)){
+  tasks=stored.filter(t=>
+   t&&typeof t.text==="string"&&
+   agents.some(a=>a.id===t.agent)
+  ).map(t=>({
+   id:t.id||String(Date.now()+Math.random()),
+   agent:t.agent,
+   text:t.text,
+   done:Boolean(t.done)
+  }));
+ }
 }catch(e){tasks=[]}
 
-function save(){
-try{localStorage.setItem("nomadgo_tasks",JSON.stringify(tasks))}
-catch(e){console.warn("Сақтау қатесі",e)}
+function saveTasks(){
+ try{
+  localStorage.setItem(
+   "nomadgo_tasks",
+   JSON.stringify(tasks)
+  );
+ }catch(e){}
 }
 
-function showOffice(){
-$("login").hidden=true;
-$("office").hidden=false;
-$("logout").hidden=false;
-$("password").value="";
+function rect(x,y,w,h,color){
+ ctx.fillStyle=color;
+ ctx.fillRect(
+  Math.round(x),Math.round(y),
+  Math.round(w),Math.round(h)
+ );
 }
 
-function showLogin(){
-password="";
-sessionStorage.removeItem("nomadgo_office_password");
-$("login").hidden=false;
-$("office").hidden=true;
-$("logout").hidden=true;
-$("password").value="";
+function label(text,x,y,color="#fff",size=14){
+ ctx.fillStyle=color;
+ ctx.font="bold "+size+"px monospace";
+ ctx.fillText(text,x,y);
 }
 
-async function login(){
-const candidate=$("password").value;
-if(!candidate)return;
-$("loginBtn").disabled=true;
-$("error").textContent="";
-try{
-const response=await fetch("/api/chat",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-"X-Office-Password":candidate
-},
-body:JSON.stringify({action:"verify"})
-});
-if(!response.ok)throw Error("Пароль қате немесе сервер бапталмаған");
-password=candidate;
-sessionStorage.setItem("nomadgo_office_password",candidate);
-showOffice();
-}catch(e){
-$("error").textContent=e.message;
-}finally{
-$("loginBtn").disabled=false;
-}
+function box(x,y,w,h,top,edge,depth=7){
+ rect(x+4,y+depth,w,h,"#00000035");
+ rect(x,y+depth,w,h,edge);
+ rect(x,y,w,h,top);
 }
 
-async function restoreSession(){
-const saved=sessionStorage.getItem("nomadgo_office_password");
-if(!saved)return;
-try{
-const res=await fetch("/api/chat",{
-method:"POST",
-headers:{"Content-Type":"application/json","X-Office-Password":saved},
-body:JSON.stringify({action:"verify"})
-});
-if(res.ok){password=saved;showOffice()}
-else showLogin();
-}catch(e){showLogin()}
+function windowArt(x,y){
+ box(x,y,88,50,"#344a68","#192a40",7);
+ rect(x+7,y+7,74,36,"#63b8d6");
+ rect(x+7,y+26,74,17,"#96d6e1");
+ rect(x+41,y+7,5,36,"#d8f3ef");
+ rect(x+7,y+23,74,5,"#d8f3ef");
+ rect(x+14,y+11,12,4,"#f1ffff");
 }
 
-function createOffice(){
+function plant(x,y){
+ rect(x+5,y+30,28,22,"#955b44");
+ rect(x+1,y+26,36,7,"#d49366");
+ rect(x+15,y+5,7,28,"#1c7656");
+ [
+  [5,13],[24,9],[1,24],[27,21],
+  [13,0],[14,17]
+ ].forEach(([a,b],i)=>{
+  rect(x+a,y+b,15,11,
+   i%2?"#3dc78f":"#288968");
+ });
+}
+
+function monitor(x,y,t){
+ box(x,y,76,48,"#263c56","#111f33",6);
+ rect(x+7,y+6,62,32,"#0a2334");
+ for(let i=0;i<4;i++){
+  rect(x+13,y+12+i*6,
+   22+(i*11)%27,3,
+   i===1?"#fb628f":"#4abdd6");
+ }
+ rect(x+32,y+48,12,9,"#293c53");
+ rect(x+20,y+57,36,5,"#263c56");
+ if(Math.sin(t*2)>0){
+  rect(x+55,y+29,5,6,"#75ffd0");
+ }
+}
+
+function desk(a,t){
+ const x=a.x+148;
+ const y=a.y+122;
+ box(x,y,205,91,"#b17a50","#684632",12);
+ rect(x+8,y+7,189,8,"#d7a375");
+ monitor(x+64,y-38,t);
+ rect(x+82,y+68,48,13,"#334255");
+ for(let i=0;i<5;i++){
+  rect(x+88+i*8,y+72,5,3,"#8194a5");
+ }
+ rect(x+16,y+43,29,27,"#f1dfbe");
+ rect(x+21,y+49,19,3,"#648ca1");
+ rect(x+21,y+56,16,3,"#648ca1");
+ rect(x+158,y+50,16,16,"#f1f1e7");
+ rect(x+162,y+44,8,7,"#f1f1e7");
+ rect(x+178,y+53,8,8,"#e6e6dc");
+}
+
+function chair(x,y){
+ rect(x-23,y-17,46,42,"#142439");
+ rect(x-29,y-25,58,16,"#314965");
+ rect(x-21,y+20,42,10,"#243952");
+}
+
+function bookcase(x,y){
+ box(x,y,60,88,"#5b4550","#3a303e",7);
+ for(let j=0;j<3;j++){
+  rect(x+7,y+8+j*26,46,20,"#292e48");
+  for(let k=0;k<5;k++){
+   const colors=[
+    "#fb6382","#4bd4cc","#e8bd64",
+    "#89aafa","#c98ffb"
+   ];
+   rect(x+10+k*8,y+10+j*26,
+    6,16,colors[(k+j)%5]);
+  }
+ }
+}
+
+function printer(x,y){
+ box(x,y,61,39,"#a5b4c3","#53677b",8);
+ rect(x+6,y+10,49,10,"#34475b");
+ rect(x+12,y+23,37,10,"#e9eef4");
+ rect(x+46,y+6,6,5,"#5af2b3");
+}
+
+function roomArt(a,t){
+ const {x,y,w,h}=a;
+ const themes={
+  assar:["#3e3954","#4e4566"],
+  analyst:["#284660","#355673"],
+  dispatcher:["#2b514c","#38685d"],
+  marketer:["#53405b","#644d70"]
+ };
+ const theme=themes[a.id];
+
+ rect(x-8,y-8,w+16,h+16,"#081322");
+ rect(x,y,w,h,theme[0]);
+
+ for(let yy=y+11;yy<y+h;yy+=30){
+  for(let xx=x+10;xx<x+w;xx+=30){
+   rect(xx,yy,28,28,
+    (Math.floor(xx/30)+Math.floor(yy/30))%2
+    ?theme[0]:theme[1]);
+  }
+ }
+
+ // Бөлменің қабырғалары және жарығы
+ rect(x,y,w,23,"#17243d");
+ rect(x,y,14,h,"#1a2b45");
+ rect(x+w-14,y,14,h,"#1a2b45");
+ rect(x,y+h-15,w,15,"#1a2b45");
+ rect(x,y+20,w,6,"#75839e");
+
+ windowArt(x+w-119,y+39);
+ bookcase(x+26,y+75);
+ plant(x+w-75,y+h-75);
+
+ // Әр бөлменің жеке заттары
+ if(a.id==="assar"){
+  box(x+340,y+125,73,40,
+   "#6f4b58","#473443",6);
+  rect(x+351,y+130,51,21,"#a16e85");
+ }
+ if(a.id==="analyst"){
+  monitor(x+341,y+123,t);
+  rect(x+350,y+190,43,24,"#24384f");
+  rect(x+355,y+195,30,5,"#57d0f4");
+ }
+ if(a.id==="dispatcher"){
+  box(x+347,y+141,64,44,
+   "#485b68","#293d4a",6);
+  rect(x+357,y+149,43,24,"#101f34");
+  rect(x+363,y+155,18,5,"#48edbd");
+  rect(x+389,y+155,5,5,"#fa567c");
+ }
+ if(a.id==="marketer"){
+  box(x+346,y+141,56,58,
+   "#e2a7c9","#864d76",6);
+  rect(x+356,y+151,35,10,"#ff3974");
+  rect(x+356,y+168,22,5,"#fff1c3");
+  rect(x+356,y+181,31,5,"#fff1c3");
+ }
+
+ printer(x+36,y+h-75);
+ desk(a,t);
+
+ // Есік дәліз жақта
+ const dx=x+90;
+ if(y<380){
+  rect(dx,y+h-17,75,17,"#ba8e66");
+  rect(dx+8,y+h-12,59,12,"#e9c79b");
+ }else{
+  rect(dx,y,75,22,"#ba8e66");
+  rect(dx+8,y,59,15,"#e9c79b");
+ }
+
+ rect(x+17,y+31,205,33,"#0d1b2fe8");
+ label(a.icon+" "+a.name,x+30,y+53,"#fff",17);
+
+ rect(x+w-175,y+h-45,145,22,"#0b172bd9");
+ const pending=tasks.filter(
+  z=>z.agent===a.id&&!z.done
+ ).length;
+ label(
+  pending?pending+" TASKS":"WORKING",
+  x+w-162,y+h-29,
+  pending?"#ffcf77":"#78efb3",12
+ );
+
+ // Таңдалған бөлме
+ if(active.id===a.id){
+  ctx.strokeStyle="#ff2872";
+  ctx.lineWidth=6;
+  ctx.strokeRect(x+2,y+2,w-4,h-4);
+  rect(x+6,y+6,10,10,"#ff3a7c");
+ }
+}
+
+function character(x,y,a,walking,typing,t){
+ // Pixel-art адам: аяқ, дене, қол, бас
+ const step=walking?Math.sin(t*10)*6:0;
+ const px=Math.round(x);
+ const py=Math.round(y);
+
+ rect(px-16,py+14,37,8,"#06101d65");
+
+ // Аяқтар
+ rect(px-13,py+4,10,18+step,"#263450");
+ rect(px+5,py+4,10,18-step,"#263450");
+ rect(px-15,py+20+step,15,8,"#111724");
+ rect(px+4,py+20-step,15,8,"#111724");
+
+ // Денесі
+ rect(px-18,py-26,37,34,"#18263a");
+ rect(px-14,py-24,29,29,a.shirt);
+ rect(px-7,py-25,14,7,"#ffe6cd");
+
+ // Қолдар
+ const hand=typing?Math.sin(t*13)*3:0;
+ rect(px-24,py-21+hand,10,27,a.skin);
+ rect(px+15,py-21-hand,10,27,a.skin);
+
+ // Бет
+ rect(px-15,py-58,32,32,"#172135");
+ rect(px-12,py-55,26,27,a.skin);
+ rect(px-14,py-59,31,12,a.hair);
+ rect(px-15,py-50,6,12,a.hair);
+ rect(px+11,py-50,6,12,a.hair);
+
+ // Көздер
+ rect(px-6,py-42,4,4,"#263047");
+ rect(px+7,py-42,4,4,"#263047");
+
+ // Жағымды эмоция
+ rect(px-1,py-34,8,3,"#9a5463");
+
+ // Таңдалған кейіпкердің белгісі
+ if(active.id===a.id){
+  rect(px-4,py-76,9,9,"#ff367f");
+  rect(px-1,py-70,3,5,"#fff");
+ }
+}
+
+const people={};
 for(const a of agents){
-const room=document.createElement("div");
-room.className="room "+a.room;
-room.id="room-"+a.id;
-room.innerHTML=`
-<div class="floor"></div><div class="wall"></div>
-<div class="label">${a.icon} ${a.name}</div>
-<div class="light"></div><div class="window"></div>
-<div class="desk"></div><div class="monitor"></div>
-<div class="chair"></div><div class="worker">${a.emoji}</div>
-<div class="plant">🪴</div><div class="door"></div>
-<div class="status" id="status-${a.id}">💻 Жұмыста</div>`;
-room.onclick=()=>selectAgent(a.id);
-$("rooms").appendChild(room);
-}
+ people[a.id]={
+  x:a.x+247,
+  y:a.y+233,
+  state:"working",
+  until:performance.now()+3500+Math.random()*3000,
+  target:null,
+  walkCount:0
+ };
 }
 
-function bubble(text,me=false){
-const el=document.createElement("div");
-el.className="bubble"+(me?" me":"");
-el.textContent=text;
-$("messages").appendChild(el);
-$("messages").scrollTop=$("messages").scrollHeight;
+function chooseTarget(a,p){
+ const points=[
+  [a.x+95,a.y+238],
+  [a.x+390,a.y+236],
+  [a.x+270,a.y+246],
+  [a.x+405,a.y+210]
+ ];
+ p.target=points[
+  Math.floor(Math.random()*points.length)
+ ];
+ p.state="walking";
 }
 
-function showChat(){
-$("messages").replaceChildren();
-const list=histories[active.id]||[];
-if(!list.length)bubble("Сәлем, Даник! Мен "+active.name+". Тапсырма бер.");
-for(const m of list)bubble(m.content,m.role==="user");
+function updatePeople(dt,now){
+ for(const a of agents){
+  const p=people[a.id];
+  if(p.state==="working"){
+   if(now>p.until)chooseTarget(a,p);
+  }else if(p.state==="walking"){
+   const dx=p.target[0]-p.x;
+   const dy=p.target[1]-p.y;
+   const dist=Math.hypot(dx,dy);
+   const step=Math.min(dist,95*dt);
+   if(dist>0){
+    p.x+=dx/dist*step;
+    p.y+=dy/dist*step;
+   }
+   if(dist<3){
+    p.state="idle";
+    p.until=now+1200+Math.random()*1700;
+   }
+  }else if(p.state==="idle"&&now>p.until){
+   if(p.walkCount++%2===0){
+    p.target=[a.x+247,a.y+233];
+    p.state="returning";
+   }else{
+    chooseTarget(a,p);
+   }
+  }else if(p.state==="returning"){
+   const dx=a.x+247-p.x;
+   const dy=a.y+233-p.y;
+   const d=Math.hypot(dx,dy);
+   if(d>3){
+    const s=Math.min(d,105*dt);
+    p.x+=dx/d*s;
+    p.y+=dy/d*s;
+   }else{
+    p.x=a.x+247;
+    p.y=a.y+233;
+    p.state="working";
+    p.until=now+4500+Math.random()*4000;
+   }
+  }
+ }
+}
+
+function corridor(){
+ rect(0,0,CW,CH,"#071020");
+
+ // Офис төбесіндегі маңдайша
+ rect(31,12,1035,43,"#111e31");
+ rect(35,16,1027,35,"#182940");
+ label("NOMADGO // AI COMPANY SIMULATOR",57,41,
+  "#eaf7ff",21);
+ label("HQ-01",958,41,"#ff4e87",17);
+
+ // Орталық дәліз
+ rect(35,366,1030,34,"#293f56");
+ for(let x=45;x<1050;x+=40){
+  rect(x,373,31,4,"#3d5a73");
+  rect(x+11,386,12,4,"#62849c");
+ }
+ label("NOMADGO",472,389,"#b8dae8",17);
+
+ // Төменгі жазу
+ label(
+  "LIVE OFFICE  /  SELECT A ROOM  /  4 AGENTS",
+  36,735,"#8299b2",14
+ );
+}
+
+let last=performance.now();
+let worldTime=0;
+
+function frame(now){
+ const dt=Math.min((now-last)/1000,.05);
+ last=now;
+ if(!paused){
+  worldTime+=dt;
+  updatePeople(dt,now);
+ }
+
+ ctx.clearRect(0,0,CW,CH);
+ corridor();
+
+ for(const a of agents){
+  roomArt(a,worldTime);
+  const p=people[a.id];
+  const moving=
+   p.state==="walking"||
+   p.state==="returning";
+
+  // Отырған кезде орындық көрінеді
+  if(p.state==="working"){
+   chair(a.x+247,a.y+235);
+  }
+
+  character(
+   p.x,p.y,a,moving,
+   p.state==="working",
+   worldTime
+  );
+ }
+
+ requestAnimationFrame(frame);
 }
 
 function selectAgent(id){
-const selected=agents.find(a=>a.id===id);
-if(!selected)return;
-active=selected;
-document.querySelectorAll(".room").forEach(r=>r.classList.remove("active"));
-$("room-"+id).classList.add("active");
-$("chatTitle").textContent=active.icon+" "+active.name;
-$("chatRole").textContent=active.role;
-$("taskTitle").textContent="📋 "+active.name+" тапсырмалары";
-showChat();
-render();
+ const a=agents.find(x=>x.id===id);
+ if(!a)return;
+ active=a;
+ $("chatTitle").textContent=a.icon+" "+a.name;
+ $("chatRole").textContent=a.role;
+ $("taskTitle").textContent="📋 "+a.name+" тапсырмалары";
+
+ document.querySelectorAll("[data-agent]").forEach(b=>{
+  b.classList.toggle(
+   "active",b.dataset.agent===id
+  );
+ });
+
+ showChat();
+ renderTasks();
 }
 
-function render(){
-$("total").textContent=tasks.length;
-$("completed").textContent=tasks.filter(t=>t.done).length;
-$("taskList").replaceChildren();
-const own=tasks.filter(t=>t.agent===active.id);
-
-if(!own.length){
-const p=document.createElement("p");
-p.className="muted";
-p.textContent="Бұл қызметкерге тапсырма жоқ.";
-$("taskList").appendChild(p);
-}
-
-for(const t of own){
-const card=document.createElement("div");
-card.className="task"+(t.done?" done":"");
-const p=document.createElement("p");
-p.textContent=t.text;
-const btn=document.createElement("button");
-btn.textContent=t.done?"Қайта ашу":"Аяқталды";
-btn.onclick=()=>{t.done=!t.done;update()};
-const del=document.createElement("button");
-del.textContent="Өшіру";
-del.className="secondary";
-del.style.marginLeft="6px";
-del.onclick=()=>{tasks=tasks.filter(x=>x.id!==t.id);update()};
-card.append(p,btn,del);
-$("taskList").appendChild(card);
-}
-
-for(const a of agents){
-const count=tasks.filter(t=>t.agent===a.id&&!t.done).length;
-$("status-"+a.id).textContent=count?"📋 "+count+" тапсырма":"💻 Жұмыста";
-$("room-"+a.id).classList.toggle("walking",count>0);
-}
-}
-
-function update(){save();render()}
-
-function createTask(agent,text){
-tasks.push({
-id:crypto.randomUUID(),
-agent,text:text.slice(0,2000),done:false
+canvas.addEventListener("click",e=>{
+ const bounds=canvas.getBoundingClientRect();
+ const x=(e.clientX-bounds.left)*CW/bounds.width;
+ const y=(e.clientY-bounds.top)*CH/bounds.height;
+ const a=agents.find(a=>
+  x>=a.x&&x<=a.x+a.w&&
+  y>=a.y&&y<=a.y+a.h
+ );
+ if(a)selectAgent(a.id);
 });
+
+function createButtons(){
+ for(const a of agents){
+  const b=document.createElement("button");
+  b.textContent=a.icon+" "+a.name;
+  b.dataset.agent=a.id;
+  b.onclick=()=>selectAgent(a.id);
+  $("agentButtons").appendChild(b);
+ }
+}
+
+$("pauseBtn").onclick=()=>{
+ paused=!paused;
+ $("pauseBtn").textContent=paused
+ ?"▶ Анимацияны қосу"
+ :"⏸ Анимацияны тоқтату";
+ if(!paused){
+  for(const p of Object.values(people)){
+   if(p.state==="working"||p.state==="idle"){
+    p.until=performance.now()+2500;
+   }
+  }
+ }
+};
+
+// ===== ТАПСЫРМАЛАР =====
+
+function refresh(){
+ saveTasks();
+ $("taskCount").textContent=tasks.length;
+ $("doneCount").textContent=
+  tasks.filter(t=>t.done).length;
+ renderTasks();
+}
+
+function renderTasks(){
+ const list=$("taskList");
+ list.replaceChildren();
+ const own=tasks.filter(t=>t.agent===active.id);
+
+ if(!own.length){
+  const p=document.createElement("p");
+  p.className="notice";
+  p.textContent="Бұл агентте тапсырма жоқ.";
+  list.appendChild(p);
+ }
+
+ for(const t of own){
+  const el=document.createElement("div");
+  el.className="task"+(t.done?" done":"");
+
+  const p=document.createElement("p");
+  p.textContent=t.text;
+
+  const btn=document.createElement("button");
+  btn.textContent=t.done?"Қайта ашу":"Аяқталды";
+  btn.onclick=()=>{
+   t.done=!t.done;
+   refresh();
+  };
+
+  const del=document.createElement("button");
+  del.textContent="Өшіру";
+  del.style.background="#31445c";
+  del.style.marginLeft="6px";
+  del.onclick=()=>{
+   tasks=tasks.filter(x=>x.id!==t.id);
+   refresh();
+  };
+
+  el.append(p,btn,del);
+  list.appendChild(el);
+ }
+}
+
+function addTask(agent,text){
+ tasks.push({
+  id:String(Date.now())+Math.random(),
+  agent,text:text.slice(0,2000),done:false
+ });
 }
 
 function detectAgent(text){
-const s=text.toLowerCase();
-if(/жарнама|маркет|реклама|instagram|tiktok|reels|клиент тарт|баннер|акция|пост/.test(s))return "marketer";
-if(/аналит|талда|статист|есеп|отчет|табыс|пайда|выручк|доход|қаржы|финанс|комисс/.test(s))return "analyst";
-if(/жүргізуш|водител|диспетчер|такси|маршрут|көлік|машина|поездк|заказ/.test(s))return "dispatcher";
-return "assar";
+ const s=text.toLowerCase();
+
+ if(/жарнама|маркет|реклама|instagram|tiktok|reels|пост|баннер|акция/.test(s))
+  return "marketer";
+
+ if(/аналит|талда|статист|есеп|отчет|табыс|пайда|доход|выручк|қаржы|комисс/.test(s))
+  return "analyst";
+
+ if(/жүргізуш|водител|диспетчер|такси|маршрут|көлік|машина|заказ|поездк/.test(s))
+  return "dispatcher";
+
+ return "assar";
 }
 
 function delegate(){
-const text=$("delegateInput").value.trim();
-if(!text)return;
-const parts=text.split(/[\n.!?;]+/).map(x=>x.trim()).filter(Boolean).slice(0,15);
-for(const part of parts)createTask(detectAgent(part),part);
-$("delegateInput").value="";
-$("delegateResult").textContent="✅ "+parts.length+" тапсырма бөлінді.";
-update();
+ const text=$("delegateInput").value.trim();
+ if(!text)return;
+
+ const parts=text.split(/[\n.!?;]+/)
+  .map(s=>s.trim())
+  .filter(Boolean).slice(0,15);
+
+ for(const p of parts){
+  addTask(detectAgent(p),p);
+ }
+
+ $("delegateInput").value="";
+ $("delegateResult").textContent=
+  "✅ "+parts.length+" тапсырма бөлінді.";
+ refresh();
 }
 
 function addManual(){
-const text=$("taskInput").value.trim();
-if(!text)return;
-createTask(active.id,text);
-$("taskInput").value="";
-update();
+ const text=$("taskInput").value.trim();
+ if(!text)return;
+ addTask(active.id,text);
+ $("taskInput").value="";
+ refresh();
+}
+
+// ===== CHAT =====
+
+function bubble(text,me=false){
+ const el=document.createElement("div");
+ el.className="bubble"+(me?" me":"");
+ el.textContent=text;
+ $("messages").appendChild(el);
+ $("messages").scrollTop=$("messages").scrollHeight;
+}
+
+function showChat(){
+ $("messages").replaceChildren();
+ const list=histories[active.id]||[];
+
+ if(!list.length){
+  bubble("Сәлем, Даник! Мен "+active.name+
+   ". NomadGO офисіне қош келдің.");
+ }
+
+ for(const m of list){
+  bubble(m.content,m.role==="user");
+ }
 }
 
 async function sendMessage(){
-const input=$("chatInput");
-const text=input.value.trim();
-if(!text||sending)return;
-input.value="";
-const agent=active;
-const list=histories[agent.id]||(histories[agent.id]=[]);
-list.push({role:"user",content:text});
-showChat();
-bubble("⏳ Ойланып жатыр...");
-sending=true;
-$("sendBtn").disabled=true;
+ const input=$("chatInput");
+ const text=input.value.trim();
+ if(!text||sending)return;
 
-try{
-const res=await fetch("/api/chat",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-"X-Office-Password":password
-},
-body:JSON.stringify({
-agent:agent.id,
-messages:list.slice(-20)
-})
-});
-const data=await res.json();
-if(res.status===401){
-showLogin();
-throw Error("Сеанс аяқталды. Қайта кір.");
+ const agent=active;
+ input.value="";
+
+ const list=histories[agent.id]||
+  (histories[agent.id]=[]);
+
+ list.push({role:"user",content:text});
+ showChat();
+ bubble("⏳ Жауап күтіп жатырмыз...");
+
+ sending=true;
+ $("sendBtn").disabled=true;
+
+ try{
+  const res=await fetch("/api/chat",{
+   method:"POST",
+   headers:{
+    "Content-Type":"application/json",
+    "X-Office-Password":password
+   },
+   body:JSON.stringify({
+    agent:agent.id,
+    messages:list.slice(-20)
+   })
+  });
+
+  const data=await res.json();
+
+  if(res.status===401){
+   showLogin();
+   throw Error("Қайта кіру қажет");
+  }
+
+  if(!res.ok){
+   throw Error(data.error||"API қатесі");
+  }
+
+  list.push({
+   role:"assistant",
+   content:data.reply||"Жауап жоқ"
+  });
+
+ }catch(e){
+  list.push({
+   role:"assistant",
+   content:"⚠️ "+e.message
+  });
+ }finally{
+  sending=false;
+  $("sendBtn").disabled=false;
+  if(active.id===agent.id)showChat();
+ }
 }
-if(!res.ok)throw Error(data.error||"API қатесі");
-list.push({
-role:"assistant",
-content:data.reply||"Жауап жоқ"
-});
-}catch(e){
-list.push({role:"assistant",content:"⚠️ "+e.message});
-}finally{
-sending=false;
-$("sendBtn").disabled=false;
-if(active.id===agent.id)showChat();
+
+// ===== ҚАУІПСІЗ КІРУ =====
+
+function showOffice(){
+ $("login").hidden=true;
+ $("app").hidden=false;
+ $("logout").hidden=false;
+ $("password").value="";
 }
+
+function showLogin(){
+ password="";
+ sessionStorage.removeItem("nomadgo_office_password");
+ $("login").hidden=false;
+ $("app").hidden=true;
+ $("logout").hidden=true;
 }
+
+async function verify(candidate){
+ return fetch("/api/chat",{
+  method:"POST",
+  headers:{
+   "Content-Type":"application/json",
+   "X-Office-Password":candidate
+  },
+  body:JSON.stringify({action:"verify"})
+ });
+}
+
+async function login(){
+ const candidate=$("password").value;
+ if(!candidate)return;
+
+ $("loginBtn").disabled=true;
+ $("error").textContent="";
+
+ try{
+  const res=await verify(candidate);
+  if(!res.ok){
+   throw Error(
+    res.status===401
+    ?"Пароль қате"
+    :"Серверді тексер: OFFICE_PASSWORD орнатылған ба?"
+   );
+  }
+
+  password=candidate;
+  sessionStorage.setItem(
+   "nomadgo_office_password",candidate
+  );
+  showOffice();
+
+ }catch(e){
+  $("error").textContent=e.message;
+ }finally{
+  $("loginBtn").disabled=false;
+ }
+}
+
+async function restoreSession(){
+ const saved=sessionStorage.getItem(
+  "nomadgo_office_password"
+ );
+ if(!saved)return;
+
+ try{
+  const res=await verify(saved);
+  if(res.ok){
+   password=saved;
+   showOffice();
+  }else showLogin();
+ }catch(e){
+  showLogin();
+ }
+}
+
+// ===== START =====
 
 $("loginBtn").onclick=login;
 $("logout").onclick=showLogin;
 $("sendBtn").onclick=sendMessage;
 $("delegateBtn").onclick=delegate;
-$("addBtn").onclick=addManual;
+$("addTaskBtn").onclick=addManual;
 
-$("password").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
-$("chatInput").addEventListener("keydown",e=>{if(e.key==="Enter")sendMessage()});
-$("taskInput").addEventListener("keydown",e=>{if(e.key==="Enter")addManual()});
+$("password").addEventListener("keydown",e=>{
+ if(e.key==="Enter")login();
+});
 
-createOffice();
+$("chatInput").addEventListener("keydown",e=>{
+ if(e.key==="Enter")sendMessage();
+});
+
+$("taskInput").addEventListener("keydown",e=>{
+ if(e.key==="Enter")addManual();
+});
+
+createButtons();
 selectAgent("assar");
+refresh();
 restoreSession();
+requestAnimationFrame(frame);
 </script>
 </body>
 </html>
