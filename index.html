@@ -4,108 +4,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NomadGO AI Office</title>
+<title>NomadGO AI Office v2</title>
 <style>
+:root{
+--bg:#090f1e;--panel:#141f34;--line:#293c59;
+--pink:#ff0050;--muted:#94a3b8
+}
 *{box-sizing:border-box}
-body{margin:0;background:#080e1a;color:#fff;font-family:Arial,sans-serif}
-header{height:75px;background:#111b30;display:flex;align-items:center;gap:15px;padding:15px 25px;border-bottom:1px solid #293750}
-.logo{width:48px;height:48px;border-radius:12px;object-fit:cover;background:#ff0050}
-h1{font-size:22px;margin:0}
-header small{color:#94a3b8}
-main{display:grid;grid-template-columns:1fr 360px;gap:20px;padding:20px;max-width:1500px;margin:auto}
-.office{background:#101a2c;border:1px solid #2b3b57;border-radius:15px;padding:20px}
-.office h2{margin-top:0}
-.rooms{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.room{height:275px;position:relative;overflow:hidden;border:6px solid #536a84;border-radius:8px;cursor:pointer;transition:.2s}
-.room:hover{border-color:#ff0050;transform:translateY(-3px)}
-.room.active{border-color:#ff0050}
-.room:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 39px,#ffffff08 40px)}
-.director{background:#3c3447}
-.analyst{background:#263d52}
-.dispatcher{background:#304b45}
-.marketing{background:#4a3a52}
-.roomname{position:absolute;top:12px;left:12px;background:#0a1020cc;padding:8px 12px;border-radius:7px;font-size:13px;font-weight:bold}
-.desk{position:absolute;left:50%;top:32%;transform:translateX(-50%);width:145px;height:65px;background:#926746;border:7px solid #67452f;border-radius:7px;box-shadow:0 13px #0003}
-.screen{position:absolute;left:50%;top:30%;transform:translateX(-50%);width:68px;height:40px;background:#101727;border:5px solid #29364a;border-radius:4px;box-shadow:inset 0 0 12px #38bdf8}
-.person{position:absolute;left:50%;top:62%;transform:translateX(-50%);font-size:53px;animation:bob 2s ease-in-out infinite}
-@keyframes bob{50%{transform:translate(-50%,-5px)}}
-.plant{position:absolute;right:15px;bottom:14px;font-size:37px}
-.door{position:absolute;left:22px;bottom:0;width:47px;height:12px;background:#dbbc89;border-radius:4px 4px 0 0}
-.status{position:absolute;right:12px;top:13px;width:9px;height:9px;background:#22c55e;border-radius:50%;box-shadow:0 0 10px #22c55e}
-.chat{display:flex;flex-direction:column;background:#111b30;border:1px solid #2b3b57;border-radius:15px;overflow:hidden;height:650px}
-.chathead{padding:20px;background:#1b2944}
-.chathead h2{margin:0 0 6px;font-size:20px}
-.chathead small{color:#94a3b8}
-.messages{flex:1;overflow:auto;padding:17px;display:flex;flex-direction:column;gap:12px}
-.bubble{padding:12px;border-radius:12px;background:#273651;max-width:90%;font-size:14px;line-height:1.5;white-space:pre-wrap}
-.bubble.me{align-self:flex-end;background:#9f1244}
-.chatbottom{padding:15px;display:flex;gap:8px;border-top:1px solid #293750}
-input{flex:1;min-width:0;background:#24334d;color:white;border:0;padding:13px;border-radius:8px;outline:none}
-button{background:#ff0050;color:white;border:0;padding:12px 18px;border-radius:8px;cursor:pointer;font-weight:bold}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
+header{display:flex;align-items:center;gap:15px;padding:16px 24px;background:#111a2e;border-bottom:1px solid var(--line)}
+.logo{width:50px;height:50px;border-radius:12px;object-fit:cover;background:#ff0050}
+h1{font-size:21px;margin:0}
+small,.muted{color:var(--muted)}
+main{max-width:1600px;margin:auto;padding:18px;display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:18px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px}
+h2{font-size:18px;margin:0 0 13px}
+.pill{background:#143e36;color:#70f0b5;border-radius:30px;padding:7px 11px;font-size:12px}
+.rooms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px}
+.room{height:310px;position:relative;border:7px solid #55677f;border-radius:10px;overflow:hidden;cursor:pointer;isolation:isolate}
+.room.active{border-color:var(--pink);box-shadow:0 0 0 2px #ff005033}
+.room:hover{filter:brightness(1.13)}
+.director{background:#4b3d55}
+.analyst{background:#30475e}
+.dispatcher{background:#34544e}
+.marketer{background:#59435d}
+.floor{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 34px,#ffffff0a 35px),repeating-linear-gradient(90deg,transparent 0 34px,#ffffff0a 35px)}
+.wall{position:absolute;top:0;left:0;right:0;height:55px;background:#18263acc;border-bottom:6px solid #7588a0}
+.roomname{position:absolute;top:12px;left:12px;background:#08111eea;border-radius:6px;padding:8px 11px;font-size:13px;z-index:4}
+.light{position:absolute;top:16px;right:16px;width:13px;height:13px;background:#4ade80;border-radius:50%;box-shadow:0 0 15px #4ade80;z-index:3;animation:glow 2s infinite}
+@keyframes glow{50%{opacity:.5}}
+.window{position:absolute;top:64px;right:18px;width:74px;height:49px;background:linear-gradient(#4ba1cf,#a6ddf3);border:7px solid #364e66;box-shadow:inset 0 0 0 2px #ffffff45}
+.table{position:absolute;left:50%;top:36%;transform:translateX(-50%);width:155px;height:75px;border:8px solid #664732;background:#ad8055;border-radius:7px;box-shadow:0 12px #0003}
+.monitor{position:absolute;left:50%;top:33%;transform:translateX(-50%);width:81px;height:49px;background:#121a29;border:6px solid #24384d;border-radius:5px;box-shadow:inset 0 0 18px #38bdf8}
+.monitor:after{content:"";position:absolute;inset:8px;background:repeating-linear-gradient(0deg,#38bdf8 0 2px,transparent 2px 8px);opacity:.35;animation:screen 1.5s infinite alternate}
+@keyframes screen{to{opacity:.75}}
+.chair{position:absolute;left:50%;top:61%;transform:translateX(-50%);width:58px;height:51px;background:#19253b;border-radius:17px;border:5px solid #30445d}
+.worker{position:absolute;left:50%;top:58%;font-size:51px;transform:translateX(-50%);animation:work 2s ease-in-out infinite;z-index:2;filter:drop-shadow(0 7px 1px #0004)}
+@keyframes work{
+0%,100%{transform:translate(-50%,0) rotate(-3deg)}
+50%{transform:translate(-50%,-9px) rotate(3deg)}
+}
+.room.walking .worker{animation:walk 5s ease-in-out infinite}
+@keyframes walk{
+0%,100%{left:50%;top:58%}
+25%{left:29%;top:68%}
+50%{left:29%;top:72%}
+75%{left:65%;top:70%}
+}
+.plant{position:absolute;bottom:18px;right:15px;font-size:39px}
+.door{position:absolute;bottom:0;left:19px;width:57px;height:20px;background:#c8a37c;border:5px solid #71523e;border-bottom:0}
+.tasktag{position:absolute;bottom:12px;left:88px;background:#101827df;padding:7px 10px;border-radius:6px;font-size:11px;z-index:3}
+.sidebar{display:flex;flex-direction:column;gap:14px}
+.chatbox{display:flex;flex-direction:column;height:470px;min-height:0}
+.messages{background:#0a1324;border-radius:10px;flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:9px}
+.bubble{background:#263853;max-width:92%;padding:10px 12px;border-radius:11px;font-size:13px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.bubble.me{background:#9b1647;align-self:flex-end}
+.controls{display:flex;gap:8px;margin-top:10px}
+input{min-width:0;flex:1;padding:12px;color:white;background:#25354f;border:1px solid #364d69;border-radius:8px;outline:none}
+button{background:var(--pink);border:0;color:white;padding:11px 15px;border-radius:8px;cursor:pointer;font-weight:700}
 button:disabled{opacity:.5}
-@media(max-width:900px){main{grid-template-columns:1fr}.chat{height:450px}}
-@media(max-width:500px){.rooms{grid-template-columns:1fr}.room{height:240px}header{padding:10px}h1{font-size:18px}}
+.tasks{max-height:230px;overflow:auto}
+.task{padding:11px;margin-top:8px;background:#0d1729;border-radius:8px;border-left:3px solid #38bdf8}
+.task.done{border-color:#4ade80}
+.task small{display:block;margin-top:5px}
+.summary{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.stat{flex:1;min-width:90px;background:#111d31;border:1px solid #293953;border-radius:10px;padding:12px}
+.stat strong{display:block;font-size:21px;margin-bottom:5px}
+@media(max-width:1050px){main{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr}.chatbox{height:480px}}
+@media(max-width:690px){.rooms,.sidebar{grid-template-columns:1fr}.room{height:280px}header{padding:12px}h1{font-size:17px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important}}
 </style>
 </head>
 <body>
 <header>
-<img src="logo.jpg" class="logo" alt="NomadGO">
+<img class="logo" src="logo.jpg" alt="NomadGO">
 <div>
 <h1>NOMADGO AI HEADQUARTERS</h1>
-<small>Виртуалды компания · 4 AI қызметкер</small>
+<small>Виртуалды компания · Office v2</small>
 </div>
 </header>
 
 <main>
-<section class="office">
-<h2>🏢 Біздің офис</h2>
-<p style="color:#94a3b8">Қызметкермен сөйлесу үшін кабинетіне бас.</p>
+<section class="panel">
+<div class="topline">
+<h2>🏢 Тірі офис</h2>
+<span class="pill">● 4 қызметкер</span>
+</div>
+<p class="muted">Кабинетті басып, қызметкерді таңда.</p>
 <div class="rooms" id="rooms"></div>
+<div class="summary">
+<div class="stat"><strong>4</strong><small>AI агент</small></div>
+<div class="stat"><strong id="taskCount">0</strong><small>Тапсырма</small></div>
+<div class="stat"><strong id="doneCount">0</strong><small>Аяқталды</small></div>
+</div>
 </section>
 
-<section class="chat">
-<div class="chathead">
-<h2 id="agentTitle">🤖 Ассар</h2>
-<small id="agentRole">Бас AI көмекші</small>
-</div>
+<aside class="sidebar">
+<section class="panel chatbox">
+<h2 id="chatTitle">Ассар</h2>
+<p class="muted" id="role">Бас AI</p>
 <div class="messages" id="messages"></div>
-<div class="chatbottom">
-<input id="input" placeholder="Хабарлама жаз...">
-<button id="send" onclick="sendMessage()">➤</button>
+<div class="controls">
+<input id="messageInput" placeholder="Хабарлама жаз...">
+<button id="sendButton" onclick="sendMessage()">➤</button>
 </div>
 </section>
+
+<section class="panel">
+<h2>📋 Тапсырмалар</h2>
+<p class="muted" style="font-size:12px">Тапсырма осы браузерде сақталады. AI орындауы үшін API балансы керек.</p>
+<div class="controls">
+<input id="taskInput" placeholder="Жаңа тапсырма...">
+<button onclick="addTask()">+</button>
+</div>
+<div class="tasks" id="tasks"></div>
+</section>
+</aside>
 </main>
 
 <script>
 const agents=[
-{id:"assar",name:"Ассар",role:"Бас AI көмекші",emoji:"👨‍💼",cls:"director",icon:"📚"},
-{id:"analyst",name:"Аналитик",role:"Статистика және қаржы",emoji:"👨‍💻",cls:"analyst",icon:"📊"},
-{id:"dispatcher",name:"Диспетчер",role:"Такси тапсырыстары",emoji:"👩‍💻",cls:"dispatcher",icon:"🚕"},
-{id:"marketer",name:"Маркетолог",role:"Жарнама және клиенттер",emoji:"👨‍🎨",cls:"marketing",icon:"📣"}
+{id:"assar",name:"Ассар",role:"Бас AI көмекші",emoji:"👨‍💼",room:"director",icon:"👑"},
+{id:"analyst",name:"Аналитик",role:"Аналитика және қаржы",emoji:"👨‍💻",room:"analyst",icon:"📊"},
+{id:"dispatcher",name:"Диспетчер",role:"Такси тапсырыстары",emoji:"👩‍💻",room:"dispatcher",icon:"🚕"},
+{id:"marketer",name:"Маркетолог",role:"Жарнама және клиенттер",emoji:"👨‍🎨",room:"marketer",icon:"📣"}
 ];
 
 let active=agents[0];
 let busy=false;
-const history={};
+const histories={};
+const tasks=[];
 const rooms=document.getElementById("rooms");
 const messages=document.getElementById("messages");
-const input=document.getElementById("input");
 
-agents.forEach(a=>{
-const room=document.createElement("div");
-room.className="room "+a.cls;
-room.id="room-"+a.id;
-room.innerHTML=`
+for(const a of agents){
+const el=document.createElement("div");
+el.className="room "+a.room;
+el.id="room-"+a.id;
+el.innerHTML=`
+<div class="floor"></div>
+<div class="wall"></div>
 <div class="roomname">${a.icon} ${a.name}</div>
-<div class="status"></div>
-<div class="desk"></div>
-<div class="screen"></div>
-<div class="person">${a.emoji}</div>
+<div class="light"></div>
+<div class="window"></div>
+<div class="table"></div>
+<div class="monitor"></div>
+<div class="chair"></div>
+<div class="worker">${a.emoji}</div>
 <div class="plant">🪴</div>
-<div class="door"></div>`;
-room.onclick=()=>selectAgent(a.id);
-rooms.appendChild(room);
-});
+<div class="door"></div>
+<div class="tasktag" id="status-${a.id}">💻 Жұмыста</div>`;
+el.addEventListener("click",()=>selectAgent(a.id));
+rooms.appendChild(el);
+}
 
 function bubble(text,me=false){
 const b=document.createElement("div");
@@ -118,30 +170,34 @@ return b;
 
 function selectAgent(id){
 active=agents.find(a=>a.id===id);
-document.querySelectorAll(".room").forEach(r=>r.classList.remove("active"));
+document.querySelectorAll(".room").forEach(el=>el.classList.remove("active"));
 document.getElementById("room-"+id).classList.add("active");
-document.getElementById("agentTitle").textContent=active.emoji+" "+active.name;
-document.getElementById("agentRole").textContent=active.role;
+document.getElementById("chatTitle").textContent=active.emoji+" "+active.name;
+document.getElementById("role").textContent=active.role;
 messages.replaceChildren();
-
-const list=history[id]||[];
-if(!list.length){
-bubble("Сәлем, Даник! Мен "+active.name+". Не істейміз?");
+const history=histories[id]||[];
+if(!history.length)bubble("Сәлем, Даник! Мен "+active.name+". Тапсырма бер.");
+for(const m of history)bubble(m.content,m.role==="user");
 }
-list.forEach(m=>bubble(m.content,m.role==="user"));
+
+function setStatus(id,text,walking=false){
+document.getElementById("status-"+id).textContent=text;
+document.getElementById("room-"+id).classList.toggle("walking",walking);
 }
 
 async function sendMessage(){
+const input=document.getElementById("messageInput");
 const text=input.value.trim();
 if(!text||busy)return;
 input.value="";
 const agent=active;
-const list=history[agent.id]||(history[agent.id]=[]);
+const list=histories[agent.id]||(histories[agent.id]=[]);
 list.push({role:"user",content:text});
 bubble(text,true);
-const waiting=bubble("Ойланып жатырмын...");
+const waiting=bubble("⏳ Ойланып жатырмын...");
 busy=true;
-document.getElementById("send").disabled=true;
+document.getElementById("sendButton").disabled=true;
+setStatus(agent.id,"🧠 Ойланып жатыр");
 
 try{
 const response=await fetch("/api/chat",{
@@ -154,25 +210,78 @@ messages:list.slice(-20)
 });
 const data=await response.json();
 if(!response.ok)throw Error(data.error||"API қатесі");
-const reply=data.reply||"Жауап жоқ";
-list.push({role:"assistant",content:reply});
-if(active.id===agent.id){
-waiting.textContent=reply;
-}else{
-waiting.remove();
-}
-}catch(error){
-waiting.textContent="AI қосылмады: "+error.message;
+const answer=data.reply||"Жауап жоқ";
+list.push({role:"assistant",content:answer});
+if(active.id===agent.id)waiting.textContent=answer;
+else waiting.remove();
+}catch(err){
+if(active.id===agent.id)waiting.textContent="⚠️ "+err.message;
+else waiting.remove();
 }finally{
 busy=false;
-document.getElementById("send").disabled=false;
+document.getElementById("sendButton").disabled=false;
+setStatus(agent.id,"💻 Жұмыста");
 }
 }
 
-input.addEventListener("keydown",e=>{
+function renderTasks(){
+const container=document.getElementById("tasks");
+container.replaceChildren();
+const own=tasks.map((t,i)=>({...t,index:i}))
+.filter(t=>t.agent===active.id);
+if(!own.length){
+const empty=document.createElement("p");
+empty.className="muted";
+empty.textContent="Бұл қызметкерге тапсырма жоқ.";
+container.appendChild(empty);
+}
+for(const t of own){
+const el=document.createElement("div");
+el.className="task"+(t.done?" done":"");
+const name=document.createElement("div");
+name.textContent=t.text;
+const meta=document.createElement("small");
+meta.textContent=t.done?"✅ Белгіленді: аяқталды":"⏳ Күтіп тұр";
+const btn=document.createElement("button");
+btn.style.marginTop="8px";
+btn.textContent=t.done?"Қайта ашу":"Орындалды деп белгілеу";
+btn.onclick=()=>{
+tasks[t.index].done=!tasks[t.index].done;
+updateTasks();
+};
+el.append(name,meta,btn);
+container.appendChild(el);
+}
+}
+
+function addTask(){
+const input=document.getElementById("taskInput");
+const text=input.value.trim();
+if(!text)return;
+tasks.push({agent:active.id,text,done:false});
+input.value="";
+updateTasks();
+setStatus(active.id,"📋 Тапсырма алды",true);
+}
+
+function updateTasks(){
+document.getElementById("taskCount").textContent=tasks.length;
+document.getElementById("doneCount").textContent=tasks.filter(t=>t.done).length;
+renderTasks();
+for(const a of agents){
+const pending=tasks.some(t=>t.agent===a.id&&!t.done);
+setStatus(a.id,pending?"📋 Тапсырма күтіп тұр":"💻 Жұмыста",pending);
+}
+}
+
+document.getElementById("messageInput").addEventListener("keydown",e=>{
 if(e.key==="Enter")sendMessage();
 });
+document.getElementById("taskInput").addEventListener("keydown",e=>{
+if(e.key==="Enter")addTask();
+});
 selectAgent("assar");
+renderTasks();
 </script>
 </body>
 </html>
