@@ -4,506 +4,203 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NomadGO | Executive Headquarters</title>
+<title>NomadGO Executive HQ · v7</title>
 <link rel="icon" href="logo.jpg">
 <style>
 :root{
---bg:#eef1f5;
---white:#fff;
---ink:#172033;
---muted:#788396;
---line:#e3e8ef;
---pink:#ed285f;
---nav:#111b2c;
---green:#18a777;
+--nav:#101b2d;--bg:#eef2f6;--ink:#19273b;
+--muted:#8190a2;--line:#dfe6ee;--pink:#ed285f;
+--green:#19aa7c
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{
-margin:0;background:var(--bg);
-color:var(--ink);
-font-family:Inter,"Segoe UI",Arial,sans-serif;
-}
+body{margin:0;background:var(--bg);color:var(--ink);
+font-family:"Segoe UI",Arial,sans-serif}
 button,input,textarea{font:inherit}
-button{cursor:pointer}
-.layout{display:flex;min-height:100vh}
-.sidebar{
-width:245px;flex-shrink:0;
-background:var(--nav);color:#fff;
-padding:27px 17px;
-display:flex;flex-direction:column;
-}
-.brand{
-display:flex;align-items:center;
-gap:12px;padding:0 9px 28px;
-border-bottom:1px solid #ffffff16;
-}
-.brand img{
-width:44px;height:44px;
-border-radius:11px;object-fit:cover;
-}
-.brand strong{display:block;font-size:17px;letter-spacing:.5px}
-.brand small{color:#91a0b6;font-size:11px}
-.navtitle{
-color:#62738e;text-transform:uppercase;
-font-size:10px;font-weight:800;
-letter-spacing:2px;margin:30px 12px 13px;
-}
-.navitem{
-display:flex;align-items:center;gap:12px;
-padding:14px 15px;border-radius:10px;
-color:#abb8cb;font-size:13px;
-margin-bottom:5px;
-border:0;width:100%;text-align:left;
-background:transparent;
-}
-.navitem.active,.navitem:hover{
-color:#fff;background:#26364e;
-}
-.navitem.active{border-left:3px solid var(--pink)}
-.navitem .symbol{font-size:18px;width:25px}
-.navbottom{
-margin-top:auto;border-top:1px solid #ffffff18;
-padding-top:20px;
-}
-.navbottom button{
-background:#26354b;color:#e5edf9;
-border:0;border-radius:8px;
-padding:11px;width:100%;
-}
-.workspace{flex:1;min-width:0}
-.topbar{
-height:80px;background:white;
-border-bottom:1px solid var(--line);
-display:flex;align-items:center;
-justify-content:space-between;
-padding:0 30px;gap:15px;
-}
-.topbar small{display:block;color:var(--muted);margin-top:5px}
-.topbar h1{margin:0;font-size:20px;letter-spacing:-.5px}
-.live{
-background:#e9f9f1;color:#148d65;
-border-radius:30px;padding:9px 13px;
-font-size:11px;font-weight:800;
-white-space:nowrap;
-}
-.content{
-padding:25px 28px;
-max-width:1750px;margin:auto;
-}
-.heading{
-display:flex;justify-content:space-between;
-align-items:center;gap:12px;
-margin-bottom:23px;
-}
-.heading h2{margin:0 0 6px;font-size:23px}
-.heading p{margin:0;color:var(--muted);font-size:13px}
-.primary{
-border:0;color:white;background:var(--pink);
-padding:12px 17px;border-radius:9px;
-font-weight:700;font-size:12px;
-}
-.primary:disabled{opacity:.55}
-.dashboard{
-display:grid;grid-template-columns:minmax(0,1fr) 365px;
-gap:19px;
-}
-.card{
-background:white;border:1px solid var(--line);
-border-radius:15px;
-box-shadow:0 5px 26px #1c2b4107;
-}
-.cardhead{
-padding:19px 22px;
-display:flex;justify-content:space-between;
-align-items:center;
-border-bottom:1px solid var(--line);
-gap:10px;
-}
-.cardhead strong{font-size:14px}
-.cardhead small{color:var(--muted);font-size:11px}
-.officewrap{padding:17px;background:#fafbfc}
-.office{
-position:relative;
-border:9px solid #cfd7e1;
-border-radius:5px;
-background:#dde3e9;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:46px 16px;padding:16px;
-box-shadow:inset 0 0 0 2px #abb7c5;
-}
-.office:before{
-content:"";
-position:absolute;top:49%;left:0;right:0;
-height:28px;background:
-repeating-linear-gradient(90deg,#c9d0d8 0 28px,#c2cad3 28px 29px);
-z-index:0;
-}
-.office:after{
-content:"NOMADGO HEADQUARTERS";
-position:absolute;top:50%;left:50%;
-transform:translate(-50%,-50%);
-background:#273a50;color:white;
-font-size:9px;font-weight:800;
-letter-spacing:2px;padding:8px 16px;
-z-index:1;white-space:nowrap;
-}
-.room{
-position:relative;
-height:265px;
-background:#f7f4ef;
-border:6px solid #aebac7;
-box-shadow:inset 0 0 0 2px #fefefe;
-overflow:hidden;
-cursor:pointer;
-transition:border-color .2s,filter .2s;
-}
-.room:hover{filter:brightness(.98)}
+button{cursor:pointer;border:0}
+button:disabled{opacity:.5;cursor:wait}
+.primary{background:var(--pink);color:white;
+padding:11px 16px;border-radius:8px;font-weight:700}
+.secondary{background:#e8edf3;color:#34465c;
+padding:9px 12px;border-radius:7px}
+h1{font-size:20px;margin:0}
+h2{font-size:17px;margin:0}
+small,.muted{color:var(--muted)}
+.shell{display:flex;min-height:100vh}
+.sidebar{background:var(--nav);color:white;
+width:235px;flex-shrink:0;padding:23px 16px;
+display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:10px;
+border-bottom:1px solid #ffffff20;padding-bottom:23px}
+.brand img{width:45px;height:45px;border-radius:10px;
+object-fit:cover}
+.brand strong{font-size:17px}
+.brand small{display:block;font-size:10px;color:#91a0b5}
+.navlabel{color:#687b95;font-size:11px;
+letter-spacing:2px;margin:28px 10px 12px}
+.nav{padding:13px;display:block;width:100%;
+border-radius:8px;text-align:left;color:#b8c6d8;
+background:transparent;margin-bottom:6px}
+.nav.active,.nav:hover{background:#263851;color:white}
+.logout{margin-top:auto;background:#293a51;
+color:white;border-radius:8px;padding:12px}
+.main{flex:1;min-width:0}
+header{background:white;border-bottom:1px solid var(--line);
+padding:18px 26px;display:flex;align-items:center;
+justify-content:space-between;gap:10px}
+header small{display:block;margin-top:5px}
+.online{color:#138968;background:#e7f9f1;
+border-radius:20px;padding:9px 12px;font-size:11px}
+.content{max-width:1650px;margin:auto;padding:22px}
+.intro{display:flex;justify-content:space-between;
+align-items:center;gap:10px;margin-bottom:20px}
+.intro h2{font-size:24px;margin-bottom:7px}
+.intro p{margin:0;color:var(--muted);font-size:13px}
+.dashboard{display:grid;
+grid-template-columns:minmax(0,1fr) 370px;gap:18px}
+.card{background:white;border:1px solid var(--line);
+border-radius:14px;overflow:hidden}
+.cardhead{padding:18px 20px;border-bottom:1px solid var(--line);
+display:flex;align-items:center;justify-content:space-between}
+.office{padding:17px;background:#fafbfd;
+display:grid;grid-template-columns:1fr 1fr;gap:18px;
+position:relative}
+.room{height:280px;position:relative;
+border:6px solid #b5c2ce;background:#f3eee9;
+overflow:hidden;cursor:pointer}
+.room:nth-child(2){background:#e9f0f6}
+.room:nth-child(3){background:#ebf3ed}
+.room:nth-child(4){background:#f2ebf5}
 .room.selected{border-color:var(--pink)}
-.room:nth-child(2){background:#edf2f5}
-.room:nth-child(3){background:#eff4f0}
-.room:nth-child(4){background:#f4f0f5}
-.room:before{
-content:"";position:absolute;inset:0;
-background:
-repeating-linear-gradient(90deg,transparent 0 42px,#28364708 43px),
-repeating-linear-gradient(0deg,transparent 0 42px,#28364708 43px);
-pointer-events:none;
-}
-.roomtop{
-position:absolute;top:0;left:0;right:0;
-height:30px;background:#c6d0da;
-border-bottom:6px solid #95a7b7;
-}
-.window{
-position:absolute;top:2px;right:15%;
-width:31%;height:27px;
-background:linear-gradient(160deg,#9aceed,#dff4ff);
-border:4px solid #eff5f9;
-box-shadow:0 0 0 3px #91a7b7;
-}
-.window:before{
-content:"";position:absolute;
-top:0;bottom:0;left:49%;
-width:4px;background:#e8f4fb;
-}
-.roomlabel{
-position:absolute;left:10px;top:40px;
-font-size:11px;font-weight:800;
-letter-spacing:.4px;color:#34445a;
-z-index:5;
-}
-.roomlabel small{
-display:block;font-weight:500;
-font-size:9px;color:#748399;
-margin-top:4px;
-}
-.furniture{
-position:absolute;left:50%;top:32%;
-transform:translateX(-50%);
-width:57%;height:28%;
-background:#c19a75;
-border:7px solid #956d50;
-border-radius:5px;
-box-shadow:0 10px 0 #9e795b,0 15px 12px #28374828;
-}
-.computer{
-position:absolute;left:50%;top:30%;
-transform:translateX(-50%);
-width:27%;height:19%;
-background:#202d3c;
-border:6px solid #4b6076;
-border-radius:4px;
-box-shadow:0 6px 0 #718296;
-}
-.computer:before{
-content:"";position:absolute;inset:5px;
-background:linear-gradient(130deg,#183e62,#5eb6d0);
-}
-.computer:after{
-content:"";position:absolute;
-bottom:-17px;left:41%;
-width:18%;height:12px;
-background:#657b90;
-}
-.keyboard{
-position:absolute;top:54%;left:42%;
-width:16%;height:7px;
-background:#dde3e8;border:2px solid #a7b4c1;
-border-radius:2px;
-}
-.chair{
-position:absolute;left:50%;top:61%;
-transform:translateX(-50%);
-width:48px;height:42px;
-background:#334252;border-radius:18px;
-box-shadow:0 8px #253342;
-}
-.person{
-position:absolute;left:50%;top:69%;
-width:42px;height:72px;
-transform:translate(-50%,-30%);
-z-index:3;
-animation:work 3s ease-in-out infinite;
-}
-.head{
-position:absolute;top:0;left:11px;
-width:23px;height:24px;
-background:#d4a07b;border-radius:7px 7px 9px 9px;
-border-top:7px solid #352f32;
-}
-.body{
-position:absolute;top:23px;left:5px;
-width:35px;height:30px;
-background:var(--shirt,#263e60);
-border-radius:8px 8px 3px 3px;
-}
-.arm{
-position:absolute;top:26px;
-width:9px;height:29px;background:#d4a07b;
-border-radius:6px;
-animation:type 1s infinite alternate;
-}
-.arm.left{left:0}
-.arm.right{right:0;animation-delay:.5s}
-.leg{
-position:absolute;top:50px;width:12px;height:21px;
-background:#24324a;border-radius:3px;
-}
-.leg.left{left:7px}
-.leg.right{right:5px}
+.room:before{content:"";position:absolute;inset:0;
+background:repeating-linear-gradient(0deg,transparent 0 40px,#00000006 41px),
+repeating-linear-gradient(90deg,transparent 0 40px,#00000006 41px)}
+.wall{position:absolute;top:0;left:0;right:0;
+height:35px;background:#b5c7d5;border-bottom:7px solid #8ca2b5}
+.window{position:absolute;top:2px;right:14%;
+width:32%;height:26px;background:#8fcce9;
+border:4px solid #e6f4fa}
+.name{position:absolute;top:42px;left:12px;
+font-size:12px;font-weight:800;color:#30445a}
+.name small{display:block;font-size:10px;margin-top:4px}
+.desk{position:absolute;left:50%;top:36%;
+transform:translateX(-50%);width:55%;height:26%;
+background:#c7a07e;border:7px solid #987151;
+box-shadow:0 11px #957256}
+.monitor{position:absolute;left:50%;top:34%;
+transform:translateX(-50%);width:27%;height:19%;
+border:6px solid #40546b;background:#123b5b;
+box-shadow:inset 0 0 12px #62bad5}
+.monitor:after{content:"";position:absolute;left:45%;
+bottom:-16px;background:#667f97;width:10%;height:12px}
+.chair{position:absolute;left:50%;top:63%;
+transform:translateX(-50%);width:52px;height:43px;
+background:#293a4e;border-radius:15px}
+.worker{position:absolute;left:50%;top:64%;
+transform:translateX(-50%);width:39px;height:70px;
+animation:work 2.4s infinite;z-index:2}
+.head{position:absolute;top:0;left:9px;width:22px;
+height:25px;background:#d8a480;border-radius:7px;
+border-top:7px solid #342f35}
+.body{position:absolute;top:25px;left:4px;width:32px;
+height:29px;background:var(--shirt);border-radius:7px}
+.arm{position:absolute;top:28px;width:9px;height:25px;
+background:#d8a480;animation:type .5s infinite alternate}
+.arm.left{left:0}.arm.right{right:0;animation-delay:.25s}
+.leg{position:absolute;top:53px;width:12px;
+height:18px;background:#29334a}
+.leg.left{left:6px}.leg.right{right:5px}
 @keyframes work{
-0%,100%{transform:translate(-50%,-30%) rotate(-2deg)}
-50%{transform:translate(-50%,-34%) rotate(2deg)}
+50%{transform:translate(-50%,-6px) rotate(2deg)}
 }
-@keyframes type{
-to{transform:rotate(12deg) translateY(-3px)}
+@keyframes type{to{transform:translateY(-5px)}}
+.worker.walking{animation:walk 9s ease-in-out infinite}
+@keyframes walk{
+0%,100%{left:50%;top:64%}
+35%{left:28%;top:77%}
+60%{left:68%;top:76%}
 }
-.person.walking{
-animation:officeWalk 11s ease-in-out infinite;
-}
-.person.walking .leg.left{
-animation:step .3s ease-in-out infinite alternate;
-}
-.person.walking .leg.right{
-animation:step .3s ease-in-out infinite alternate-reverse;
-}
-@keyframes officeWalk{
-0%,25%{left:50%;top:69%}
-40%{left:24%;top:79%}
-55%{left:25%;top:79%}
-75%{left:70%;top:77%}
-90%,100%{left:50%;top:69%}
-}
-@keyframes step{to{transform:translateY(-7px)}}
-.plant{
-position:absolute;right:10px;bottom:7px;
-width:30px;height:43px;
-}
-.plant:before{
-content:"";position:absolute;
-left:7px;top:0;width:16px;height:29px;
-background:#49866d;
-border-radius:65% 10% 65% 10%;
-transform:rotate(-22deg);
-box-shadow:10px 3px #63a081,-8px 7px #37795c;
-}
-.plant:after{
-content:"";position:absolute;
-bottom:0;left:5px;width:23px;height:17px;
-background:#ad8066;border-radius:2px 2px 7px 7px;
-}
-.shelf{
-position:absolute;bottom:13px;left:10px;
-width:47px;height:64px;
-background:#a17c5c;border:5px solid #7d5c46;
-}
-.shelf:before{
-content:"";position:absolute;
-top:15px;left:3px;width:31px;height:5px;
-background:#6f4e3c;
-box-shadow:0 20px #6f4e3c;
-}
-.shelf:after{
-content:"";position:absolute;
-top:4px;left:9px;width:6px;height:14px;
-background:#c44f64;
-box-shadow:10px 0 #5996b1,19px 0 #e9bb69;
-}
-.door{
-position:absolute;bottom:0;left:19%;
-width:55px;height:12px;
-background:#c39a78;border:3px solid #977458;
-}
-.tag{
-position:absolute;bottom:10px;left:70px;
-z-index:4;
-background:#fffefa;
-border:1px solid #dce5e7;
-color:#3c5566;
-font-size:9px;padding:6px 9px;
-border-radius:20px;
-}
-.tag:before{
-content:"";display:inline-block;
-width:6px;height:6px;border-radius:50%;
-background:var(--green);margin-right:5px;
-}
-.room.selected .tag{
-color:#b61c4d;border-color:#ffb7cc;
-}
-.officefooter{
-display:flex;align-items:center;
-justify-content:space-between;
-padding:12px 19px;
-font-size:11px;color:var(--muted);
-border-top:1px solid var(--line);
-}
-.metricrow{
-display:grid;grid-template-columns:repeat(3,1fr);
-gap:13px;margin-top:17px;
-}
-.metric{padding:19px}
-.metric small{
-display:block;color:var(--muted);
-font-size:11px;margin-bottom:10px;
-}
-.metric strong{font-size:27px}
-.metric span{
-display:block;color:#9ba6b6;
-font-size:10px;margin-top:7px;
-}
-.rightcol{display:flex;flex-direction:column;gap:17px;min-width:0}
-.chatcard{height:485px;display:flex;flex-direction:column}
-.agenthead{
-display:flex;align-items:center;
-gap:12px;padding:17px 18px;
-border-bottom:1px solid var(--line);
-}
-.avatar{
-width:43px;height:43px;
-display:grid;place-items:center;
-border-radius:11px;
-background:#fce4ec;color:#c51e50;
-font-size:22px;
-}
-.agenthead strong{display:block;font-size:14px}
-.agenthead small{color:var(--muted);font-size:11px}
-.messages{
-flex:1;min-height:0;overflow:auto;
-padding:16px;background:#fafbfd;
-display:flex;flex-direction:column;gap:12px;
-}
-.bubble{
-background:#edf1f6;
-padding:12px 13px;
-border-radius:12px;
-max-width:94%;font-size:12px;
-line-height:1.6;
-white-space:pre-wrap;overflow-wrap:anywhere;
-}
-.bubble.me{
-align-self:flex-end;
-background:#fbe3eb;
-color:#7a1736;
-}
-.chatinput{
-display:flex;gap:8px;padding:13px;
-border-top:1px solid var(--line);
-}
-.chatinput input{
-min-width:0;flex:1;
-border:1px solid var(--line);
-border-radius:9px;
-background:#f8f9fb;
-padding:12px;font-size:12px;
-}
-.taskarea{padding:17px}
-.taskarea textarea{
-width:100%;resize:vertical;min-height:75px;
-border:1px solid var(--line);
-background:#fafbfc;color:var(--ink);
-border-radius:9px;padding:12px;
-font-size:12px;
-}
-.taskarea h3{font-size:14px;margin:0 0 12px}
-.taskarea p{font-size:11px;color:var(--muted);line-height:1.6}
-.tasklist{max-height:180px;overflow:auto;margin-top:10px}
-.task{
-padding:10px;border:1px solid var(--line);
-border-radius:8px;margin-bottom:7px;
-font-size:11px;line-height:1.5;
-}
-.task.done{opacity:.6}
-.task button{
-background:#edf0f5;border:0;
-border-radius:6px;padding:6px 9px;
-margin-top:7px;font-size:10px;
-}
-#login{
-min-height:100vh;display:grid;place-items:center;
-background:#101a2b;padding:20px;
-}
-.loginbox{
-width:100%;max-width:400px;
-background:white;padding:35px;
-border-radius:17px;text-align:center;
-}
-.loginbox img{width:65px;height:65px;object-fit:cover;border-radius:14px}
-.loginbox h2{margin:19px 0 7px}
-.loginbox p{color:var(--muted);font-size:13px}
-.loginbox input{
-width:100%;margin:17px 0;
-padding:13px;background:#f6f8fa;
-border:1px solid #dfe4eb;border-radius:8px;
-}
-.loginbox button{width:100%}
-#error{color:#dc285b}
-@media(max-width:1350px){
-.dashboard{grid-template-columns:minmax(0,1fr) 320px}
-.sidebar{width:205px}
-.room{height:235px}
-}
-@media(max-width:1050px){
+.plant{position:absolute;right:15px;bottom:13px;
+font-size:38px}
+.door{position:absolute;bottom:0;left:20%;
+width:50px;height:12px;background:#b98d6a;
+border:3px solid #8a6347}
+.roomstatus{position:absolute;bottom:8px;left:8px;
+background:#fffffff0;border-radius:20px;
+padding:5px 9px;font-size:10px;color:#23785d}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);
+gap:12px;margin-top:15px}
+.metric{padding:17px}
+.metric strong{display:block;font-size:25px;margin:8px 0}
+.right{display:flex;flex-direction:column;gap:16px}
+.chat{height:465px;display:flex;flex-direction:column}
+.agenthead{padding:16px;display:flex;align-items:center;
+gap:12px;border-bottom:1px solid var(--line)}
+.avatar{width:42px;height:42px;background:#fde7ee;
+color:#c72254;border-radius:10px;display:grid;
+place-items:center;font-weight:800}
+.agenthead small{display:block;margin-top:4px}
+.messages{flex:1;overflow:auto;min-height:0;
+padding:14px;background:#fbfcfe;
+display:flex;flex-direction:column;gap:10px}
+.bubble{background:#e9eef5;padding:11px 13px;
+border-radius:10px;font-size:12px;
+line-height:1.6;max-width:95%;
+white-space:pre-wrap;overflow-wrap:anywhere}
+.bubble.me{align-self:flex-end;background:#fce4eb;
+color:#812240}
+.controls{display:flex;gap:8px;padding:12px}
+input,textarea{border:1px solid var(--line);
+border-radius:8px;padding:11px;
+background:#f8fafc;color:var(--ink);
+width:100%;min-width:0}
+textarea{resize:vertical;min-height:80px}
+.taskpanel{padding:17px}
+.taskpanel h3{margin:0 0 12px;font-size:15px}
+.taskpanel p{font-size:12px;line-height:1.5;color:var(--muted)}
+.tasklist{margin-top:12px;max-height:430px;overflow:auto}
+.task{padding:12px;margin-bottom:10px;
+border:1px solid var(--line);border-radius:9px}
+.task.done{border-left:4px solid var(--green)}
+.task.running{border-left:4px solid #dba62a}
+.task.failed{border-left:4px solid #e45b70}
+.tasktext{font-size:12px;font-weight:650}
+.result{font-size:12px;line-height:1.6;
+background:#f0f5f9;padding:12px;border-radius:7px;
+margin-top:10px;white-space:pre-wrap;
+max-height:300px;overflow:auto;overflow-wrap:anywhere}
+.taskactions{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+.taskactions button{font-size:11px}
+#login{min-height:100vh;background:#101b2c;
+display:grid;place-items:center;padding:18px}
+.loginbox{background:white;border-radius:16px;
+padding:30px;width:100%;max-width:400px;text-align:center}
+.loginbox img{width:62px;height:62px;object-fit:cover;
+border-radius:12px}
+.loginbox input{margin:15px 0}
+#error{font-size:12px;color:#d32a58}
+@media(max-width:1150px){
 .dashboard{grid-template-columns:1fr}
-.rightcol{display:grid;grid-template-columns:1fr 1fr;align-items:start}
-.chatcard{height:470px}
-.sidebar{width:72px;padding:20px 9px}
-.brand{padding:0 3px 20px}
-.brand div,.navtitle,.navitem .navtext{display:none}
-.navitem{justify-content:center;padding:13px}
-.navbottom button{font-size:10px}
+.right{display:grid;grid-template-columns:1fr 1fr}
+.sidebar{width:190px}
 }
-@media(max-width:700px){
-.content{padding:14px}
-.topbar{height:72px;padding:0 14px}
-.topbar h1{font-size:16px}
-.heading h2{font-size:19px}
-.heading .primary{display:none}
-.rightcol{grid-template-columns:1fr}
-.room{height:210px}
-.office{gap:30px 8px;padding:8px}
-.roomlabel{font-size:9px}
-.roomlabel small{font-size:8px}
-.shelf{display:none}
-.furniture{width:72%}
-.sidebar{width:52px;padding:12px 4px}
-.brand img{width:37px;height:37px}
-.navitem{padding:12px 5px}
-.navitem .symbol{font-size:16px}
-.navbottom button{font-size:9px;padding:8px 2px}
-.metric{padding:12px}
-.metric strong{font-size:22px}
+@media(max-width:760px){
+.sidebar{width:60px;padding:12px 5px}
+.brand strong,.brand small,.navlabel,.nav span{display:none}
+.brand img{width:39px;height:39px}
+.nav{text-align:center;font-size:18px}
+.content{padding:12px}
+.right{grid-template-columns:1fr}
+.room{height:235px}
+.intro h2{font-size:19px}
 }
 @media(max-width:460px){
-.room{height:175px}
-.window{height:23px}
-.computer{top:37%}
-.furniture{top:41%}
-.person{transform:translate(-50%,-20%) scale(.75)}
-.office:after{font-size:7px;padding:5px}
-.tag{left:4px;bottom:4px;font-size:8px}
+.office{gap:8px;padding:8px}
+.room{height:180px}
+.name{font-size:10px;top:36px}
+.name small{font-size:8px}
+.plant{display:none}
+.worker{transform:translateX(-50%) scale(.75)}
 }
 @media(prefers-reduced-motion:reduce){
 *,*:before,*:after{animation:none!important}
@@ -515,150 +212,113 @@ border:1px solid #dfe4eb;border-radius:8px;
 <section id="login">
 <div class="loginbox">
 <img src="logo.jpg" alt="NomadGO">
-<h2>NomadGO Headquarters</h2>
-<p>Компанияның жеке басқару жүйесі</p>
+<h2>NomadGO Executive HQ</h2>
+<p>Құпия офиске кіру</p>
 <input id="password" type="password"
-placeholder="Құпия пароль"
-autocomplete="current-password">
+placeholder="Офис паролі">
 <button class="primary" id="loginBtn">Кіру</button>
 <p id="error"></p>
 </div>
 </section>
 
-<div class="layout" id="app" hidden>
-
+<div class="shell" id="app" hidden>
 <aside class="sidebar">
 <div class="brand">
 <img src="logo.jpg" alt="NomadGO">
-<div>
-<strong>NOMADGO</strong>
-<small>AI HEADQUARTERS</small>
+<div><strong>NOMADGO</strong>
+<small>EXECUTIVE HQ</small></div>
 </div>
-</div>
-
-<div class="navtitle">WORKSPACE</div>
-<button class="navitem active" id="navOffice">
-<span class="symbol">▦</span>
-<span class="navtext">Бас кеңсе</span>
-</button>
-<button class="navitem" id="navTeam">
-<span class="symbol">◉</span>
-<span class="navtext">AI команда</span>
-</button>
-<button class="navitem" id="navTasks">
-<span class="symbol">☷</span>
-<span class="navtext">Тапсырмалар</span>
-</button>
-
-<div class="navbottom">
-<button id="logout">Шығу</button>
-</div>
+<div class="navlabel">WORKSPACE</div>
+<button class="nav active" id="navOffice">▦ <span>Бас кеңсе</span></button>
+<button class="nav" id="navAgents">◉ <span>AI команда</span></button>
+<button class="nav" id="navTasks">☷ <span>Тапсырмалар</span></button>
+<button class="logout" id="logout">Шығу</button>
 </aside>
 
-<div class="workspace">
-
-<div class="topbar">
+<div class="main">
+<header>
 <div>
-<h1>Executive Headquarters</h1>
-<small>NomadGO / Шиелі, Қазақстан</small>
+<h1>NomadGO Executive Headquarters</h1>
+<small>Шиелі · AI басқару орталығы</small>
 </div>
-<span class="live">● SYSTEM ONLINE</span>
-</div>
+<span class="online">● ONLINE</span>
+</header>
 
 <div class="content">
-
-<div class="heading">
+<div class="intro">
 <div>
-<h2>Бас кеңсе</h2>
-<p>Компания қызметкерлері мен тапсырмаларын басқару</p>
+<h2>Компанияның бас кеңсесі</h2>
+<p>Төрт AI қызметкер. Бір басқару орталығы.</p>
 </div>
-<button class="primary" id="focusTasks">
-+ Жаңа тапсырма
-</button>
+<button class="primary" id="newTask">+ Тапсырма</button>
 </div>
 
 <div class="dashboard">
-
 <div>
 <section class="card" id="officeSection">
 <div class="cardhead">
-<div>
-<strong>NomadGO Office</strong>
-<br>
-<small>Virtual workplace · 4 departments</small>
+<strong>Виртуалды офис</strong>
+<small>4 бөлім</small>
 </div>
-<small>LIVE VIEW</small>
-</div>
-
-<div class="officewrap">
 <div class="office" id="office"></div>
-</div>
-
-<div class="officefooter">
-<span>● 4 қызметкер жүйеде</span>
-<span>Кабинетті басып таңдаңыз</span>
-</div>
 </section>
 
-<div class="metricrow">
+<div class="metrics">
 <div class="card metric">
 <small>AI қызметкерлер</small>
 <strong>04</strong>
-<span>4 бөлім</span>
 </div>
 <div class="card metric">
-<small>Барлық тапсырма</small>
+<small>Тапсырмалар</small>
 <strong id="total">0</strong>
-<span>Браузерде сақталады</span>
 </div>
 <div class="card metric">
-<small>Аяқталған</small>
+<small>AI орындаған</small>
 <strong id="completed">0</strong>
-<span>Қолмен белгіленеді</span>
 </div>
 </div>
 </div>
 
-<div class="rightcol">
-
-<section class="card chatcard" id="chatSection">
+<div class="right">
+<section class="card chat" id="chatSection">
 <div class="agenthead">
 <div class="avatar" id="agentIcon">A</div>
 <div>
 <strong id="agentName">Ассар</strong>
-<small id="agentRole">AI басқарушы</small>
+<small id="agentRole">Бас AI басқарушы</small>
 </div>
 </div>
 <div class="messages" id="messages"></div>
-<div class="chatinput">
-<input id="chatInput" placeholder="Хабарлама жазыңыз...">
+<div class="controls">
+<input id="chatInput" placeholder="Хабарлама...">
 <button class="primary" id="sendBtn">➤</button>
 </div>
 </section>
 
 <section class="card" id="taskSection">
-<div class="taskarea">
-<h3>Тапсырмаларды басқару</h3>
-<p>Ассар тапсырманы тиісті бөлімге бөледі.
-Әзірге бөлу мәтін бойынша жасалады.</p>
+<div class="taskpanel">
+<h3>Ассардың тапсырма орталығы</h3>
+<p>Тапсырмаларды жаз, агенттерге бөл,
+сосын AI арқылы орындат.</p>
 <textarea id="delegateInput"
-placeholder="Тапсырыстарды талда. Instagram жарнамасын жаса."></textarea>
+placeholder="Тапсырыстарды талда. Instagram жарнамасын дайында. Жүргізушілерді белсендіру жоспарын жаса."></textarea>
 <button class="primary" id="delegateBtn"
-style="width:100%;margin-top:8px">
+style="width:100%;margin-top:9px">
 Тапсырмаларды бөлу
 </button>
 <p id="delegateResult"></p>
+
 <h3 id="taskHeading" style="margin-top:20px">
 Агент тапсырмалары
 </h3>
-<div class="tasklist" id="taskList"></div>
-<div class="chatinput" style="padding:10px 0 0;border:0">
+<div id="taskList" class="tasklist"></div>
+
+<div class="controls" style="padding:10px 0 0">
 <input id="manualInput" placeholder="Жаңа тапсырма">
 <button class="primary" id="addBtn">+</button>
 </div>
 </div>
 </section>
-
 </div>
 </div>
 </div>
@@ -669,38 +329,23 @@ style="width:100%;margin-top:8px">
 const $=id=>document.getElementById(id);
 
 const agents=[
-{
-id:"assar",name:"Ассар",
-role:"Бас AI басқарушы",
-icon:"A",shirt:"#273e5c",
-status:"Басқару"
-},
-{
-id:"analyst",name:"Аналитик",
-role:"Аналитика және қаржы",
-icon:"D",shirt:"#496a83",
-status:"Аналитика"
-},
-{
-id:"dispatcher",name:"Диспетчер",
-role:"Тапсырыстар бөлімі",
-icon:"O",shirt:"#438675",
-status:"Операциялар"
-},
-{
-id:"marketer",name:"Маркетолог",
-role:"Маркетинг бөлімі",
-icon:"M",shirt:"#8c6484",
-status:"Маркетинг"
-}
+{id:"assar",name:"Ассар",role:"Бас AI басқарушы",
+icon:"A",shirt:"#253c5b"},
+{id:"analyst",name:"Аналитик",role:"Аналитика және қаржы",
+icon:"D",shirt:"#4d789a"},
+{id:"dispatcher",name:"Диспетчер",role:"Такси операциялары",
+icon:"O",shirt:"#3a967b"},
+{id:"marketer",name:"Маркетолог",role:"Маркетинг және клиенттер",
+icon:"M",shirt:"#936b94"}
 ];
 
 let active=agents[0];
 let password="";
 let sending=false;
+let executing=false;
 const histories={};
-let tasks=[];
 
+let tasks=[];
 try{
 const data=JSON.parse(
 localStorage.getItem("nomadgo_tasks")||"[]"
@@ -712,8 +357,10 @@ agents.some(a=>a.id===t.agent)
 ).map(t=>({
 id:t.id||crypto.randomUUID(),
 agent:t.agent,
-text:t.text,
-done:Boolean(t.done)
+text:t.text.slice(0,2500),
+done:Boolean(t.done)&&Boolean(t.result),
+result:typeof t.result==="string"?t.result:"",
+status:t.result?"done":"waiting"
 }));
 }
 }catch(e){tasks=[]}
@@ -723,48 +370,41 @@ try{
 localStorage.setItem(
 "nomadgo_tasks",JSON.stringify(tasks)
 );
-}catch(e){console.warn(e)}
+}catch(e){
+console.warn("Storage error",e);
+}
 }
 
 function createOffice(){
-const office=$("office");
 for(const a of agents){
 const r=document.createElement("div");
 r.className="room";
 r.id="room-"+a.id;
 r.style.setProperty("--shirt",a.shirt);
-
 r.innerHTML=`
-<div class="roomtop"></div>
+<div class="wall"></div>
 <div class="window"></div>
-<div class="roomlabel">
-${a.name}
-<small>${a.role}</small>
-</div>
-<div class="furniture"></div>
-<div class="computer"></div>
-<div class="keyboard"></div>
+<div class="name">${a.name}<small>${a.role}</small></div>
+<div class="desk"></div>
+<div class="monitor"></div>
 <div class="chair"></div>
-<div class="person">
-<div class="head"></div>
-<div class="body"></div>
-<div class="arm left"></div>
-<div class="arm right"></div>
-<div class="leg left"></div>
-<div class="leg right"></div>
+<div class="worker">
+<div class="head"></div><div class="body"></div>
+<div class="arm left"></div><div class="arm right"></div>
+<div class="leg left"></div><div class="leg right"></div>
 </div>
-<div class="plant"></div>
-<div class="shelf"></div>
+<div class="plant">🪴</div>
 <div class="door"></div>
-<div class="tag">${a.status}</div>
-`;
+<div class="roomstatus" id="status-${a.id}">
+● Жұмыста
+</div>`;
 r.onclick=()=>selectAgent(a.id);
-office.appendChild(r);
+$("office").appendChild(r);
 }
 }
 
 function selectAgent(id){
-const a=agents.find(a=>a.id===id);
+const a=agents.find(x=>x.id===id);
 if(!a)return;
 active=a;
 document.querySelectorAll(".room")
@@ -775,10 +415,10 @@ $("agentName").textContent=a.name;
 $("agentRole").textContent=a.role;
 $("taskHeading").textContent=a.name+" тапсырмалары";
 showChat();
-renderTasks();
+render();
 }
 
-function addBubble(text,me=false){
+function bubble(text,me=false){
 const el=document.createElement("div");
 el.className="bubble"+(me?" me":"");
 el.textContent=text;
@@ -790,12 +430,32 @@ function showChat(){
 $("messages").replaceChildren();
 const list=histories[active.id]||[];
 if(!list.length){
-addBubble("Сәлем! Мен "+active.name+
-". NomadGO командасында жұмыс істеуге дайынмын.");
+bubble("Сәлем! Мен "+active.name+
+". NomadGO AI командасында жұмыс істеймін.");
 }
 for(const m of list){
-addBubble(m.content,m.role==="user");
+bubble(m.content,m.role==="user");
 }
+}
+
+async function api(body){
+const res=await fetch("/api/chat",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"X-Office-Password":password
+},
+body:JSON.stringify(body)
+});
+let data;
+try{data=await res.json()}
+catch{throw Error("Сервер жауабы дұрыс емес")}
+if(res.status===401){
+showLogin();
+throw Error("Қайта кіріңіз");
+}
+if(!res.ok)throw Error(data.error||"API қатесі");
+return data;
 }
 
 async function sendMessage(){
@@ -807,36 +467,21 @@ const list=histories[agent.id]||
 (histories[agent.id]=[]);
 list.push({role:"user",content:text});
 showChat();
-addBubble("Жауап дайындалып жатыр...");
+bubble("AI жауап дайындап жатыр...");
 sending=true;
 $("sendBtn").disabled=true;
 
 try{
-const res=await fetch("/api/chat",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-"X-Office-Password":password
-},
-body:JSON.stringify({
+const data=await api({
 agent:agent.id,
 messages:list.slice(-20)
-})
 });
-const data=await res.json();
-if(res.status===401){
-showLogin();
-throw Error("Қайта кіру қажет");
-}
-if(!res.ok)throw Error(data.error||"API қатесі");
 list.push({
-role:"assistant",
-content:data.reply||"Жауап жоқ"
+role:"assistant",content:data.reply||"Жауап жоқ"
 });
 }catch(e){
 list.push({
-role:"assistant",
-content:"Қате: "+e.message
+role:"assistant",content:"Қате: "+e.message
 });
 }finally{
 sending=false;
@@ -856,11 +501,11 @@ return "dispatcher";
 return "assar";
 }
 
-function createTask(agent,text){
+function addTask(agent,text){
 tasks.push({
 id:crypto.randomUUID(),
-agent,text:text.slice(0,2000),
-done:false
+agent,text:text.slice(0,2500),
+done:false,result:"",status:"waiting"
 });
 }
 
@@ -868,9 +513,9 @@ function delegate(){
 const text=$("delegateInput").value.trim();
 if(!text)return;
 const parts=text.split(/[\n.!?;]+/)
-.map(s=>s.trim()).filter(Boolean).slice(0,15);
-for(const p of parts){
-createTask(detectAgent(p),p);
+.map(s=>s.trim()).filter(Boolean).slice(0,12);
+for(const part of parts){
+addTask(detectAgent(part),part);
 }
 $("delegateInput").value="";
 $("delegateResult").textContent=
@@ -878,56 +523,118 @@ parts.length+" тапсырма бөлімдерге бөлінді.";
 refresh();
 }
 
-function renderTasks(){
+function addManual(){
+const text=$("manualInput").value.trim();
+if(!text)return;
+addTask(active.id,text);
+$("manualInput").value="";
+refresh();
+}
+
+async function executeTask(id){
+if(executing)return;
+const task=tasks.find(t=>t.id===id);
+if(!task)return;
+
+executing=true;
+task.status="running";
+render();
+
+try{
+const data=await api({
+action:"execute",
+agent:task.agent,
+task:task.text
+});
+task.result=data.result||"Нәтиже бос";
+task.done=true;
+task.status="done";
+}catch(e){
+task.status="failed";
+task.result="Қате: "+e.message;
+task.done=false;
+}finally{
+executing=false;
+refresh();
+}
+}
+
+function render(){
 $("total").textContent=tasks.length;
 $("completed").textContent=
-tasks.filter(t=>t.done).length;
-$("taskList").replaceChildren();
+tasks.filter(t=>t.done&&t.result).length;
+const list=$("taskList");
+list.replaceChildren();
 
 const own=tasks.filter(t=>t.agent===active.id);
 if(!own.length){
 const p=document.createElement("p");
-p.textContent="Тапсырма жоқ.";
-$("taskList").appendChild(p);
+p.textContent="Бұл қызметкерде тапсырма жоқ.";
+list.appendChild(p);
 }
 
 for(const t of own){
-const box=document.createElement("div");
-box.className="task"+(t.done?" done":"");
-const p=document.createElement("div");
-p.textContent=t.text;
-const btn=document.createElement("button");
-btn.textContent=t.done?"Қайта ашу":"Аяқталды";
-btn.onclick=()=>{t.done=!t.done;refresh()};
-const del=document.createElement("button");
-del.textContent="Өшіру";
-del.style.marginLeft="5px";
-del.onclick=()=>{
+const card=document.createElement("div");
+card.className="task "+(t.status||"waiting");
+
+const title=document.createElement("div");
+title.className="tasktext";
+title.textContent=t.text;
+card.appendChild(title);
+
+if(t.result){
+const result=document.createElement("div");
+result.className="result";
+result.textContent=t.result;
+card.appendChild(result);
+}
+
+const actions=document.createElement("div");
+actions.className="taskactions";
+
+const run=document.createElement("button");
+run.className="primary";
+run.textContent=t.status==="running"
+?"Орындалып жатыр..."
+:t.done?"Қайта орындау":"▶ AI орындасын";
+run.disabled=executing;
+run.onclick=()=>executeTask(t.id);
+
+const remove=document.createElement("button");
+remove.className="secondary";
+remove.textContent="Өшіру";
+remove.disabled=executing;
+remove.onclick=()=>{
 tasks=tasks.filter(x=>x.id!==t.id);
 refresh();
 };
-box.append(p,btn,del);
-$("taskList").appendChild(box);
+
+actions.append(run,remove);
+
+if(t.result){
+const copy=document.createElement("button");
+copy.className="secondary";
+copy.textContent="Нәтижені көшіру";
+copy.onclick=()=>navigator.clipboard.writeText(t.result);
+actions.appendChild(copy);
+}
+
+card.appendChild(actions);
+list.appendChild(card);
 }
 
 for(const a of agents){
-const count=tasks.filter(t=>
-t.agent===a.id&&!t.done).length;
-const person=$("room-"+a.id)
-.querySelector(".person");
-person.classList.toggle("walking",count>0);
+const pending=tasks.some(t=>
+t.agent===a.id&&!t.done
+);
+$("status-"+a.id).textContent=pending
+?"● Тапсырма күтіп тұр":"● Жұмыста";
+$("room-"+a.id).querySelector(".worker")
+.classList.toggle("walking",pending);
 }
 }
 
-function refresh(){save();renderTasks()}
-
-function addManual(){
-const t=$("manualInput").value.trim();
-if(!t)return;
-createTask(active.id,t);
-$("manualInput").value="";
-refresh();
-}
+function refresh(){save();render()}
 
 function showOffice(){
 $("login").hidden=true;
@@ -937,9 +644,7 @@ $("password").value="";
 
 function showLogin(){
 password="";
-sessionStorage.removeItem(
-"nomadgo_office_password"
-);
+sessionStorage.removeItem("nomadgo_office_password");
 $("login").hidden=false;
 $("app").hidden=true;
 }
@@ -975,7 +680,7 @@ $("loginBtn").disabled=false;
 }
 }
 
-async function restoreSession(){
+async function restore(){
 const saved=sessionStorage.getItem(
 "nomadgo_office_password"
 );
@@ -986,7 +691,7 @@ if(res.ok){
 password=saved;
 showOffice();
 }else showLogin();
-}catch(e){showLogin()}
+}catch{showLogin()}
 }
 
 $("loginBtn").onclick=login;
@@ -994,14 +699,15 @@ $("logout").onclick=showLogin;
 $("sendBtn").onclick=sendMessage;
 $("delegateBtn").onclick=delegate;
 $("addBtn").onclick=addManual;
-$("focusTasks").onclick=()=>
+$("newTask").onclick=()=>
 $("taskSection").scrollIntoView({behavior:"smooth"});
 $("navOffice").onclick=()=>
 $("officeSection").scrollIntoView({behavior:"smooth"});
-$("navTeam").onclick=()=>
+$("navAgents").onclick=()=>
 $("chatSection").scrollIntoView({behavior:"smooth"});
 $("navTasks").onclick=()=>
 $("taskSection").scrollIntoView({behavior:"smooth"});
+
 $("password").onkeydown=e=>{
 if(e.key==="Enter")login();
 };
@@ -1015,7 +721,7 @@ if(e.key==="Enter")addManual();
 createOffice();
 selectAgent("assar");
 refresh();
-restoreSession();
+restore();
 </script>
 </body>
 </html>
