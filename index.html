@@ -4,764 +4,523 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NomadGO AI Office v3</title>
+<title>NomadGO AI Office v4</title>
 <link rel="icon" href="logo.jpg">
 <style>
 :root{
-  --bg:#090f1e;
-  --panel:#141f34;
-  --line:#293c59;
-  --pink:#ff0050;
-  --muted:#94a3b8;
+--bg:#080e1b;--panel:#131f34;--line:#2a3b58;
+--pink:#ff0050;--muted:#99aac2;--green:#3de4a0
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  background:var(--bg);
-  color:#fff;
-  font-family:Arial,sans-serif;
-}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
 header{
-  display:flex;
-  align-items:center;
-  gap:15px;
-  padding:16px 24px;
-  background:#111a2e;
-  border-bottom:1px solid var(--line);
+display:flex;align-items:center;gap:14px;padding:16px 24px;
+background:#111a2d;border-bottom:1px solid var(--line)
 }
-.logo{
-  width:50px;
-  height:50px;
-  border-radius:12px;
-  object-fit:cover;
-  background:var(--pink);
-}
-h1{font-size:21px;margin:0}
+.logo{width:52px;height:52px;object-fit:cover;border-radius:12px}
+h1{margin:0;font-size:22px}
 small,.muted{color:var(--muted)}
 main{
-  max-width:1600px;
-  margin:auto;
-  padding:18px;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 370px;
-  gap:18px;
+max-width:1550px;margin:auto;padding:18px;display:grid;
+grid-template-columns:minmax(0,1fr) 380px;gap:18px
 }
 .panel{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:18px;
+background:var(--panel);border:1px solid var(--line);
+border-radius:15px;padding:18px
 }
-.topline{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-h2{font-size:18px;margin:0 0 13px}
+h2{font-size:18px;margin:0 0 12px}
+h3{font-size:15px;margin:0 0 9px}
+.top{display:flex;justify-content:space-between;align-items:center}
 .pill{
-  background:#143e36;
-  color:#70f0b5;
-  border-radius:30px;
-  padding:7px 11px;
-  font-size:12px;
+background:#123d32;color:#8affce;padding:8px 12px;
+border-radius:30px;font-size:12px
 }
 .rooms{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
-  margin-top:16px;
+display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+gap:14px;margin-top:18px
 }
 .room{
-  height:310px;
-  position:relative;
-  border:7px solid #55677f;
-  border-radius:10px;
-  overflow:hidden;
-  cursor:pointer;
-  isolation:isolate;
-  transition:border-color .2s;
+position:relative;height:300px;border:7px solid #52657f;
+border-radius:11px;overflow:hidden;cursor:pointer;
+transition:.2s;isolation:isolate
 }
-.room.active{
-  border-color:var(--pink);
-  box-shadow:0 0 0 2px #ff005033;
-}
-.room:hover{filter:brightness(1.13)}
-.director{background:#4b3d55}
-.analyst{background:#30475e}
-.dispatcher{background:#34544e}
-.marketer{background:#59435d}
+.room:hover{filter:brightness(1.13);transform:translateY(-2px)}
+.room.active{border-color:var(--pink)}
+.director{background:#49364f}
+.analyst{background:#2b455e}
+.dispatcher{background:#315448}
+.marketer{background:#56405b}
 .floor{
-  position:absolute;
-  inset:0;
-  background:
-    repeating-linear-gradient(
-      0deg,transparent 0 34px,#ffffff0a 35px
-    ),
-    repeating-linear-gradient(
-      90deg,transparent 0 34px,#ffffff0a 35px
-    );
+position:absolute;inset:0;
+background:
+repeating-linear-gradient(0deg,transparent 0 34px,#ffffff0a 35px),
+repeating-linear-gradient(90deg,transparent 0 34px,#ffffff0a 35px)
 }
 .wall{
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:55px;
-  background:#18263acc;
-  border-bottom:6px solid #7588a0;
+position:absolute;left:0;right:0;top:0;height:55px;
+background:#162338;border-bottom:6px solid #7185a0
 }
-.roomname{
-  position:absolute;
-  top:12px;
-  left:12px;
-  background:#08111eea;
-  border-radius:6px;
-  padding:8px 11px;
-  font-size:13px;
-  z-index:4;
+.label{
+position:absolute;top:12px;left:12px;z-index:5;
+background:#0a1327ed;padding:9px 12px;border-radius:7px;
+font-size:13px;font-weight:bold
 }
 .light{
-  position:absolute;
-  top:16px;
-  right:16px;
-  width:13px;
-  height:13px;
-  background:#4ade80;
-  border-radius:50%;
-  box-shadow:0 0 15px #4ade80;
-  z-index:3;
-  animation:glow 2s infinite;
+position:absolute;right:16px;top:16px;width:13px;height:13px;
+border-radius:50%;background:var(--green);
+box-shadow:0 0 16px var(--green);animation:blink 2s infinite
 }
-@keyframes glow{50%{opacity:.5}}
+@keyframes blink{50%{opacity:.45}}
 .window{
-  position:absolute;
-  top:64px;
-  right:18px;
-  width:74px;
-  height:49px;
-  background:linear-gradient(#4ba1cf,#a6ddf3);
-  border:7px solid #364e66;
-  box-shadow:inset 0 0 0 2px #ffffff45;
+position:absolute;right:18px;top:70px;width:78px;height:52px;
+border:7px solid #344a64;background:linear-gradient(#388fc2,#addff6)
 }
-.table{
-  position:absolute;
-  left:50%;
-  top:36%;
-  transform:translateX(-50%);
-  width:155px;
-  height:75px;
-  border:8px solid #664732;
-  background:#ad8055;
-  border-radius:7px;
-  box-shadow:0 12px #0003;
+.desk{
+position:absolute;left:50%;top:38%;transform:translateX(-50%);
+width:155px;height:77px;background:#aa7a51;
+border:8px solid #674530;border-radius:8px;
+box-shadow:0 12px #0003
 }
 .monitor{
-  position:absolute;
-  left:50%;
-  top:33%;
-  transform:translateX(-50%);
-  width:81px;
-  height:49px;
-  background:#121a29;
-  border:6px solid #24384d;
-  border-radius:5px;
-  box-shadow:inset 0 0 18px #38bdf8;
+position:absolute;left:50%;top:35%;transform:translateX(-50%);
+width:84px;height:49px;background:#111a2e;
+border:6px solid #273a54;border-radius:5px;
+box-shadow:inset 0 0 17px #38bdf8
 }
-.monitor:after{
-  content:"";
-  position:absolute;
-  inset:8px;
-  background:repeating-linear-gradient(
-    0deg,#38bdf8 0 2px,transparent 2px 8px
-  );
-  opacity:.35;
-  animation:screen 1.5s infinite alternate;
+.monitor:before{
+content:"";position:absolute;inset:8px;
+background:repeating-linear-gradient(0deg,#38bdf8 0 2px,transparent 2px 8px);
+opacity:.5;animation:blink 3s infinite
 }
-@keyframes screen{to{opacity:.75}}
 .chair{
-  position:absolute;
-  left:50%;
-  top:61%;
-  transform:translateX(-50%);
-  width:58px;
-  height:51px;
-  background:#19253b;
-  border-radius:17px;
-  border:5px solid #30445d;
+position:absolute;left:50%;top:64%;transform:translateX(-50%);
+width:58px;height:48px;border-radius:18px;background:#19253b;
+border:5px solid #30445d
 }
 .worker{
-  position:absolute;
-  left:50%;
-  top:58%;
-  font-size:51px;
-  transform:translateX(-50%);
-  animation:work 2s ease-in-out infinite;
-  z-index:2;
-  filter:drop-shadow(0 7px 1px #0004);
+position:absolute;left:50%;top:58%;font-size:52px;
+transform:translateX(-50%);
+animation:work 2s ease-in-out infinite;
+filter:drop-shadow(0 7px 1px #0005);z-index:3
 }
 @keyframes work{
-  0%,100%{
-    transform:translate(-50%,0) rotate(-3deg)
-  }
-  50%{
-    transform:translate(-50%,-9px) rotate(3deg)
-  }
+0%,100%{transform:translate(-50%,0) rotate(-3deg)}
+50%{transform:translate(-50%,-8px) rotate(3deg)}
 }
-.room.walking .worker{
-  animation:walk 5s ease-in-out infinite;
-}
+.room.walking .worker{animation:walk 5s ease-in-out infinite}
 @keyframes walk{
-  0%,100%{left:50%;top:58%}
-  25%{left:29%;top:68%}
-  50%{left:29%;top:72%}
-  75%{left:65%;top:70%}
+0%,100%{left:50%;top:58%}
+25%{left:26%;top:70%}
+50%{left:35%;top:74%}
+75%{left:72%;top:69%}
 }
-.plant{
-  position:absolute;
-  bottom:18px;
-  right:15px;
-  font-size:39px;
-}
+.plant{position:absolute;right:14px;bottom:15px;font-size:39px}
 .door{
-  position:absolute;
-  bottom:0;
-  left:19px;
-  width:57px;
-  height:20px;
-  background:#c8a37c;
-  border:5px solid #71523e;
-  border-bottom:0;
+position:absolute;bottom:0;left:16px;width:58px;height:21px;
+background:#cda780;border:5px solid #70503d;border-bottom:0
 }
-.tasktag{
-  position:absolute;
-  bottom:12px;
-  left:88px;
-  background:#101827df;
-  padding:7px 10px;
-  border-radius:6px;
-  font-size:11px;
-  z-index:3;
+.status{
+position:absolute;bottom:12px;left:85px;right:8px;
+background:#0d192bec;border-radius:7px;
+padding:8px;font-size:11px;z-index:4;
+white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
-.sidebar{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-.chatbox{
-  display:flex;
-  flex-direction:column;
-  height:470px;
-  min-height:0;
-}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.stat{padding:15px;background:#0e182b;border:1px solid var(--line);border-radius:10px}
+.stat strong{display:block;font-size:24px;margin-bottom:5px}
+.side{display:flex;flex-direction:column;gap:14px}
+.chat{height:435px;display:flex;flex-direction:column}
 .messages{
-  background:#0a1324;
-  border-radius:10px;
-  flex:1;
-  overflow:auto;
-  padding:12px;
-  display:flex;
-  flex-direction:column;
-  gap:9px;
+background:#0a1324;flex:1;min-height:0;overflow-y:auto;
+border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px
 }
 .bubble{
-  background:#263853;
-  max-width:92%;
-  padding:10px 12px;
-  border-radius:11px;
-  font-size:13px;
-  line-height:1.5;
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
+background:#263853;padding:11px 13px;border-radius:12px;
+font-size:13px;line-height:1.5;max-width:93%;
+white-space:pre-wrap;overflow-wrap:anywhere
 }
-.bubble.me{
-  background:#9b1647;
-  align-self:flex-end;
+.bubble.me{align-self:flex-end;background:#991640}
+.controls{display:flex;gap:8px;margin-top:11px}
+input,textarea{
+min-width:0;width:100%;padding:12px;color:#fff;
+background:#23334d;border:1px solid #3a4d69;
+border-radius:8px;font:inherit;outline:none
 }
-.controls{
-  display:flex;
-  gap:8px;
-  margin-top:10px;
-}
-input{
-  min-width:0;
-  flex:1;
-  padding:12px;
-  color:white;
-  background:#25354f;
-  border:1px solid #364d69;
-  border-radius:8px;
-  outline:none;
-}
+textarea{resize:vertical;min-height:85px}
 button{
-  background:var(--pink);
-  border:0;
-  color:white;
-  padding:11px 15px;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:700;
+background:var(--pink);color:white;border:0;
+border-radius:8px;padding:11px 15px;font-weight:bold;cursor:pointer
 }
+button:hover{filter:brightness(1.15)}
 button:disabled{opacity:.5}
-.tasks{
-  max-height:230px;
-  overflow:auto;
-}
+button.secondary{background:#344760}
 .task{
-  padding:11px;
-  margin-top:8px;
-  background:#0d1729;
-  border-radius:8px;
-  border-left:3px solid #38bdf8;
+margin-top:9px;padding:12px;background:#0c1628;
+border-radius:9px;border-left:3px solid #38bdf8
 }
-.task.done{border-color:#4ade80}
-.task small{
-  display:block;
-  margin-top:5px;
-}
-.summary{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:13px;
-}
-.stat{
-  flex:1;
-  min-width:90px;
-  background:#111d31;
-  border:1px solid #293953;
-  border-radius:10px;
-  padding:12px;
-}
-.stat strong{
-  display:block;
-  font-size:21px;
-  margin-bottom:5px;
-}
+.task.done{border-color:var(--green);opacity:.8}
+.task p{margin:0 0 8px;font-size:13px;line-height:1.5}
+.task small{display:block;margin-bottom:9px}
+.task button{font-size:11px;padding:8px 10px}
+.tasklist{max-height:280px;overflow:auto}
+.notice{font-size:12px;color:var(--muted);line-height:1.6}
 @media(max-width:1050px){
-  main{grid-template-columns:1fr}
-  .sidebar{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-  }
-  .chatbox{height:480px}
+main{grid-template-columns:1fr}
+.side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media(max-width:690px){
-  .rooms,.sidebar{grid-template-columns:1fr}
-  .room{height:280px}
-  header{padding:12px}
-  h1{font-size:17px}
+@media(max-width:680px){
+.rooms,.side{grid-template-columns:1fr}
+.room{height:270px}
+header{padding:12px}
+h1{font-size:17px}
 }
 @media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{animation:none!important}
+*,*:before,*:after{animation:none!important;transition:none!important}
 }
 </style>
 </head>
 <body>
-
 <header>
-<img class="logo" src="logo.jpg" alt="NomadGO">
+<img src="logo.jpg" class="logo" alt="NomadGO">
 <div>
 <h1>NOMADGO AI HEADQUARTERS</h1>
-<small>Виртуалды компания · Office v3</small>
+<small>Виртуалды компания · Office v4</small>
 </div>
 </header>
 
 <main>
 <section class="panel">
-<div class="topline">
-<h2>🏢 Тірі офис</h2>
-<span class="pill">● 4 қызметкер</span>
+<div class="top">
+<h2>🏢 NomadGO компаниясы</h2>
+<span class="pill">● 4 агент</span>
 </div>
-
-<p class="muted">
-Кабинетті басып, қызметкерді таңда.
-</p>
-
+<p class="muted">Кабинетті басып, қызметкермен сөйлес.</p>
 <div class="rooms" id="rooms"></div>
-
-<div class="summary">
+<div class="stats">
 <div class="stat">
-<strong>4</strong>
-<small>AI агент</small>
+<strong>4</strong><small>Қызметкер</small>
 </div>
 <div class="stat">
-<strong id="taskCount">0</strong>
-<small>Тапсырма</small>
+<strong id="total">0</strong><small>Тапсырма</small>
 </div>
 <div class="stat">
-<strong id="doneCount">0</strong>
-<small>Аяқталды</small>
+<strong id="completed">0</strong><small>Аяқталды</small>
 </div>
 </div>
 </section>
 
-<aside class="sidebar">
-<section class="panel chatbox">
-<h2 id="chatTitle">Ассар</h2>
-<p class="muted" id="role">Бас AI</p>
-
+<aside class="side">
+<section class="panel chat">
+<h2 id="chatTitle">👑 Ассар</h2>
+<p class="muted" id="chatRole">Бас AI көмекші</p>
 <div class="messages" id="messages"></div>
-
 <div class="controls">
-<input id="messageInput" placeholder="Хабарлама жаз...">
-<button id="sendButton" onclick="sendMessage()">➤</button>
+<input id="chatInput" placeholder="Хабарлама жаз...">
+<button id="sendBtn">➤</button>
 </div>
 </section>
 
 <section class="panel">
-<h2>📋 Тапсырмалар</h2>
-<p class="muted" style="font-size:12px">
-Тапсырмалар осы браузерде автоматты сақталады.
-AI орындауы үшін API балансы керек.
+<h2>👑 Ассардың тапсырма орталығы</h2>
+<p class="notice">
+Тапсырманы жаз. Жүйе мәтінге қарай қызметкерді таңдайды.
+Бірнеше жұмысты жеке сөйлемдермен жаз.
 </p>
-
+<textarea id="delegateInput"
+placeholder="Тапсырыстарды талда. Жаңа жарнама жаса. Жүргізушілерді тексер."></textarea>
 <div class="controls">
-<input id="taskInput" placeholder="Жаңа тапсырма...">
-<button onclick="addTask()">+</button>
+<button id="delegateBtn" style="width:100%">
+⚡ Тапсырмаларды бөл
+</button>
 </div>
+<p id="delegateResult" class="notice"></p>
+</section>
 
-<div class="tasks" id="tasks"></div>
+<section class="panel">
+<h2 id="taskTitle">📋 Қызметкер тапсырмалары</h2>
+<div class="tasklist" id="taskList"></div>
+<div class="controls">
+<input id="taskInput" placeholder="Қолмен тапсырма қосу">
+<button id="addBtn">+</button>
+</div>
 </section>
 </aside>
 </main>
 
 <script>
 const agents=[
-  {
-    id:"assar",
-    name:"Ассар",
-    role:"Бас AI көмекші",
-    emoji:"👨‍💼",
-    room:"director",
-    icon:"👑"
-  },
-  {
-    id:"analyst",
-    name:"Аналитик",
-    role:"Аналитика және қаржы",
-    emoji:"👨‍💻",
-    room:"analyst",
-    icon:"📊"
-  },
-  {
-    id:"dispatcher",
-    name:"Диспетчер",
-    role:"Такси тапсырыстары",
-    emoji:"👩‍💻",
-    room:"dispatcher",
-    icon:"🚕"
-  },
-  {
-    id:"marketer",
-    name:"Маркетолог",
-    role:"Жарнама және клиенттер",
-    emoji:"👨‍🎨",
-    room:"marketer",
-    icon:"📣"
-  }
+{id:"assar",name:"Ассар",role:"Бас AI көмекші",emoji:"👨‍💼",icon:"👑",room:"director"},
+{id:"analyst",name:"Аналитик",role:"Статистика және қаржы",emoji:"👨‍💻",icon:"📊",room:"analyst"},
+{id:"dispatcher",name:"Диспетчер",role:"Такси операциялары",emoji:"👩‍💻",icon:"🚕",room:"dispatcher"},
+{id:"marketer",name:"Маркетолог",role:"Жарнама және клиенттер",emoji:"👨‍🎨",icon:"📣",room:"marketer"}
 ];
 
-let active=agents[0];
-let busy=false;
+const $=id=>document.getElementById(id);
+const history={};
+let current=agents[0];
+let sending=false;
 
-const histories={};
-
-let tasks=[];
+function loadTasks(){
 try{
-  const stored=JSON.parse(
-    localStorage.getItem("nomadgo_tasks")||"[]"
-  );
-  if(Array.isArray(stored)){
-    tasks=stored.filter(t=>
-      t &&
-      typeof t.text==="string" &&
-      typeof t.agent==="string"
-    );
-  }
-}catch(error){
-  tasks=[];
+const data=JSON.parse(localStorage.getItem("nomadgo_tasks")||"[]");
+if(!Array.isArray(data))return [];
+return data.filter(t=>t&&typeof t.text==="string"
+&&agents.some(a=>a.id===t.agent))
+.map(t=>({
+agent:t.agent,
+text:t.text.slice(0,2000),
+done:Boolean(t.done),
+id:t.id||String(Date.now())+"-"+Math.random()
+}));
+}catch{return []}
 }
 
-function saveTasks(){
-  try{
-    localStorage.setItem(
-      "nomadgo_tasks",
-      JSON.stringify(tasks)
-    );
-  }catch(error){
-    console.warn("Тапсырмалар сақталмады",error);
-  }
+let tasks=loadTasks();
+
+function save(){
+try{
+localStorage.setItem("nomadgo_tasks",JSON.stringify(tasks));
+}catch(e){
+console.warn("Тапсырмалар сақталмады",e);
+}
 }
 
-const rooms=document.getElementById("rooms");
-const messages=document.getElementById("messages");
-
+function createOffice(){
 for(const a of agents){
-  const el=document.createElement("div");
-  el.className="room "+a.room;
-  el.id="room-"+a.id;
-
-  el.innerHTML=`
-    <div class="floor"></div>
-    <div class="wall"></div>
-    <div class="roomname">${a.icon} ${a.name}</div>
-    <div class="light"></div>
-    <div class="window"></div>
-    <div class="table"></div>
-    <div class="monitor"></div>
-    <div class="chair"></div>
-    <div class="worker">${a.emoji}</div>
-    <div class="plant">🪴</div>
-    <div class="door"></div>
-    <div class="tasktag" id="status-${a.id}">
-      💻 Жұмыста
-    </div>
-  `;
-
-  el.addEventListener("click",()=>{
-    selectAgent(a.id);
-  });
-
-  rooms.appendChild(el);
+const room=document.createElement("div");
+room.className="room "+a.room;
+room.id="room-"+a.id;
+room.innerHTML=`
+<div class="floor"></div>
+<div class="wall"></div>
+<div class="label">${a.icon} ${a.name}</div>
+<div class="light"></div>
+<div class="window"></div>
+<div class="desk"></div>
+<div class="monitor"></div>
+<div class="chair"></div>
+<div class="worker">${a.emoji}</div>
+<div class="plant">🪴</div>
+<div class="door"></div>
+<div class="status" id="status-${a.id}">💻 Жұмыста</div>`;
+room.addEventListener("click",()=>selectAgent(a.id));
+$("rooms").appendChild(room);
+}
 }
 
-function bubble(text,me=false){
-  const b=document.createElement("div");
-  b.className="bubble"+(me?" me":"");
-  b.textContent=text;
+function addBubble(text,isMe=false){
+const b=document.createElement("div");
+b.className="bubble"+(isMe?" me":"");
+b.textContent=text;
+$("messages").appendChild(b);
+$("messages").scrollTop=$("messages").scrollHeight;
+return b;
+}
 
-  messages.appendChild(b);
-  messages.scrollTop=messages.scrollHeight;
-
-  return b;
+function showChat(){
+$("messages").replaceChildren();
+const list=history[current.id]||[];
+if(!list.length){
+addBubble("Сәлем, Даник! Мен "+current.name+". Не істейміз?");
+}
+for(const m of list){
+addBubble(m.content,m.role==="user");
+}
 }
 
 function selectAgent(id){
-  const selected=agents.find(a=>a.id===id);
-  if(!selected)return;
-
-  active=selected;
-
-  document.querySelectorAll(".room").forEach(el=>{
-    el.classList.remove("active");
-  });
-
-  document.getElementById("room-"+id)
-    .classList.add("active");
-
-  document.getElementById("chatTitle")
-    .textContent=active.emoji+" "+active.name;
-
-  document.getElementById("role")
-    .textContent=active.role;
-
-  messages.replaceChildren();
-
-  const history=histories[id]||[];
-
-  if(!history.length){
-    bubble(
-      "Сәлем, Даник! Мен "+active.name+
-      ". Тапсырма бер."
-    );
-  }
-
-  for(const m of history){
-    bubble(
-      m.content,
-      m.role==="user"
-    );
-  }
-
-  renderTasks();
+const agent=agents.find(a=>a.id===id);
+if(!agent)return;
+current=agent;
+document.querySelectorAll(".room").forEach(r=>
+r.classList.remove("active"));
+$("room-"+id).classList.add("active");
+$("chatTitle").textContent=agent.icon+" "+agent.name;
+$("chatRole").textContent=agent.role;
+$("taskTitle").textContent="📋 "+agent.name+" тапсырмалары";
+showChat();
+renderTasks();
 }
 
-function setStatus(id,text,walking=false){
-  const tag=document.getElementById("status-"+id);
-  const room=document.getElementById("room-"+id);
-
-  if(!tag||!room)return;
-
-  tag.textContent=text;
-  room.classList.toggle("walking",walking);
+function updateStatuses(){
+for(const a of agents){
+const pending=tasks.filter(t=>t.agent===a.id&&!t.done).length;
+const room=$("room-"+a.id);
+room.classList.toggle("walking",pending>0);
+$("status-"+a.id).textContent=pending
+?"📋 "+pending+" тапсырма күтуде":"💻 Жұмыста";
 }
-
-async function sendMessage(){
-  const input=document.getElementById("messageInput");
-  const text=input.value.trim();
-
-  if(!text||busy)return;
-
-  input.value="";
-
-  const agent=active;
-  const list=histories[agent.id]||
-    (histories[agent.id]=[]);
-
-  list.push({
-    role:"user",
-    content:text
-  });
-
-  bubble(text,true);
-
-  const waiting=bubble("⏳ Ойланып жатырмын...");
-  busy=true;
-
-  document.getElementById("sendButton").disabled=true;
-  setStatus(agent.id,"🧠 Ойланып жатыр");
-
-  try{
-    const response=await fetch("/api/chat",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        agent:agent.id,
-        messages:list.slice(-20)
-      })
-    });
-
-    const data=await response.json();
-
-    if(!response.ok){
-      throw Error(data.error||"API қатесі");
-    }
-
-    const answer=data.reply||"Жауап жоқ";
-
-    list.push({
-      role:"assistant",
-      content:answer
-    });
-
-    if(active.id===agent.id){
-      waiting.textContent=answer;
-    }else{
-      waiting.remove();
-    }
-
-  }catch(error){
-    // Қате болса да қолданушы хабарламасы тарихта қалады.
-    if(active.id===agent.id){
-      waiting.textContent="⚠️ "+error.message;
-    }else{
-      waiting.remove();
-    }
-  }finally{
-    busy=false;
-    document.getElementById("sendButton").disabled=false;
-    updateTasks();
-  }
 }
 
 function renderTasks(){
-  const container=document.getElementById("tasks");
-  container.replaceChildren();
+$("total").textContent=tasks.length;
+$("completed").textContent=tasks.filter(t=>t.done).length;
+const list=$("taskList");
+list.replaceChildren();
 
-  const own=tasks
-    .map((t,i)=>({...t,index:i}))
-    .filter(t=>t.agent===active.id);
-
-  if(!own.length){
-    const empty=document.createElement("p");
-    empty.className="muted";
-    empty.textContent=
-      "Бұл қызметкерге әзірге тапсырма жоқ.";
-    container.appendChild(empty);
-  }
-
-  for(const t of own){
-    const el=document.createElement("div");
-    el.className="task"+(t.done?" done":"");
-
-    const name=document.createElement("div");
-    name.textContent=t.text;
-
-    const meta=document.createElement("small");
-    meta.textContent=t.done
-      ?"✅ Белгіленді: аяқталды"
-      :"⏳ Күтіп тұр";
-
-    const btn=document.createElement("button");
-    btn.style.marginTop="8px";
-    btn.textContent=t.done
-      ?"Қайта ашу"
-      :"Орындалды деп белгілеу";
-
-    btn.onclick=()=>{
-      tasks[t.index].done=!tasks[t.index].done;
-      updateTasks();
-    };
-
-    el.append(name,meta,btn);
-    container.appendChild(el);
-  }
+const own=tasks.filter(t=>t.agent===current.id);
+if(!own.length){
+const p=document.createElement("p");
+p.className="notice";
+p.textContent="Бұл қызметкерде тапсырма жоқ.";
+list.appendChild(p);
 }
 
-function addTask(){
-  const input=document.getElementById("taskInput");
-  const text=input.value.trim();
+for(const t of own){
+const card=document.createElement("div");
+card.className="task"+(t.done?" done":"");
 
-  if(!text)return;
+const p=document.createElement("p");
+p.textContent=t.text;
 
-  tasks.push({
-    agent:active.id,
-    text:text,
-    done:false
-  });
+const status=document.createElement("small");
+status.textContent=t.done
+?"✅ Қолмен аяқталды деп белгіленген"
+:"⏳ Күтіп тұр";
 
-  input.value="";
-  updateTasks();
+const toggle=document.createElement("button");
+toggle.textContent=t.done?"Қайта ашу":"Аяқталды";
+toggle.onclick=()=>{
+t.done=!t.done;
+refresh();
+};
+
+const remove=document.createElement("button");
+remove.className="secondary";
+remove.textContent="Өшіру";
+remove.style.marginLeft="7px";
+remove.onclick=()=>{
+tasks=tasks.filter(x=>x.id!==t.id);
+refresh();
+};
+
+card.append(p,status,toggle,remove);
+list.appendChild(card);
+}
+updateStatuses();
 }
 
-function updateTasks(){
-  saveTasks();
-
-  document.getElementById("taskCount")
-    .textContent=tasks.length;
-
-  document.getElementById("doneCount")
-    .textContent=tasks.filter(t=>t.done).length;
-
-  renderTasks();
-
-  for(const a of agents){
-    const pending=tasks.some(
-      t=>t.agent===a.id&&!t.done
-    );
-
-    setStatus(
-      a.id,
-      pending
-        ?"📋 Тапсырма күтіп тұр"
-        :"💻 Жұмыста",
-      pending
-    );
-  }
+function refresh(){
+save();
+renderTasks();
 }
 
-document.getElementById("messageInput")
-  .addEventListener("keydown",e=>{
-    if(e.key==="Enter")sendMessage();
-  });
+function createTask(agent,text){
+tasks.push({
+id:String(Date.now())+"-"+Math.random().toString(36).slice(2),
+agent,
+text,
+done:false
+});
+}
 
-document.getElementById("taskInput")
-  .addEventListener("keydown",e=>{
-    if(e.key==="Enter")addTask();
-  });
+function addManualTask(){
+const text=$("taskInput").value.trim();
+if(!text)return;
+createTask(current.id,text.slice(0,2000));
+$("taskInput").value="";
+refresh();
+}
 
+function detectAgent(text){
+const s=text.toLowerCase();
+
+if(/жарнама|маркет|реклама|reels|instagram|tiktok|клиент тарт|акция|пост|бренд|баннер|продвиж/.test(s))
+return "marketer";
+
+if(/жүргізуш|водител|диспетчер|такси|заказ қабыл|тапсырыс жеткіз|машина|көлік|поездк|маршрут/.test(s))
+return "dispatcher";
+
+if(/аналит|статист|есеп|отчет|табыс|пайда|выручк|доход|комисс|қаржы|финанс|сандар|тапсырыстарды талда/.test(s))
+return "analyst";
+
+return "assar";
+}
+
+function delegate(){
+const text=$("delegateInput").value.trim();
+if(!text)return;
+
+const parts=text.split(/[\n.!?;]+/)
+.map(x=>x.trim())
+.filter(Boolean)
+.slice(0,15);
+
+for(const part of parts){
+createTask(detectAgent(part),part);
+}
+$("delegateInput").value="";
+refresh();
+
+const counts={};
+for(const part of parts){
+const id=detectAgent(part);
+counts[id]=(counts[id]||0)+1;
+}
+$("delegateResult").textContent=
+"✅ "+parts.length+" тапсырма бөлінді: "+
+Object.entries(counts).map(([id,n])=>{
+const name=agents.find(a=>a.id===id).name;
+return name+" ("+n+")";
+}).join(", ")+".";
+}
+
+async function sendMessage(){
+const input=$("chatInput");
+const text=input.value.trim();
+if(!text||sending)return;
+
+const agent=current;
+input.value="";
+const list=history[agent.id]||(history[agent.id]=[]);
+list.push({role:"user",content:text});
+showChat();
+const waiting=addBubble("⏳ Жауап күтіп жатырмыз...");
+sending=true;
+$("sendBtn").disabled=true;
+
+try{
+const response=await fetch("/api/chat",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+agent:agent.id,
+messages:list.slice(-20)
+})
+});
+const data=await response.json();
+if(!response.ok)throw Error(data.error||"API қатесі");
+
+list.push({
+role:"assistant",
+content:data.reply||"Жауап жоқ"
+});
+}catch(e){
+list.push({
+role:"assistant",
+content:"⚠️ AI жауап бермеді: "+e.message
+});
+}finally{
+sending=false;
+$("sendBtn").disabled=false;
+if(current.id===agent.id)showChat();
+}
+}
+
+$("sendBtn").onclick=sendMessage;
+$("delegateBtn").onclick=delegate;
+$("addBtn").onclick=addManualTask;
+
+$("chatInput").addEventListener("keydown",e=>{
+if(e.key==="Enter")sendMessage();
+});
+$("taskInput").addEventListener("keydown",e=>{
+if(e.key==="Enter")addManualTask();
+});
+
+createOffice();
 selectAgent("assar");
-updateTasks();
-
-// Браузер бетіндегі уақытты жаңарту.
-setInterval(()=>{
-  const time=new Date().toLocaleTimeString("kk-KZ");
-  document.title="NomadGO AI Office • "+time;
-},1000);
+refresh();
 </script>
-
 </body>
 </html>
