@@ -4,724 +4,1377 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NomadGO Executive HQ · v7</title>
+<title>NomadGO · Living AI Office</title>
 <link rel="icon" href="logo.jpg">
 <style>
 :root{
---nav:#101b2d;--bg:#eef2f6;--ink:#19273b;
---muted:#8190a2;--line:#dfe6ee;--pink:#ed285f;
---green:#19aa7c
+  --bg:#f2eee5;
+  --paper:#fffdf9;
+  --ink:#302b38;
+  --muted:#817b87;
+  --border:#e5ddcf;
+  --pink:#f32865;
+  --purple:#7555d8;
+  --green:#1b9a73;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{margin:0;background:var(--bg);color:var(--ink);
-font-family:"Segoe UI",Arial,sans-serif}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Segoe UI",Arial,sans-serif;
+}
 button,input,textarea{font:inherit}
 button{cursor:pointer;border:0}
 button:disabled{opacity:.5;cursor:wait}
-.primary{background:var(--pink);color:white;
-padding:11px 16px;border-radius:8px;font-weight:700}
-.secondary{background:#e8edf3;color:#34465c;
-padding:9px 12px;border-radius:7px}
-h1{font-size:20px;margin:0}
-h2{font-size:17px;margin:0}
-small,.muted{color:var(--muted)}
-.shell{display:flex;min-height:100vh}
-.sidebar{background:var(--nav);color:white;
-width:235px;flex-shrink:0;padding:23px 16px;
-display:flex;flex-direction:column}
-.brand{display:flex;align-items:center;gap:10px;
-border-bottom:1px solid #ffffff20;padding-bottom:23px}
-.brand img{width:45px;height:45px;border-radius:10px;
-object-fit:cover}
-.brand strong{font-size:17px}
-.brand small{display:block;font-size:10px;color:#91a0b5}
-.navlabel{color:#687b95;font-size:11px;
-letter-spacing:2px;margin:28px 10px 12px}
-.nav{padding:13px;display:block;width:100%;
-border-radius:8px;text-align:left;color:#b8c6d8;
-background:transparent;margin-bottom:6px}
-.nav.active,.nav:hover{background:#263851;color:white}
-.logout{margin-top:auto;background:#293a51;
-color:white;border-radius:8px;padding:12px}
-.main{flex:1;min-width:0}
-header{background:white;border-bottom:1px solid var(--line);
-padding:18px 26px;display:flex;align-items:center;
-justify-content:space-between;gap:10px}
-header small{display:block;margin-top:5px}
-.online{color:#138968;background:#e7f9f1;
-border-radius:20px;padding:9px 12px;font-size:11px}
-.content{max-width:1650px;margin:auto;padding:22px}
-.intro{display:flex;justify-content:space-between;
-align-items:center;gap:10px;margin-bottom:20px}
-.intro h2{font-size:24px;margin-bottom:7px}
-.intro p{margin:0;color:var(--muted);font-size:13px}
-.dashboard{display:grid;
-grid-template-columns:minmax(0,1fr) 370px;gap:18px}
-.card{background:white;border:1px solid var(--line);
-border-radius:14px;overflow:hidden}
-.cardhead{padding:18px 20px;border-bottom:1px solid var(--line);
-display:flex;align-items:center;justify-content:space-between}
-.office{padding:17px;background:#fafbfd;
-display:grid;grid-template-columns:1fr 1fr;gap:18px;
-position:relative}
-.room{height:280px;position:relative;
-border:6px solid #b5c2ce;background:#f3eee9;
-overflow:hidden;cursor:pointer}
-.room:nth-child(2){background:#e9f0f6}
-.room:nth-child(3){background:#ebf3ed}
-.room:nth-child(4){background:#f2ebf5}
-.room.selected{border-color:var(--pink)}
-.room:before{content:"";position:absolute;inset:0;
-background:repeating-linear-gradient(0deg,transparent 0 40px,#00000006 41px),
-repeating-linear-gradient(90deg,transparent 0 40px,#00000006 41px)}
-.wall{position:absolute;top:0;left:0;right:0;
-height:35px;background:#b5c7d5;border-bottom:7px solid #8ca2b5}
-.window{position:absolute;top:2px;right:14%;
-width:32%;height:26px;background:#8fcce9;
-border:4px solid #e6f4fa}
-.name{position:absolute;top:42px;left:12px;
-font-size:12px;font-weight:800;color:#30445a}
-.name small{display:block;font-size:10px;margin-top:4px}
-.desk{position:absolute;left:50%;top:36%;
-transform:translateX(-50%);width:55%;height:26%;
-background:#c7a07e;border:7px solid #987151;
-box-shadow:0 11px #957256}
-.monitor{position:absolute;left:50%;top:34%;
-transform:translateX(-50%);width:27%;height:19%;
-border:6px solid #40546b;background:#123b5b;
-box-shadow:inset 0 0 12px #62bad5}
-.monitor:after{content:"";position:absolute;left:45%;
-bottom:-16px;background:#667f97;width:10%;height:12px}
-.chair{position:absolute;left:50%;top:63%;
-transform:translateX(-50%);width:52px;height:43px;
-background:#293a4e;border-radius:15px}
-.worker{position:absolute;left:50%;top:64%;
-transform:translateX(-50%);width:39px;height:70px;
-animation:work 2.4s infinite;z-index:2}
-.head{position:absolute;top:0;left:9px;width:22px;
-height:25px;background:#d8a480;border-radius:7px;
-border-top:7px solid #342f35}
-.body{position:absolute;top:25px;left:4px;width:32px;
-height:29px;background:var(--shirt);border-radius:7px}
-.arm{position:absolute;top:28px;width:9px;height:25px;
-background:#d8a480;animation:type .5s infinite alternate}
-.arm.left{left:0}.arm.right{right:0;animation-delay:.25s}
-.leg{position:absolute;top:53px;width:12px;
-height:18px;background:#29334a}
-.leg.left{left:6px}.leg.right{right:5px}
-@keyframes work{
-50%{transform:translate(-50%,-6px) rotate(2deg)}
+header{
+  background:var(--paper);
+  border-bottom:1px solid var(--border);
+  padding:13px 24px;
+  display:flex;
+  align-items:center;
+  gap:13px;
 }
-@keyframes type{to{transform:translateY(-5px)}}
-.worker.walking{animation:walk 9s ease-in-out infinite}
-@keyframes walk{
-0%,100%{left:50%;top:64%}
-35%{left:28%;top:77%}
-60%{left:68%;top:76%}
+.logo{
+  width:47px;height:47px;
+  border-radius:12px;
+  object-fit:cover;
+  background:var(--pink);
 }
-.plant{position:absolute;right:15px;bottom:13px;
-font-size:38px}
-.door{position:absolute;bottom:0;left:20%;
-width:50px;height:12px;background:#b98d6a;
-border:3px solid #8a6347}
-.roomstatus{position:absolute;bottom:8px;left:8px;
-background:#fffffff0;border-radius:20px;
-padding:5px 9px;font-size:10px;color:#23785d}
-.metrics{display:grid;grid-template-columns:repeat(3,1fr);
-gap:12px;margin-top:15px}
-.metric{padding:17px}
-.metric strong{display:block;font-size:25px;margin:8px 0}
-.right{display:flex;flex-direction:column;gap:16px}
-.chat{height:465px;display:flex;flex-direction:column}
-.agenthead{padding:16px;display:flex;align-items:center;
-gap:12px;border-bottom:1px solid var(--line)}
-.avatar{width:42px;height:42px;background:#fde7ee;
-color:#c72254;border-radius:10px;display:grid;
-place-items:center;font-weight:800}
-.agenthead small{display:block;margin-top:4px}
-.messages{flex:1;overflow:auto;min-height:0;
-padding:14px;background:#fbfcfe;
-display:flex;flex-direction:column;gap:10px}
-.bubble{background:#e9eef5;padding:11px 13px;
-border-radius:10px;font-size:12px;
-line-height:1.6;max-width:95%;
-white-space:pre-wrap;overflow-wrap:anywhere}
-.bubble.me{align-self:flex-end;background:#fce4eb;
-color:#812240}
-.controls{display:flex;gap:8px;padding:12px}
-input,textarea{border:1px solid var(--line);
-border-radius:8px;padding:11px;
-background:#f8fafc;color:var(--ink);
-width:100%;min-width:0}
-textarea{resize:vertical;min-height:80px}
-.taskpanel{padding:17px}
-.taskpanel h3{margin:0 0 12px;font-size:15px}
-.taskpanel p{font-size:12px;line-height:1.5;color:var(--muted)}
-.tasklist{margin-top:12px;max-height:430px;overflow:auto}
-.task{padding:12px;margin-bottom:10px;
-border:1px solid var(--line);border-radius:9px}
-.task.done{border-left:4px solid var(--green)}
-.task.running{border-left:4px solid #dba62a}
-.task.failed{border-left:4px solid #e45b70}
-.tasktext{font-size:12px;font-weight:650}
-.result{font-size:12px;line-height:1.6;
-background:#f0f5f9;padding:12px;border-radius:7px;
-margin-top:10px;white-space:pre-wrap;
-max-height:300px;overflow:auto;overflow-wrap:anywhere}
-.taskactions{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
-.taskactions button{font-size:11px}
-#login{min-height:100vh;background:#101b2c;
-display:grid;place-items:center;padding:18px}
-.loginbox{background:white;border-radius:16px;
-padding:30px;width:100%;max-width:400px;text-align:center}
-.loginbox img{width:62px;height:62px;object-fit:cover;
-border-radius:12px}
-.loginbox input{margin:15px 0}
-#error{font-size:12px;color:#d32a58}
-@media(max-width:1150px){
-.dashboard{grid-template-columns:1fr}
-.right{display:grid;grid-template-columns:1fr 1fr}
-.sidebar{width:190px}
+.brand{flex:1}
+.brand h1{font-size:20px;margin:0}
+.brand small{color:var(--muted);font-size:12px}
+.green{
+  background:#e0f7eb;
+  color:#15865e;
+  border-radius:30px;
+  font-size:11px;
+  font-weight:bold;
+  padding:9px 12px;
 }
-@media(max-width:760px){
-.sidebar{width:60px;padding:12px 5px}
-.brand strong,.brand small,.navlabel,.nav span{display:none}
-.brand img{width:39px;height:39px}
-.nav{text-align:center;font-size:18px}
-.content{padding:12px}
-.right{grid-template-columns:1fr}
-.room{height:235px}
-.intro h2{font-size:19px}
+.logout{
+  border-radius:9px;
+  padding:10px 12px;
+  background:#e9e2d9;
+  color:#4e4652;
 }
-@media(max-width:460px){
-.office{gap:8px;padding:8px}
-.room{height:180px}
-.name{font-size:10px;top:36px}
-.name small{font-size:8px}
-.plant{display:none}
-.worker{transform:translateX(-50%) scale(.75)}
+main{
+  max-width:1600px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 370px;
+  gap:16px;
+  padding:18px;
 }
-@media(prefers-reduced-motion:reduce){
-*,*:before,*:after{animation:none!important}
+.card{
+  background:var(--paper);
+  border:1px solid var(--border);
+  border-radius:15px;
+  box-shadow:0 7px 25px #594b3710;
+  overflow:hidden;
+}
+.cardhead{
+  padding:17px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  border-bottom:1px solid var(--border);
+}
+.cardhead h2{margin:0;font-size:17px}
+.cardhead small{color:var(--muted);font-size:11px}
+.scene{
+  background:#e7d8c5;
+  padding:13px;
+}
+canvas{
+  display:block;
+  width:100%;
+  height:auto;
+  background:#e7d8c5;
+  image-rendering:pixelated;
+  border-radius:8px;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+.officefoot{
+  padding:13px 18px;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  font-size:12px;
+  color:var(--muted);
+}
+.officefoot button{
+  background:#ece5f8;
+  color:#6142a4;
+  padding:9px 12px;
+  border-radius:9px;
+}
+.agentbar{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  padding:0 15px 15px;
+}
+.agentbtn{
+  padding:12px 6px;
+  text-align:center;
+  background:#f5f0e8;
+  border:2px solid transparent;
+  border-radius:11px;
+  color:#4d4655;
+}
+.agentbtn.selected{
+  border-color:var(--pink);
+  background:#fff0f5;
+}
+.agentbtn b{display:block;font-size:13px}
+.agentbtn small{
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+  margin-top:4px;
+}
+.right{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+.chat{
+  height:460px;
+  display:flex;
+  flex-direction:column;
+}
+.agenthead{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:15px 17px;
+  border-bottom:1px solid var(--border);
+}
+.avatar{
+  width:46px;height:46px;
+  border-radius:13px;
+  background:#eee6ff;
+  display:grid;
+  place-items:center;
+  font-size:23px;
+}
+.agenthead strong{display:block;font-size:15px}
+.agenthead small{color:var(--muted)}
+.messages{
+  flex:1;
+  min-height:0;
+  overflow:auto;
+  background:#fcf9f2;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:16px;
+}
+.bubble{
+  background:#eee8df;
+  padding:11px 13px;
+  border-radius:12px;
+  max-width:95%;
+  font-size:13px;
+  line-height:1.55;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+.bubble.me{
+  align-self:flex-end;
+  background:#fce0ea;
+  color:#8c254a;
+}
+.chatcontrols{
+  display:flex;
+  gap:8px;
+  padding:12px;
+  border-top:1px solid var(--border);
+}
+input,textarea{
+  width:100%;
+  min-width:0;
+  color:var(--ink);
+  background:white;
+  border:1px solid #dbd2c6;
+  border-radius:9px;
+  outline:none;
+  padding:12px;
+}
+textarea{
+  resize:vertical;
+  min-height:80px;
+}
+.primary{
+  background:var(--pink);
+  color:white;
+  padding:11px 15px;
+  border-radius:9px;
+  font-weight:700;
+}
+.secondary{
+  background:#eee7f8;
+  color:#6544ac;
+  border-radius:9px;
+  padding:10px 12px;
+  font-weight:600;
+}
+.tools{padding:16px}
+.tools h3{font-size:15px;margin:0 0 10px}
+.tools p{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.5;
+}
+.tools button{margin-top:8px}
+.tasks{
+  margin-top:10px;
+  max-height:310px;
+  overflow:auto;
+}
+.task{
+  background:#f6f1e9;
+  border-left:4px solid #ac8df0;
+  padding:12px;
+  margin:9px 0;
+  border-radius:8px;
+}
+.task.done{border-color:#28b282}
+.task p{
+  margin:0 0 8px;
+  color:var(--ink);
+  overflow-wrap:anywhere;
+}
+.result{
+  background:white;
+  padding:10px;
+  border-radius:7px;
+  margin-top:8px;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  max-height:190px;
+  overflow:auto;
+  font-size:12px;
+  line-height:1.5;
+}
+.task button{
+  font-size:11px;
+  padding:8px;
+}
+#login{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  background:#e8ddcd;
+  padding:16px;
+}
+.loginbox{
+  width:100%;
+  max-width:400px;
+  padding:30px;
+  text-align:center;
+  background:white;
+  border-radius:18px;
+}
+.loginbox img{
+  width:64px;height:64px;
+  border-radius:14px;
+  object-fit:cover;
+}
+.loginbox h2{margin:17px 0 8px}
+.loginbox p{font-size:13px;color:var(--muted)}
+.loginbox input{margin:13px 0}
+.loginbox button{width:100%}
+#error{color:#d12450}
+@media(max-width:1050px){
+  main{grid-template-columns:1fr}
+  .right{display:grid;grid-template-columns:1fr 1fr}
+}
+@media(max-width:650px){
+  .right{grid-template-columns:1fr}
+  header{padding:10px}
+  .brand h1{font-size:16px}
+  main{padding:9px;gap:10px}
+  .scene{padding:5px}
+  .agentbar{grid-template-columns:repeat(2,1fr)}
+  .green{display:none}
 }
 </style>
 </head>
 <body>
 
 <section id="login">
-<div class="loginbox">
-<img src="logo.jpg" alt="NomadGO">
-<h2>NomadGO Executive HQ</h2>
-<p>Құпия офиске кіру</p>
-<input id="password" type="password"
-placeholder="Офис паролі">
-<button class="primary" id="loginBtn">Кіру</button>
-<p id="error"></p>
-</div>
+  <div class="loginbox">
+    <img src="logo.jpg" alt="NomadGO">
+    <h2>🏢 NomadGO AI Office</h2>
+    <p>Жанды виртуалды кеңсе</p>
+    <input id="password" type="password"
+      placeholder="Құпия пароль"
+      autocomplete="current-password">
+    <button class="primary" id="loginBtn">
+      Офиске кіру
+    </button>
+    <p id="error"></p>
+  </div>
 </section>
 
-<div class="shell" id="app" hidden>
-<aside class="sidebar">
-<div class="brand">
-<img src="logo.jpg" alt="NomadGO">
-<div><strong>NOMADGO</strong>
-<small>EXECUTIVE HQ</small></div>
-</div>
-<div class="navlabel">WORKSPACE</div>
-<button class="nav active" id="navOffice">▦ <span>Бас кеңсе</span></button>
-<button class="nav" id="navAgents">◉ <span>AI команда</span></button>
-<button class="nav" id="navTasks">☷ <span>Тапсырмалар</span></button>
-<button class="logout" id="logout">Шығу</button>
-</aside>
-
-<div class="main">
+<div id="app" hidden>
 <header>
-<div>
-<h1>NomadGO Executive Headquarters</h1>
-<small>Шиелі · AI басқару орталығы</small>
-</div>
-<span class="online">● ONLINE</span>
+  <img class="logo" src="logo.jpg" alt="NomadGO">
+  <div class="brand">
+    <h1>NomadGO Living Office</h1>
+    <small>4 AI қызметкер · Шиелі</small>
+  </div>
+  <span class="green">● OFFICE ONLINE</span>
+  <button class="logout" id="logout">Шығу</button>
 </header>
 
-<div class="content">
-<div class="intro">
-<div>
-<h2>Компанияның бас кеңсесі</h2>
-<p>Төрт AI қызметкер. Бір басқару орталығы.</p>
-</div>
-<button class="primary" id="newTask">+ Тапсырма</button>
-</div>
+<main>
+  <section class="card">
+    <div class="cardhead">
+      <div>
+        <h2>🏢 Біздің виртуалды офис</h2>
+        <small>
+          Қызметкерді басып сөйлесуге болады
+        </small>
+      </div>
+      <span class="green">4 AGENTS</span>
+    </div>
 
-<div class="dashboard">
-<div>
-<section class="card" id="officeSection">
-<div class="cardhead">
-<strong>Виртуалды офис</strong>
-<small>4 бөлім</small>
-</div>
-<div class="office" id="office"></div>
-</section>
+    <div class="scene">
+      <canvas id="officeCanvas"
+        width="1000" height="670"></canvas>
+    </div>
 
-<div class="metrics">
-<div class="card metric">
-<small>AI қызметкерлер</small>
-<strong>04</strong>
-</div>
-<div class="card metric">
-<small>Тапсырмалар</small>
-<strong id="total">0</strong>
-</div>
-<div class="card metric">
-<small>AI орындаған</small>
-<strong id="completed">0</strong>
-</div>
-</div>
-</div>
+    <div class="officefoot">
+      <span>
+        🚶 Қызметкерлер жүреді, жұмыс істейді,
+        өз ойларын көрсетеді
+      </span>
+      <button id="toggleAnimation">
+        ⏸ Анимация
+      </button>
+    </div>
 
-<div class="right">
-<section class="card chat" id="chatSection">
-<div class="agenthead">
-<div class="avatar" id="agentIcon">A</div>
-<div>
-<strong id="agentName">Ассар</strong>
-<small id="agentRole">Бас AI басқарушы</small>
-</div>
-</div>
-<div class="messages" id="messages"></div>
-<div class="controls">
-<input id="chatInput" placeholder="Хабарлама...">
-<button class="primary" id="sendBtn">➤</button>
-</div>
-</section>
+    <div class="agentbar" id="agentbar"></div>
+  </section>
 
-<section class="card" id="taskSection">
-<div class="taskpanel">
-<h3>Ассардың тапсырма орталығы</h3>
-<p>Тапсырмаларды жаз, агенттерге бөл,
-сосын AI арқылы орындат.</p>
-<textarea id="delegateInput"
-placeholder="Тапсырыстарды талда. Instagram жарнамасын дайында. Жүргізушілерді белсендіру жоспарын жаса."></textarea>
-<button class="primary" id="delegateBtn"
-style="width:100%;margin-top:9px">
-Тапсырмаларды бөлу
-</button>
-<p id="delegateResult"></p>
+  <aside class="right">
+    <section class="card chat">
+      <div class="agenthead">
+        <div id="agentAvatar" class="avatar">👨‍💼</div>
+        <div>
+          <strong id="agentName">Ассар</strong>
+          <small id="agentRole">
+            AI директор
+          </small>
+        </div>
+      </div>
 
-<h3 id="taskHeading" style="margin-top:20px">
-Агент тапсырмалары
-</h3>
-<div id="taskList" class="tasklist"></div>
+      <div class="messages" id="messages"></div>
 
-<div class="controls" style="padding:10px 0 0">
-<input id="manualInput" placeholder="Жаңа тапсырма">
-<button class="primary" id="addBtn">+</button>
-</div>
-</div>
-</section>
-</div>
-</div>
-</div>
-</div>
+      <div class="chatcontrols">
+        <input id="chatInput"
+          placeholder="Агентке хабарлама жаз...">
+        <button class="primary" id="sendBtn">
+          ➤
+        </button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="tools">
+        <h3>💡 Агенттің өз пікірі</h3>
+        <p>
+          Агент NomadGO туралы жаңа AI ұсынысын
+          дайындайды. Бұл батырма API қолданады.
+        </p>
+        <button class="secondary" id="ideaBtn">
+          🧠 AI пікірін тыңдау
+        </button>
+        <button class="secondary" id="voiceBtn">
+          🔊 Дауыс: Өшірулі
+        </button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="tools">
+        <h3>📋 Ассардың тапсырмалары</h3>
+        <p>
+          Тапсырманы жаз. Жүйе оны бөлімге бөледі.
+          Орындауды AI батырмасы арқылы бастайсың.
+        </p>
+        <textarea id="taskInput"
+          placeholder="Клиенттерді тарту жоспарын жаса. Тапсырыстарды талда."></textarea>
+        <button class="primary" id="delegateBtn">
+          ⚡ Тапсырманы бөлу
+        </button>
+        <p id="taskInfo"></p>
+        <div id="tasks" class="tasks"></div>
+      </div>
+    </section>
+  </aside>
+</main>
 </div>
 
 <script>
-const $=id=>document.getElementById(id);
+// ===== ЖАЛПЫ =====
+const $ = id => document.getElementById(id);
 
-const agents=[
-{id:"assar",name:"Ассар",role:"Бас AI басқарушы",
-icon:"A",shirt:"#253c5b"},
-{id:"analyst",name:"Аналитик",role:"Аналитика және қаржы",
-icon:"D",shirt:"#4d789a"},
-{id:"dispatcher",name:"Диспетчер",role:"Такси операциялары",
-icon:"O",shirt:"#3a967b"},
-{id:"marketer",name:"Маркетолог",role:"Маркетинг және клиенттер",
-icon:"M",shirt:"#936b94"}
+const canvas = $("officeCanvas");
+const ctx = canvas.getContext("2d");
+ctx.imageSmoothingEnabled = false;
+
+const W = 1000;
+const H = 670;
+
+const agents = [
+  {
+    id:"assar",
+    name:"Ассар",
+    role:"AI директор",
+    emoji:"👨‍💼",
+    shirt:"#7350a6",
+    hair:"#3b263c",
+    skin:"#e3aa83",
+    room:{x:26,y:56,w:455,h:254},
+    thoughts:[
+      "Команда жұмысын тексерейік.",
+      "NomadGO-ны дамытамыз!",
+      "Бүгінгі мақсат қандай?"
+    ]
+  },
+  {
+    id:"analyst",
+    name:"Аналитик",
+    role:"Статистика және есеп",
+    emoji:"👨‍💻",
+    shirt:"#3585c6",
+    hair:"#3c302b",
+    skin:"#dfa479",
+    room:{x:520,y:56,w:455,h:254},
+    thoughts:[
+      "Статистиканы талдау керек.",
+      "Тапсырыстарды салыстырамын.",
+      "Нақты сандар қажет."
+    ]
+  },
+  {
+    id:"dispatcher",
+    name:"Диспетчер",
+    role:"Клиенттер мен жүргізушілер",
+    emoji:"👩‍💻",
+    shirt:"#279c80",
+    hair:"#62413d",
+    skin:"#e9b58b",
+    room:{x:26,y:365,w:455,h:254},
+    thoughts:[
+      "Жүргізушілерді тексерейік.",
+      "Клиентке жауап дайындаймын.",
+      "Тапсырысты тез қабылдау маңызды."
+    ]
+  },
+  {
+    id:"marketer",
+    name:"Маркетолог",
+    role:"Жарнама және клиенттер",
+    emoji:"👩‍🎨",
+    shirt:"#d67f43",
+    hair:"#342a39",
+    skin:"#e5ad8b",
+    room:{x:520,y:365,w:455,h:254},
+    thoughts:[
+      "Жаңа Reels идеясы бар!",
+      "Клиенттерді қайта тартайық.",
+      "Жарнама жоспарын жасаймын."
+    ]
+  }
 ];
 
-let active=agents[0];
-let password="";
-let sending=false;
-let executing=false;
-const histories={};
+let active = agents[0];
+let password = "";
+let busy = false;
+let paused = false;
+let voiceEnabled = false;
+let clock = 0;
+let lastFrame = 0;
+const histories = {};
 
-let tasks=[];
-try{
-const data=JSON.parse(
-localStorage.getItem("nomadgo_tasks")||"[]"
-);
-if(Array.isArray(data)){
-tasks=data.filter(t=>
-t&&typeof t.text==="string"&&
-agents.some(a=>a.id===t.agent)
-).map(t=>({
-id:t.id||crypto.randomUUID(),
-agent:t.agent,
-text:t.text.slice(0,2500),
-done:Boolean(t.done)&&Boolean(t.result),
-result:typeof t.result==="string"?t.result:"",
-status:t.result?"done":"waiting"
-}));
-}
-}catch(e){tasks=[]}
+let tasks = [];
 
-function save(){
-try{
-localStorage.setItem(
-"nomadgo_tasks",JSON.stringify(tasks)
-);
-}catch(e){
-console.warn("Storage error",e);
-}
-}
-
-function createOffice(){
-for(const a of agents){
-const r=document.createElement("div");
-r.className="room";
-r.id="room-"+a.id;
-r.style.setProperty("--shirt",a.shirt);
-r.innerHTML=`
-<div class="wall"></div>
-<div class="window"></div>
-<div class="name">${a.name}<small>${a.role}</small></div>
-<div class="desk"></div>
-<div class="monitor"></div>
-<div class="chair"></div>
-<div class="worker">
-<div class="head"></div><div class="body"></div>
-<div class="arm left"></div><div class="arm right"></div>
-<div class="leg left"></div><div class="leg right"></div>
-</div>
-<div class="plant">🪴</div>
-<div class="door"></div>
-<div class="roomstatus" id="status-${a.id}">
-● Жұмыста
-</div>`;
-r.onclick=()=>selectAgent(a.id);
-$("office").appendChild(r);
-}
+try {
+  const stored = JSON.parse(
+    localStorage.getItem("nomadgo_tasks") || "[]"
+  );
+  if (Array.isArray(stored)) {
+    tasks = stored
+      .filter(t =>
+        t &&
+        typeof t.text === "string" &&
+        agents.some(a => a.id === t.agent)
+      )
+      .map(t => ({
+        id:t.id || makeId(),
+        agent:t.agent,
+        text:t.text.slice(0,2500),
+        done:Boolean(t.done && t.result),
+        result:typeof t.result==="string"
+          ? t.result : "",
+        status:t.result ? "done" : "waiting"
+      }));
+  }
+} catch(e) {
+  tasks = [];
 }
 
-function selectAgent(id){
-const a=agents.find(x=>x.id===id);
-if(!a)return;
-active=a;
-document.querySelectorAll(".room")
-.forEach(r=>r.classList.remove("selected"));
-$("room-"+id).classList.add("selected");
-$("agentIcon").textContent=a.icon;
-$("agentName").textContent=a.name;
-$("agentRole").textContent=a.role;
-$("taskHeading").textContent=a.name+" тапсырмалары";
-showChat();
-render();
+function makeId() {
+  return Date.now().toString(36) +
+    Math.random().toString(36).slice(2);
 }
 
-function bubble(text,me=false){
-const el=document.createElement("div");
-el.className="bubble"+(me?" me":"");
-el.textContent=text;
-$("messages").appendChild(el);
-$("messages").scrollTop=$("messages").scrollHeight;
+function saveTasks() {
+  try {
+    localStorage.setItem(
+      "nomadgo_tasks",
+      JSON.stringify(tasks)
+    );
+  } catch(e) {
+    console.warn("Storage:",e);
+  }
 }
 
-function showChat(){
-$("messages").replaceChildren();
-const list=histories[active.id]||[];
-if(!list.length){
-bubble("Сәлем! Мен "+active.name+
-". NomadGO AI командасында жұмыс істеймін.");
-}
-for(const m of list){
-bubble(m.content,m.role==="user");
-}
+// ===== КЕЙІПКЕРЛЕР =====
+const people = {};
+
+for (const a of agents) {
+  const r = a.room;
+  const home = {
+    x:r.x + r.w * .5,
+    y:r.y + 185
+  };
+
+  people[a.id] = {
+    x:home.x,
+    y:home.y,
+    home,
+    target:{...home},
+    state:"working",
+    until:3 + Math.random()*4,
+    thoughtIndex:0,
+    customThought:"",
+    customUntil:0
+  };
 }
 
-async function api(body){
-const res=await fetch("/api/chat",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-"X-Office-Password":password
-},
-body:JSON.stringify(body)
+// ===== CANVAS СУРЕТ САЛУ =====
+function rect(x,y,w,h,color) {
+  ctx.fillStyle=color;
+  ctx.fillRect(
+    Math.round(x),Math.round(y),
+    Math.round(w),Math.round(h)
+  );
+}
+
+function rounded(x,y,w,h,r,color) {
+  ctx.fillStyle=color;
+  ctx.beginPath();
+  ctx.roundRect(x,y,w,h,r);
+  ctx.fill();
+}
+
+function txt(text,x,y,size=14,color="#423747",weight=600) {
+  ctx.fillStyle=color;
+  ctx.font=weight+" "+size+"px Segoe UI,Arial";
+  ctx.fillText(text,x,y);
+}
+
+function shadow(x,y,w,h) {
+  rounded(x+5,y+8,w,h,5,"#6b504326");
+}
+
+// Терезе
+function windowArt(x,y) {
+  shadow(x,y,104,44);
+  rect(x,y,104,44,"#8e9fa9");
+  rect(x+5,y+5,94,34,"#86c9e1");
+  rect(x+5,y+22,94,17,"#b9e4ed");
+  rect(x+49,y+5,6,34,"#e9f7fc");
+  rect(x+5,y+19,94,5,"#e9f7fc");
+}
+
+// Гүл
+function plant(x,y) {
+  rect(x+9,y+30,26,23,"#a56b50");
+  rect(x+5,y+27,34,8,"#ca9472");
+  rect(x+19,y+8,5,24,"#3d8f5f");
+  for (const [dx,dy,col] of [
+    [0,10,"#35845b"],
+    [20,3,"#46a46b"],
+    [5,0,"#71b17a"],
+    [24,16,"#327f60"]
+  ]) {
+    rounded(x+dx,y+dy,19,13,6,col);
+  }
+}
+
+// Үстел + монитор
+function desk(a) {
+  const r=a.room;
+  const x=r.x+r.w/2-95;
+  const y=r.y+103;
+
+  shadow(x,y,190,73);
+  rect(x+6,y+15,178,72,"#8c6145");
+  rect(x,y,190,71,"#bb8b65");
+  rect(x+8,y+5,174,10,"#d3a783");
+
+  // Монитор
+  rect(x+61,y-36,68,50,"#3e4e61");
+  rect(x+66,y-31,58,39,"#17384c");
+
+  for (let i=0;i<4;i++) {
+    rect(x+74,y-23+i*8,
+      30+i*5,3,
+      i===2?"#ffb967":"#66cee0");
+  }
+
+  rect(x+92,y+14,7,12,"#617286");
+  rect(x+78,y+24,35,5,"#617286");
+
+  // Клавиатура
+  rect(x+74,y+45,44,13,"#e1e1da");
+  for(let i=0;i<5;i++) {
+    rect(x+78+i*8,y+49,5,3,"#97a7ae");
+  }
+
+  // Кесе
+  rounded(x+151,y+38,15,15,3,"#fff6e9");
+  rect(x+165,y+41,6,8,"#fff6e9");
+}
+
+// Кресло
+function chair(x,y) {
+  rounded(x-24,y-29,48,48,13,"#3e475b");
+  rounded(x-18,y-21,36,28,9,"#52617b");
+  rect(x-15,y+12,30,12,"#333e54");
+}
+
+// Бөлме
+function roomArt(a) {
+  const r=a.room;
+  const tones={
+    assar:["#f4e6cd","#e5cfaa"],
+    analyst:["#e5ecf1","#cadce6"],
+    dispatcher:["#e2eee5","#c9dfce"],
+    marketer:["#f5e6df","#ead0c7"]
+  };
+  const [floor,tile]=tones[a.id];
+
+  rect(r.x-7,r.y-7,r.w+14,r.h+14,"#ae927b");
+  rect(r.x,r.y,r.w,r.h,floor);
+
+  for(let y=r.y;y<r.y+r.h;y+=32) {
+    for(let x=r.x;x<r.x+r.w;x+=32) {
+      if((Math.floor(x/32)+Math.floor(y/32))%2===0) {
+        rect(x,y,31,31,tile+"70");
+      }
+    }
+  }
+
+  // Қабырғалар
+  rect(r.x,r.y,r.w,34,"#e7e5df");
+  rect(r.x,r.y+30,r.w,7,"#b4b1a9");
+  rect(r.x,r.y,12,r.h,"#c3b3a2");
+  rect(r.x+r.w-12,r.y,12,r.h,"#c3b3a2");
+
+  windowArt(r.x+r.w-142,r.y+2);
+
+  // Атау
+  rounded(r.x+19,r.y+46,168,37,8,"#fffdf6e9");
+  txt(a.name,r.x+30,r.y+69,16,"#383241",700);
+
+  // Жиһаз
+  desk(a);
+  plant(r.x+r.w-65,r.y+r.h-69);
+
+  // Шкаф
+  rect(r.x+28,r.y+119,56,83,"#9c7258");
+  rect(r.x+34,r.y+126,44,70,"#bd977a");
+  rect(r.x+34,r.y+149,44,5,"#896248");
+  rect(r.x+34,r.y+175,44,5,"#896248");
+
+  for(let i=0;i<4;i++) {
+    rect(r.x+38+i*9,r.y+131,7,17,
+      ["#ee997c","#7ab4cc","#e5cb7a","#9b8aca"][i]);
+  }
+
+  // Дәлізге есік
+  const dx=r.x+80;
+
+  if(r.y<330) {
+    rect(dx,r.y+r.h-15,76,15,"#bd8d61");
+    rect(dx+5,r.y+r.h-9,66,9,"#e5bb8d");
+  } else {
+    rect(dx,r.y,76,14,"#bd8d61");
+    rect(dx+5,r.y,66,9,"#e5bb8d");
+  }
+
+  // Таңдалған кабинет
+  if(active.id===a.id) {
+    ctx.strokeStyle="#ed2e70";
+    ctx.lineWidth=5;
+    ctx.strokeRect(r.x+3,r.y+3,r.w-6,r.h-6);
+  }
+}
+
+// Адам: денесі, басы, қолы, аяқтары бөлек
+function drawPerson(a,p) {
+  const x=p.x;
+  const y=p.y;
+  const walking=p.state==="walking" ||
+    p.state==="returning";
+
+  const walk=walking?Math.sin(clock*13)*7:0;
+  const typing=p.state==="working"
+    ?Math.sin(clock*14)*3:0;
+
+  // Көлеңке
+  rounded(x-21,y+18,43,8,5,"#56473e35");
+
+  // Аяқтар
+  rect(x-13,y+1,10,18+walk,"#39445b");
+  rect(x+4,y+1,10,18-walk,"#39445b");
+  rect(x-15,y+17+walk,15,7,"#292d37");
+  rect(x+4,y+17-walk,15,7,"#292d37");
+
+  // Қолдар
+  rounded(x-23,y-26+typing,10,28,4,a.skin);
+  rounded(x+14,y-26-typing,10,28,4,a.skin);
+
+  // Дене
+  rounded(x-17,y-31,35,36,7,a.shirt);
+  rect(x-8,y-29,17,5,"#e9d6c3");
+
+  // Бас
+  rounded(x-14,y-62,30,34,8,a.skin);
+
+  // Шаш
+  rounded(x-16,y-65,34,15,5,a.hair);
+  rect(x-16,y-57,6,10,a.hair);
+  rect(x+11,y-57,6,10,a.hair);
+
+  // Көз
+  rect(x-7,y-48,4,4,"#372e3d");
+  rect(x+7,y-48,4,4,"#372e3d");
+
+  // Ауыз
+  rect(x-1,y-40,7,2,"#9a6564");
+
+  // Таңдау нүктесі
+  if(active.id===a.id) {
+    rounded(x-6,y-83,12,12,6,"#ed2e70");
+    rect(x-1,y-81,2,7,"#fff");
+  }
+}
+
+function speechBubble(a,p) {
+  const thought=p.customThought &&
+    clock<p.customUntil
+    ?p.customThought
+    :a.thoughts[p.thoughtIndex];
+
+  // Ұзын AI жауаптан қысқа сөйлем
+  const line=thought.length>35
+    ?thought.slice(0,35)+"…"
+    :thought;
+
+  ctx.font="12px Segoe UI,Arial";
+  const width=Math.min(280,ctx.measureText(line).width+25);
+  const cx=Math.max(15,Math.min(W-width-15,p.x-width/2));
+  const cy=p.y-117;
+
+  rounded(cx,cy,width,35,10,"#fffef9");
+  ctx.strokeStyle="#ddd3c3";
+  ctx.lineWidth=1;
+  ctx.strokeRect(cx+2,cy+2,width-4,31);
+
+  // Бұлттың ұшы
+  ctx.fillStyle="#fffef9";
+  ctx.beginPath();
+  ctx.moveTo(p.x-7,cy+34);
+  ctx.lineTo(p.x+7,cy+34);
+  ctx.lineTo(p.x,cy+43);
+  ctx.fill();
+
+  txt(line,cx+12,cy+22,12,"#443b48",500);
+}
+
+// ===== ҚОЗҒАЛЫС =====
+function newTarget(a,p) {
+  const r=a.room;
+  const options=[
+    {x:r.x+110,y:r.y+210},
+    {x:r.x+335,y:r.y+206},
+    {x:r.x+240,y:r.y+219},
+    {x:r.x+355,y:r.y+163}
+  ];
+
+  p.target={
+    ...options[Math.floor(Math.random()*options.length)]
+  };
+
+  p.state="walking";
+}
+
+function updatePeople(dt) {
+  for(const a of agents) {
+    const p=people[a.id];
+
+    if(p.state==="working" && clock>p.until) {
+      newTarget(a,p);
+    }
+
+    if(p.state==="walking" || p.state==="returning") {
+      const dx=p.target.x-p.x;
+      const dy=p.target.y-p.y;
+      const d=Math.hypot(dx,dy);
+
+      if(d>2) {
+        const step=Math.min(d,72*dt);
+        p.x+=dx/d*step;
+        p.y+=dy/d*step;
+      } else {
+        p.x=p.target.x;
+        p.y=p.target.y;
+
+        if(p.state==="returning") {
+          p.state="working";
+          p.until=clock+4+Math.random()*4;
+        } else {
+          p.state="thinking";
+          p.until=clock+1.5+Math.random()*2;
+        }
+      }
+    }
+
+    if(p.state==="thinking" && clock>p.until) {
+      p.state="returning";
+      p.target={...p.home};
+      p.thoughtIndex=
+        (p.thoughtIndex+1)%a.thoughts.length;
+    }
+  }
+}
+
+function drawCorridor() {
+  rect(0,0,W,H,"#c9b29a");
+
+  // Фон мен кіреберіс
+  rect(0,0,W,45,"#e7d6be");
+  rounded(26,9,948,27,6,"#fff7e7");
+
+  txt(
+    "NOMADGO  ·  AI LIVING OFFICE",
+    44,28,18,"#6c4d6a",800
+  );
+
+  // Ортадағы дәліз
+  rect(22,314,956,45,"#decdb6");
+
+  for(let x=28;x<970;x+=42) {
+    rect(x,322,37,2,"#c4af98");
+    rect(x+10,343,23,2,"#c4af98");
+  }
+
+  // Төменгі панель
+  rounded(25,630,950,30,8,"#fff7e8");
+  txt(
+    "4 AI AGENTS  •  SHIELI  •  NOMADGO",
+    45,651,14,"#7a6a71",700
+  );
+}
+
+function renderGame() {
+  ctx.clearRect(0,0,W,H);
+
+  drawCorridor();
+
+  for(const a of agents) {
+    roomArt(a);
+  }
+
+  for(const a of agents) {
+    const p=people[a.id];
+
+    if(p.state==="working") {
+      chair(p.home.x,p.home.y+2);
+    }
+
+    drawPerson(a,p);
+  }
+
+  // Бұлттарды ең соңында саламыз
+  for(const a of agents) {
+    speechBubble(a,people[a.id]);
+  }
+}
+
+function animate(now) {
+  const dt=Math.min((now-lastFrame)/1000,.06);
+  lastFrame=now;
+
+  if(!paused) {
+    clock+=dt;
+    updatePeople(dt);
+  }
+
+  renderGame();
+  requestAnimationFrame(animate);
+}
+
+// ===== АГЕНТТЕРДІ ТАҢДАУ =====
+function selectAgent(id) {
+  const a=agents.find(x=>x.id===id);
+  if(!a)return;
+
+  active=a;
+
+  $("agentName").textContent=a.name;
+  $("agentRole").textContent=a.role;
+  $("agentAvatar").textContent=a.emoji;
+
+  document.querySelectorAll(".agentbtn")
+    .forEach(b=>b.classList.toggle(
+      "selected",b.dataset.id===id
+    ));
+
+  showChat();
+  renderTasks();
+}
+
+for(const a of agents) {
+  const btn=document.createElement("button");
+  btn.className="agentbtn";
+  btn.dataset.id=a.id;
+  btn.innerHTML=
+    "<b>"+a.emoji+" "+a.name+"</b>"+
+    "<small>"+a.role+"</small>";
+
+  btn.onclick=()=>selectAgent(a.id);
+  $("agentbar").appendChild(btn);
+}
+
+canvas.addEventListener("click",e=>{
+  const bounds=canvas.getBoundingClientRect();
+  const x=(e.clientX-bounds.left)*W/bounds.width;
+  const y=(e.clientY-bounds.top)*H/bounds.height;
+
+  const a=agents.find(a=>{
+    const r=a.room;
+    return x>=r.x && x<=r.x+r.w &&
+           y>=r.y && y<=r.y+r.h;
+  });
+
+  if(a)selectAgent(a.id);
 });
-let data;
-try{data=await res.json()}
-catch{throw Error("Сервер жауабы дұрыс емес")}
-if(res.status===401){
-showLogin();
-throw Error("Қайта кіріңіз");
-}
-if(!res.ok)throw Error(data.error||"API қатесі");
-return data;
-}
 
-async function sendMessage(){
-const text=$("chatInput").value.trim();
-if(!text||sending)return;
-$("chatInput").value="";
-const agent=active;
-const list=histories[agent.id]||
-(histories[agent.id]=[]);
-list.push({role:"user",content:text});
-showChat();
-bubble("AI жауап дайындап жатыр...");
-sending=true;
-$("sendBtn").disabled=true;
-
-try{
-const data=await api({
-agent:agent.id,
-messages:list.slice(-20)
-});
-list.push({
-role:"assistant",content:data.reply||"Жауап жоқ"
-});
-}catch(e){
-list.push({
-role:"assistant",content:"Қате: "+e.message
-});
-}finally{
-sending=false;
-$("sendBtn").disabled=false;
-if(active.id===agent.id)showChat();
-}
-}
-
-function detectAgent(text){
-const s=text.toLowerCase();
-if(/жарнама|маркет|реклама|instagram|tiktok|reels|пост|баннер|акция/.test(s))
-return "marketer";
-if(/аналит|талда|статист|есеп|отчет|табыс|пайда|доход|қаржы|комисс/.test(s))
-return "analyst";
-if(/жүргізуш|водител|диспетчер|такси|маршрут|көлік|машина|заказ|поездк/.test(s))
-return "dispatcher";
-return "assar";
-}
-
-function addTask(agent,text){
-tasks.push({
-id:crypto.randomUUID(),
-agent,text:text.slice(0,2500),
-done:false,result:"",status:"waiting"
-});
-}
-
-function delegate(){
-const text=$("delegateInput").value.trim();
-if(!text)return;
-const parts=text.split(/[\n.!?;]+/)
-.map(s=>s.trim()).filter(Boolean).slice(0,12);
-for(const part of parts){
-addTask(detectAgent(part),part);
-}
-$("delegateInput").value="";
-$("delegateResult").textContent=
-parts.length+" тапсырма бөлімдерге бөлінді.";
-refresh();
-}
-
-function addManual(){
-const text=$("manualInput").value.trim();
-if(!text)return;
-addTask(active.id,text);
-$("manualInput").value="";
-refresh();
-}
-
-async function executeTask(id){
-if(executing)return;
-const task=tasks.find(t=>t.id===id);
-if(!task)return;
-
-executing=true;
-task.status="running";
-render();
-
-try{
-const data=await api({
-action:"execute",
-agent:task.agent,
-task:task.text
-});
-task.result=data.result||"Нәтиже бос";
-task.done=true;
-task.status="done";
-}catch(e){
-task.status="failed";
-task.result="Қате: "+e.message;
-task.done=false;
-}finally{
-executing=false;
-refresh();
-}
-}
-
-function render(){
-$("total").textContent=tasks.length;
-$("completed").textContent=
-tasks.filter(t=>t.done&&t.result).length;
-const list=$("taskList");
-list.replaceChildren();
-
-const own=tasks.filter(t=>t.agent===active.id);
-if(!own.length){
-const p=document.createElement("p");
-p.textContent="Бұл қызметкерде тапсырма жоқ.";
-list.appendChild(p);
-}
-
-for(const t of own){
-const card=document.createElement("div");
-card.className="task "+(t.status||"waiting");
-
-const title=document.createElement("div");
-title.className="tasktext";
-title.textContent=t.text;
-card.appendChild(title);
-
-if(t.result){
-const result=document.createElement("div");
-result.className="result";
-result.textContent=t.result;
-card.appendChild(result);
-}
-
-const actions=document.createElement("div");
-actions.className="taskactions";
-
-const run=document.createElement("button");
-run.className="primary";
-run.textContent=t.status==="running"
-?"Орындалып жатыр..."
-:t.done?"Қайта орындау":"▶ AI орындасын";
-run.disabled=executing;
-run.onclick=()=>executeTask(t.id);
-
-const remove=document.createElement("button");
-remove.className="secondary";
-remove.textContent="Өшіру";
-remove.disabled=executing;
-remove.onclick=()=>{
-tasks=tasks.filter(x=>x.id!==t.id);
-refresh();
+$("toggleAnimation").onclick=()=>{
+  paused=!paused;
+  $("toggleAnimation").textContent=paused
+    ?"▶ Жалғастыру"
+    :"⏸ Анимация";
 };
 
-actions.append(run,remove);
-
-if(t.result){
-const copy=document.createElement("button");
-copy.className="secondary";
-copy.textContent="Нәтижені көшіру";
-copy.onclick=()=>navigator.clipboard.writeText(t.result);
-actions.appendChild(copy);
+// ===== ПАРОЛЬ ЖӘНЕ API =====
+async function verify(candidate) {
+  return fetch("/api/chat",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "X-Office-Password":candidate
+    },
+    body:JSON.stringify({action:"verify"})
+  });
 }
 
-card.appendChild(actions);
-list.appendChild(card);
+function showOffice() {
+  $("login").hidden=true;
+  $("app").hidden=false;
+  $("password").value="";
 }
 
-for(const a of agents){
-const pending=tasks.some(t=>
-t.agent===a.id&&!t.done
-);
-$("status-"+a.id).textContent=pending
-?"● Тапсырма күтіп тұр":"● Жұмыста";
-$("room-"+a.id).querySelector(".worker")
-.classList.toggle("walking",pending);
-}
+function showLogin() {
+  password="";
+  sessionStorage.removeItem("nomadgo_office_password");
+  $("app").hidden=true;
+  $("login").hidden=false;
 }
 
-function refresh(){save();render()}
+async function login() {
+  const candidate=$("password").value;
+  if(!candidate)return;
 
-function showOffice(){
-$("login").hidden=true;
-$("app").hidden=false;
-$("password").value="";
+  $("loginBtn").disabled=true;
+  $("error").textContent="";
+
+  try {
+    const res=await verify(candidate);
+    if(!res.ok) {
+      throw Error("Пароль қате немесе сервер бапталмаған");
+    }
+
+    password=candidate;
+    sessionStorage.setItem(
+      "nomadgo_office_password",candidate
+    );
+    showOffice();
+  } catch(e) {
+    $("error").textContent=e.message;
+  } finally {
+    $("loginBtn").disabled=false;
+  }
 }
 
-function showLogin(){
-password="";
-sessionStorage.removeItem("nomadgo_office_password");
-$("login").hidden=false;
-$("app").hidden=true;
+async function restore() {
+  const saved=sessionStorage.getItem(
+    "nomadgo_office_password"
+  );
+  if(!saved)return;
+
+  try {
+    const res=await verify(saved);
+    if(res.ok) {
+      password=saved;
+      showOffice();
+    } else {
+      showLogin();
+    }
+  } catch(e) {
+    showLogin();
+  }
 }
 
-async function verify(candidate){
-return fetch("/api/chat",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-"X-Office-Password":candidate
-},
-body:JSON.stringify({action:"verify"})
-});
+async function api(body) {
+  const res=await fetch("/api/chat",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "X-Office-Password":password
+    },
+    body:JSON.stringify(body)
+  });
+
+  const data=await res.json();
+
+  if(res.status===401) {
+    showLogin();
+    throw Error("Қайта кіру қажет");
+  }
+
+  if(!res.ok) {
+    throw Error(data.error||"API қатесі");
+  }
+
+  return data;
 }
 
-async function login(){
-const candidate=$("password").value;
-if(!candidate)return;
-$("loginBtn").disabled=true;
-$("error").textContent="";
-try{
-const res=await verify(candidate);
-if(!res.ok)throw Error("Пароль қате немесе сервер бапталмаған");
-password=candidate;
-sessionStorage.setItem(
-"nomadgo_office_password",candidate
-);
-showOffice();
-}catch(e){
-$("error").textContent=e.message;
-}finally{
-$("loginBtn").disabled=false;
-}
+// ===== CHAT =====
+function bubble(text,me=false) {
+  const el=document.createElement("div");
+  el.className="bubble"+(me?" me":"");
+  el.textContent=text;
+  $("messages").appendChild(el);
+  $("messages").scrollTop=$("messages").scrollHeight;
 }
 
-async function restore(){
-const saved=sessionStorage.getItem(
-"nomadgo_office_password"
-);
-if(!saved)return;
-try{
-const res=await verify(saved);
-if(res.ok){
-password=saved;
-showOffice();
-}else showLogin();
-}catch{showLogin()}
+function showChat() {
+  $("messages").replaceChildren();
+
+  const list=histories[active.id]||[];
+
+  if(!list.length) {
+    bubble(
+      "Сәлем, Даник! Мен "+active.name+
+      ". Өз бөлімім бойынша көмектесемін."
+    );
+  }
+
+  for(const m of list) {
+    bubble(m.content,m.role==="user");
+  }
 }
 
+function setThought(id,text) {
+  const p=people[id];
+  if(!p)return;
+
+  p.customThought=text.replace(/\s+/g," ").trim();
+  p.customUntil=clock+11;
+}
+
+function speak(text) {
+  if(!voiceEnabled ||
+    !("speechSynthesis" in window))return;
+
+  speechSynthesis.cancel();
+
+  const u=new SpeechSynthesisUtterance(
+    text.slice(0,700)
+  );
+
+  u.lang="kk-KZ";
+  u.rate=1;
+  speechSynthesis.speak(u);
+}
+
+async function askAgent(text,isIdea=false) {
+  if(busy)return;
+
+  const a=active;
+  const list=histories[a.id]||
+    (histories[a.id]=[]);
+
+  list.push({role:"user",content:text});
+  showChat();
+  bubble("⏳ Ойланып жатыр...");
+
+  setThought(a.id,"Тапсырманы қарап жатырмын...");
+
+  busy=true;
+  $("sendBtn").disabled=true;
+  $("ideaBtn").disabled=true;
+
+  try {
+    const data=await api({
+      agent:a.id,
+      messages:list.slice(-20)
+    });
+
+    const answer=data.reply||"Жауап жоқ";
+
+    list.push({
+      role:"assistant",
+      content:answer
+    });
+
+    setThought(a.id,answer);
+    if(isIdea || voiceEnabled)speak(answer);
+
+  } catch(e) {
+    list.push({
+      role:"assistant",
+      content:"Қате: "+e.message
+    });
+    setThought(a.id,"Қате шықты");
+  } finally {
+    busy=false;
+    $("sendBtn").disabled=false;
+    $("ideaBtn").disabled=false;
+    if(active.id===a.id)showChat();
+  }
+}
+
+$("sendBtn").onclick=()=>{
+  const text=$("chatInput").value.trim();
+  if(!text||busy)return;
+  $("chatInput").value="";
+  askAgent(text);
+};
+
+$("ideaBtn").onclick=()=>{
+  askAgent(
+    "NomadGO компаниясының қазіргі мәселелері бойынша "+
+    "өз бөліміңнің атынан бір нақты, іске асыруға "+
+    "болатын ұсыныс айт. Ескі статистиканы бүгінгі "+
+    "дерек ретінде көрсетпе. Қысқа әрі пайдалы жауап бер.",
+    true
+  );
+};
+
+$("voiceBtn").onclick=()=>{
+  voiceEnabled=!voiceEnabled;
+
+  $("voiceBtn").textContent=voiceEnabled
+    ?"🔊 Дауыс: Қосулы"
+    :"🔊 Дауыс: Өшірулі";
+
+  if(!voiceEnabled &&
+    "speechSynthesis" in window) {
+    speechSynthesis.cancel();
+  }
+};
+
+// ===== ТАПСЫРМАЛАР =====
+function detectAgent(text) {
+  const s=text.toLowerCase();
+
+  if(/жарнама|маркет|реклама|instagram|tiktok|reels|пост|баннер|акция/.test(s))
+    return "marketer";
+
+  if(/аналит|талда|статист|есеп|отчет|табыс|пайда|доход|қаржы|комисс/.test(s))
+    return "analyst";
+
+  if(/жүргізуш|водител|диспетчер|такси|маршрут|көлік|машина|заказ|поездк/.test(s))
+    return "dispatcher";
+
+  return "assar";
+}
+
+function refreshTasks() {
+  saveTasks();
+  renderTasks();
+}
+
+function delegate() {
+  const text=$("taskInput").value.trim();
+  if(!text)return;
+
+  const parts=text.split(/[\n.!?;]+/)
+    .map(s=>s.trim())
+    .filter(Boolean)
+    .slice(0,12);
+
+  for(const part of parts) {
+    const id=detectAgent(part);
+
+    tasks.push({
+      id:makeId(),
+      agent:id,
+      text:part,
+      done:false,
+      result:"",
+      status:"waiting"
+    });
+
+    setThought(id,"Жаңа тапсырма алдым!");
+  }
+
+  $("taskInput").value="";
+  $("taskInfo").textContent=
+    "✅ "+parts.length+" тапсырма бөлінді.";
+
+  refreshTasks();
+}
+
+async function executeTask(id) {
+  const t=tasks.find(x=>x.id===id);
+  if(!t || t.status==="running")return;
+
+  t.status="running";
+  t.done=false;
+
+  setThought(t.agent,"AI тапсырманы орындап жатыр...");
+  refreshTasks();
+
+  try {
+    const data=await api({
+      action:"execute",
+      agent:t.agent,
+      task:t.text
+    });
+
+    t.result=data.result||"Нәтиже бос";
+    t.done=true;
+    t.status="done";
+
+    setThought(t.agent,"Тапсырма дайын!");
+
+  } catch(e) {
+    t.result="Қате: "+e.message;
+    t.status="failed";
+    t.done=false;
+    setThought(t.agent,"Тапсырмада қате шықты");
+  }
+
+  refreshTasks();
+}
+
+function renderTasks() {
+  const list=$("tasks");
+  list.replaceChildren();
+
+  const own=tasks.filter(t=>t.agent===active.id);
+
+  if(!own.length) {
+    const p=document.createElement("p");
+    p.textContent=
+      active.name+" үшін тапсырма әзірге жоқ.";
+    list.appendChild(p);
+  }
+
+  for(const t of own) {
+    const card=document.createElement("div");
+    card.className="task"+(t.done?" done":"");
+
+    const title=document.createElement("p");
+    title.textContent=t.text;
+    card.appendChild(title);
+
+    if(t.result) {
+      const result=document.createElement("div");
+      result.className="result";
+      result.textContent=t.result;
+      card.appendChild(result);
+    }
+
+    const run=document.createElement("button");
+    run.className="primary";
+    run.textContent=t.status==="running"
+      ?"⏳ Орындалып жатыр"
+      :t.done
+        ?"🔄 Қайта орындау"
+        :"▶ AI орындасын";
+
+    run.disabled=t.status==="running";
+    run.onclick=()=>executeTask(t.id);
+
+    const del=document.createElement("button");
+    del.className="secondary";
+    del.textContent="Өшіру";
+    del.style.marginLeft="7px";
+    del.onclick=()=>{
+      tasks=tasks.filter(x=>x.id!==t.id);
+      refreshTasks();
+    };
+
+    card.append(run,del);
+    list.appendChild(card);
+  }
+
+  const count=tasks.filter(t=>!t.done).length;
+  $("taskInfo").textContent=
+    "Барлығы: "+tasks.length+
+    " · Күтіп тұр: "+count;
+}
+
+// ===== START =====
 $("loginBtn").onclick=login;
 $("logout").onclick=showLogin;
-$("sendBtn").onclick=sendMessage;
 $("delegateBtn").onclick=delegate;
-$("addBtn").onclick=addManual;
-$("newTask").onclick=()=>
-$("taskSection").scrollIntoView({behavior:"smooth"});
-$("navOffice").onclick=()=>
-$("officeSection").scrollIntoView({behavior:"smooth"});
-$("navAgents").onclick=()=>
-$("chatSection").scrollIntoView({behavior:"smooth"});
-$("navTasks").onclick=()=>
-$("taskSection").scrollIntoView({behavior:"smooth"});
 
-$("password").onkeydown=e=>{
-if(e.key==="Enter")login();
-};
-$("chatInput").onkeydown=e=>{
-if(e.key==="Enter")sendMessage();
-};
-$("manualInput").onkeydown=e=>{
-if(e.key==="Enter")addManual();
-};
+$("password").addEventListener("keydown",e=>{
+  if(e.key==="Enter")login();
+});
 
-createOffice();
+$("chatInput").addEventListener("keydown",e=>{
+  if(e.key==="Enter")$("sendBtn").click();
+});
+
+$("taskInput").addEventListener("keydown",e=>{
+  if(e.key==="Enter" && e.ctrlKey)delegate();
+});
+
 selectAgent("assar");
-refresh();
+refreshTasks();
 restore();
+requestAnimationFrame(animate);
 </script>
 </body>
 </html>
